@@ -1,0 +1,68 @@
+{
+  "name": "kula-client",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --mode development --open",
+    "build": "webpack --mode production",
+    "test": "npm run test:unit && npm run test:components",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --reporters=default",
+    "test:components": "web-test-runner --log --watch --log-level --coverage",
+    "test:components:coverage": "web-test-runner --log --log-level --coverage",
+    "test:debug": "web-test-runner --log --watch --log-level --debug",
+    "eltest:github": "web-test-runner --log --coverage > coverage.txt"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@open-wc/testing": "^3.1.8",
+    "@open-wc/testing-helpers": "^2.2.1",
+    "@web/test-runner": "^0.16.1",
+    "@web/test-runner-mocha": "^0.8.1",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "sinon": "^15.0.4",
+    "webpack-cli": "^5.0.2",
+    "webpack-dev-server": "^4.13.3"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/",
+      "\\.element\\.test\\.js$"
+    ],
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 70,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
+  },
+  "dependencies": {
+    "@honeycombio/opentelemetry-node": "^0.4.0",
+    "@opentelemetry/api": "^1.4.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.36.6",
+    "@opentelemetry/context-zone": "^1.13.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.39.0",
+    "@opentelemetry/instrumentation": "^0.39.0",
+    "@opentelemetry/instrumentation-fetch": "^0.39.0",
+    "@opentelemetry/sdk-trace-web": "^1.13.0",
+    "@types/jest": "^29.5.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "dotenv": "^16.0.3",
+    "html-webpack-plugin": "^5.5.1",
+    "lit": "^2.7.3",
+    "path-to-regexp": "^6.2.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.81.0"
+  }
+}
