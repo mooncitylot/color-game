@@ -1,6 +1,3 @@
-# Kula Dao App Template
-
-A ready to go app with router, build, and tests, ready to go for your next project.
 
 ## Prerequisites
 
