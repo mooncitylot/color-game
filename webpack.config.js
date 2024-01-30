@@ -52,9 +52,9 @@ export default ({ types = true }, { mode }) => {
     : []
 
   return {
-    entry: path.resolve(__dirname, 'index.js'),
+    entry: path.resolve(__dirname, 'src/app-enter.js'),
     output: {
-      filename: 'index.js',
+      filename: 'app-enter.js',
       path: path.resolve(__dirname, 'dist'),
       publicPath,
     },
