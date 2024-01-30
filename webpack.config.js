@@ -36,7 +36,7 @@ function setEnvDefaults({ mode = 'production' }) {
  * */
 export default ({ types = true }, { mode }) => {
   setEnvDefaults({ mode })
-  const publicPath = mode === 'development' ? `https://localhost:${process.env.DEV_PORT}/` : process.env.APP_URL
+  const publicPath = mode === `https://localhost:${process.env.DEV_PORT}/`
   const typeChecking = types
     ? [
         {
@@ -48,9 +48,9 @@ export default ({ types = true }, { mode }) => {
     : []
 
   return {
-    entry: path.resolve(__dirname, 'index.js'),
+    entry: path.resolve(__dirname, 'app-enter.js'),
     output: {
-      filename: 'index.js',
+      filename: 'app-enter.js',
       path: path.resolve(__dirname, 'dist'),
       publicPath,
     },
