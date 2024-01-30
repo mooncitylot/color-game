@@ -47,7 +47,7 @@ export default ({ types = true }, { mode }) => {
     : []
 
   return {
-    entry: path.resolve(__dirname, 'index.js'),
+    entry: path.resolve(__dirname, 'index.html'),
     output: {
       filename: 'index.js',
       path: path.resolve(__dirname, 'dist'),
