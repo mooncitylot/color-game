@@ -11,12 +11,17 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 function setEnvDefaults({ mode = 'production' }) {
+  const DEV_PORT = process.env.DEV_PORT || 8000
+
+  /** @type {Object<string, *>} */
   const defaults = {
-    DEV_PORT: 8000,
+    DEV_PORT,
     BUILD_MODE: mode,
     TELEMETRY_SERVICE_NAME: 'my-app',
     TELEMETRY_COLLECTOR_URL: 'https://api.honeycomb.io:443/v1/traces',
     TELEMETRY_COLLECTOR_HEADER: 'x-honeycomb-team',
+    // RENDER_EXTERNAL_URL is added by render.com when the app is built in that environment
+    APP_URL: process.env.RENDER_EXTERNAL_URL || `http://localhost:${DEV_PORT}`,
   }
 
   Object.keys(defaults).forEach((key) => {
