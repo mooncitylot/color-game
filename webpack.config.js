@@ -40,7 +40,8 @@ function setEnvDefaults({ mode = 'production' }) {
  * */
 export default ({ types = true }, { mode }) => {
   setEnvDefaults({ mode })
-  const publicPath = mode === 'development' ? `https://localhost:${process.env.DEV_PORT}/` : process.env.APP_URL
+  const publicPath = `${process.env.APP_URL}/`
+
   const typeChecking = types
     ? [
         {
