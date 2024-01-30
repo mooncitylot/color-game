@@ -17,6 +17,7 @@ function setEnvDefaults({ mode = 'production' }) {
     TELEMETRY_SERVICE_NAME: 'my-app',
     TELEMETRY_COLLECTOR_URL: 'https://api.honeycomb.io:443/v1/traces',
     TELEMETRY_COLLECTOR_HEADER: 'x-honeycomb-team',
+    APP_URL: process.env.RENDER_EXTERNAL_URL || `http://localhost:${DEV_PORT}`,
   }
 
   Object.keys(defaults).forEach((key) => {
