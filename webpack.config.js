@@ -62,6 +62,7 @@ export default ({ types = true }, { mode }) => {
       },
       port: process.env.DEV_PORT,
       historyApiFallback: true,
+      disableHostCheck: true,
     },
 
     devtool: 'source-map',
