@@ -56,7 +56,7 @@ export default ({ types = true }, { mode }) => {
       path: path.resolve(__dirname, 'dist'),
       publicPath,
     },
-    ddevServer: {
+    devServer: {
       static: {
         directory: path.join(__dirname, 'public'),
       },
