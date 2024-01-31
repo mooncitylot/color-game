@@ -37,9 +37,8 @@ function setEnvDefaults({ mode = 'production' }) {
 export default ({ types = true }, { mode }) => {
   setEnvDefaults({ mode })
   let publicPath = mode === 'development' ? `https://localhost:${process.env.DEV_PORT}/` : process.env.APP_URL
-  if (process.env.RENDER_EXTERNAL_URL) {
-    publicPath = process.env.RENDER_EXTERNAL_URL
-  }
+  if (process.env.RENDER_EXTERNAL_URL) publicPath = `${process.env.RENDER_EXTERNAL_URL}/`
+
   const typeChecking = types
     ? [
         {
@@ -51,10 +50,10 @@ export default ({ types = true }, { mode }) => {
     : []
 
   return {
-    entry: path.resolve(__dirname, 'index.js'),
+    entry: path.resolve(__dirname, './src/app-enter.js'),
     output: {
-      filename: 'index.js',
       path: path.resolve(__dirname, 'dist'),
+      filename: '[name].[chunkhash].js',
       publicPath,
     },
     devServer: {
