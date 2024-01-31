@@ -18,7 +18,6 @@ function setEnvDefaults({ mode = 'production' }) {
     TELEMETRY_SERVICE_NAME: 'my-app',
     TELEMETRY_COLLECTOR_URL: 'https://api.honeycomb.io:443/v1/traces',
     TELEMETRY_COLLECTOR_HEADER: 'x-honeycomb-team',
-    APP_URL: process.env.RENDER_EXTERNAL_URL || `http://localhost:${DEV_PORT}`,
   }
 
   Object.keys(defaults).forEach((key) => {
@@ -37,7 +36,10 @@ function setEnvDefaults({ mode = 'production' }) {
  * */
 export default ({ types = true }, { mode }) => {
   setEnvDefaults({ mode })
-  const publicPath = mode === 'development' ? `https://localhost:${process.env.DEV_PORT}/` : process.env.APP_URL
+  let publicPath = mode === 'development' ? `https://localhost:${process.env.DEV_PORT}/` : process.env.APP_URL
+  if (process.env.RENDER_EXTERNAL_URL) {
+    publicPath = process.env.RENDER_EXTERNAL_URL
+  }
   const typeChecking = types
     ? [
         {
