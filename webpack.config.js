@@ -35,7 +35,10 @@ function setEnvDefaults({ mode = 'production' }) {
  * */
 export default ({ types = true }, { mode }) => {
   setEnvDefaults({ mode })
-  const publicPath = mode === 'development' ? `https://localhost:${process.env.DEV_PORT}/` : process.env.APP_URL
+  const publicPath =
+    process.env.RENDER_ENV === 'production'
+      ? process.env.RENDER_BASE_PATH
+      : `https://localhost:${process.env.DEV_PORT}/`
   const typeChecking = types
     ? [
         {
@@ -53,19 +56,14 @@ export default ({ types = true }, { mode }) => {
       path: path.resolve(__dirname, 'dist'),
       publicPath,
     },
-    devServer: {
+    ddevServer: {
       static: {
         directory: path.join(__dirname, 'public'),
       },
-      https: true,
-      historyApiFallback: true,
       port: process.env.DEV_PORT,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
-      },
+      historyApiFallback: true,
     },
+
     devtool: 'source-map',
     module: {
       rules: [
