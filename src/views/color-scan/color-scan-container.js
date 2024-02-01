@@ -1,5 +1,6 @@
 import { html, css, LitElement } from 'lit'
 import BackArrowElement from '../../shared/back-arrow.js'
+import ColorScannerElement from '../../shared/color-scanner.js'
 
 class ColorScanContainerElement extends LitElement {
   constructor() {
@@ -12,8 +13,11 @@ class ColorScanContainerElement extends LitElement {
   }
 
   render() {
-    return html` <back-arrow></back-arrow>
-      <h1>Color Scan</h1>`
+    return html`
+      <back-arrow></back-arrow>
+      <h1>Color Scan</h1>
+      <color-scanner></color-scanner>
+    `
   }
 }
 customElements.define('color-scan-container', ColorScanContainerElement)
