@@ -1,4 +1,7 @@
 import { LitElement, html, css } from 'lit'
+import BackArrowElement from '../../shared/back-arrow.js'
+import { go } from '../../router/router-base.js'
+import routes from '../../router/routes.js'
 class DashboardContainerElement extends LitElement {
   constructor() {
     super()
@@ -10,7 +13,9 @@ class DashboardContainerElement extends LitElement {
   }
 
   render() {
-    return html`<h1>Dashboard</h1>`
+    return html` <h1>Dashboard</h1>
+      <button @click=${() => go(routes.COLOR_SCAN.path)}>Color Scanner</button>
+      <button @click=${() => go(routes.LOGIN.path)}>Exit</button>`
   }
 }
 customElements.define('dashboard-container', DashboardContainerElement)
