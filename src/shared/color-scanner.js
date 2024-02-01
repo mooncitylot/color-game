@@ -22,6 +22,10 @@ class ColorScannerElement extends LitElement {
   firstUpdated() {
     const video = this.shadowRoot.getElementById('cameraFeed')
 
+    const constraints = {
+      video: { facingMode: 'environment' },
+    }
+
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
