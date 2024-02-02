@@ -17,6 +17,15 @@ class DashboardContainerElement extends LitElement {
       <button @click=${() => go(routes.COLOR_SCAN.path)}>Color Scanner</button>
       <button @click=${() => go(routes.LOGIN.path)}>Exit</button>`
   }
+
+  static styles = css`
+    :host {
+      display: block;
+      width: 100%;
+      overflow-x: hidden;
+      font-family: 'Arial';
+    }
+  `
 }
 customElements.define('dashboard-container', DashboardContainerElement)
 export default DashboardContainerElement

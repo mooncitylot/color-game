@@ -24,13 +24,21 @@ class ColorScannerElement extends LitElement {
     this.video = null
   }
 
-  firstUpdated() {
+  connectedCallback() {
+    super.connectedCallback()
+    requestAnimationFrame(() => {
+      this.initCamera()
+    })
+  }
+
+  initCamera() {
     this.video = this.shadowRoot.getElementById('cameraFeed')
     const constraints = {
       video: { facingMode: 'environment' },
       width: { ideal: 180 },
       height: { ideal: 180 },
-      displayMode: { ideal: 'inline' },
+      displayMode: { exact: 'inline' },
+      frameRate: { ideal: 10 },
     }
 
     navigator.mediaDevices
@@ -83,28 +91,34 @@ class ColorScannerElement extends LitElement {
 
     console.log('RGB Values:', this.red, this.green, this.blue, this.alpha)
     this.captureTaken = true
+    this.requestUpdate()
   }
 
   render() {
-    // if (this.video === null) {
-    //   return html`
-    //     <div>
-    //       <div>${loading}</div>
-    //       <p>Loading scanner...</p>
-    //     </div>
-    //   `
-    // }
+    return html` ${this.captureTaken ? this.renderResult() : this.renderScanner()}`
+  }
+
+  renderScanner() {
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
+        ${loading}
         <span class="video-mask"><video id="cameraFeed" autoplay></video></span>
         <canvas id="canvasOverlay" width="400" height="400"></canvas>
         <div class="color-zapper" @click="${this.captureImage}">ZAP COLOR!</div>
       </div>
-      <div>
+    `
+  }
+
+  renderResult() {
+    return html`
+      <div class="wrapper">
         <div
-          class="result wrapper"
+          class="result"
           style="background-color: rgba(${this.red}, ${this.green}, ${this.blue}, ${this.alpha})"
         ></div>
+        <p>Red: ${this.red}</p>
+        <p>Green: ${this.green}</p>
+        <p>Blue: ${this.blue}</p>
       </div>
     `
   }
@@ -120,6 +134,13 @@ class ColorScannerElement extends LitElement {
       display: inline-block;
     }
 
+    svg {
+      position: absolute;
+      top: 43%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
     .wrapper {
       display: flex;
       flex-direction: column;
@@ -127,9 +148,14 @@ class ColorScannerElement extends LitElement {
       justify-content: center;
     }
 
+    .wrapper p {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial';
+    }
+
     video {
       display: block;
-      margin: 20px auto;
     }
 
     .video-mask {

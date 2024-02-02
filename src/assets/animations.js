@@ -1,10 +1,11 @@
 import { html, css, LitElement } from 'lit-element'
 
-export const loading = html`<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+export const loading = html`<svg width="120" height="120" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
   <style>
     .spinner_GuJz {
       transform-origin: center;
       animation: spinner_STY6 1.5s linear infinite;
+      fill: orange;
     }
     @keyframes spinner_STY6 {
       100% {
