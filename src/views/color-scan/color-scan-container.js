@@ -15,7 +15,6 @@ class ColorScanContainerElement extends LitElement {
   render() {
     return html`
       <back-arrow></back-arrow>
-      <h1>Color Scan</h1>
       <color-scanner></color-scanner>
     `
   }

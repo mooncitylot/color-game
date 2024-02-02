@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { html, css, LitElement } from 'lit'
+import { loading } from '../assets/animations.js'
 
 class ColorScannerElement extends LitElement {
   static properties = {
@@ -8,6 +9,8 @@ class ColorScannerElement extends LitElement {
     blue: { type: String },
     alpha: { type: String },
     captureTaken: { type: Boolean },
+    isLoading: { type: Boolean },
+    video: { type: Object },
   }
 
   constructor() {
@@ -17,20 +20,24 @@ class ColorScannerElement extends LitElement {
     this.blue = '0'
     this.alpha = '0'
     this.captureTaken = false
+    this.isLoading = false
+    this.video = null
   }
 
   firstUpdated() {
-    const video = this.shadowRoot.getElementById('cameraFeed')
-
-    // Specify rear-facing camera by adding 'facingMode' constraint
+    this.video = this.shadowRoot.getElementById('cameraFeed')
     const constraints = {
-      video: { facingMode: 'environment' }, // 'environment' uses the rear camera
+      video: { facingMode: 'environment' },
+      width: { ideal: 180 },
+      height: { ideal: 180 },
+      displayMode: { ideal: 'inline' },
     }
 
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((stream) => {
-        video.srcObject = stream
+        this.video.srcObject = stream
+        console.log('Camera access granted:', stream)
       })
       .catch((error) => {
         console.error('Error accessing camera:', error)
@@ -41,12 +48,11 @@ class ColorScannerElement extends LitElement {
     const canvas = this.shadowRoot.getElementById('canvasOverlay')
     const context = canvas.getContext('2d')
 
-    // Clear previous drawings
     context.clearRect(0, 0, canvas.width, canvas.height)
 
     // Add a circle overlay at the center
-    const centerX = Math.floor(canvas.width / 2)
-    const centerY = Math.floor(canvas.height / 2)
+    const centerX = Math.floor(canvas.width / 2.1)
+    const centerY = Math.floor(canvas.height / 1.9)
     const radius = 20
 
     context.beginPath()
@@ -66,9 +72,8 @@ class ColorScannerElement extends LitElement {
 
     context.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-    // Get the RGB value in the middle of the image
-    const centerX = Math.floor(canvas.width / 2)
-    const centerY = Math.floor(canvas.height / 2)
+    const centerX = Math.floor(200)
+    const centerY = Math.floor(200)
     const pixel = context.getImageData(centerX, centerY, 1, 1).data
 
     this.red = pixel[0]
@@ -81,13 +86,26 @@ class ColorScannerElement extends LitElement {
   }
 
   render() {
+    // if (this.video === null) {
+    //   return html`
+    //     <div>
+    //       <div>${loading}</div>
+    //       <p>Loading scanner...</p>
+    //     </div>
+    //   `
+    // }
     return html`
-      <div class="${this.captureTaken ? 'hide' : ''}">
-        <video id="cameraFeed" width="400" height="400" autoplay></video>
+      <div class="${this.captureTaken ? 'hide' : ''} wrapper">
+        <span class="video-mask"><video id="cameraFeed" autoplay></video></span>
         <canvas id="canvasOverlay" width="400" height="400"></canvas>
-        <button @click="${this.captureImage}">ZAP COLOR!</button>
+        <div class="color-zapper" @click="${this.captureImage}">ZAP COLOR!</div>
       </div>
-      <div class="result" style="background-color: rgba(${this.red}, ${this.green}, ${this.blue}, ${this.alpha})"></div>
+      <div>
+        <div
+          class="result wrapper"
+          style="background-color: rgba(${this.red}, ${this.green}, ${this.blue}, ${this.alpha})"
+        ></div>
+      </div>
     `
   }
 
@@ -102,28 +120,54 @@ class ColorScannerElement extends LitElement {
       display: inline-block;
     }
 
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
     video {
       display: block;
-      height: 400px;
-      width: 400px;
       margin: 20px auto;
+    }
+
+    .video-mask {
+      position: relative;
+      overflow: hidden;
+      width: 400px;
+      height: 400px;
+      border-radius: 32px;
+      scale: 0.5;
+      border: 8px solid teal;
     }
 
     canvas {
       position: absolute;
+      height: 200;
+      width: 200;
       top: 0;
       left: 0;
     }
 
-    button {
-      margin-top: 10px;
-    }
     .result {
-      height: 100px;
-      width: 100px;
+      height: 200px;
+      width: 200px;
     }
     .hide {
       display: none;
+    }
+
+    .color-zapper {
+      position: relative;
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: teal;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Arial';
     }
   `
 }
