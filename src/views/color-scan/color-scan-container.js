@@ -83,7 +83,13 @@ class ColorScanContainerElement extends LitElement {
     }, 3000)
     setTimeout(() => {
       this.initCamera(), console.log('Retrying connection...')
-    }, 3000)
+    }, 1000)
+    setTimeout(() => {
+      this.initCamera(), console.log('Retrying connection...')
+    }, 1000)
+    setTimeout(() => {
+      this.initCamera(), console.log('Retrying connection...')
+    }, 1000)
   }
 
   render() {
