@@ -55,24 +55,6 @@ class ColorScanContainerElement extends LitElement {
       })
   }
 
-  drawCircle() {
-    const canvas = this.shadowRoot.getElementById('canvasOverlay')
-    const context = canvas.getContext('2d')
-
-    context.clearRect(0, 0, canvas.width, canvas.height)
-
-    // Add a circle overlay at the center
-    const centerX = Math.floor(canvas.width / 2.1)
-    const centerY = Math.floor(canvas.height / 1.9)
-    const radius = 20
-
-    context.beginPath()
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false)
-    context.lineWidth = 8
-    context.strokeStyle = 'white'
-    context.stroke()
-  }
-
   captureImage() {
     const video = this.shadowRoot.getElementById('cameraFeed')
     const canvas = this.shadowRoot.getElementById('canvasOverlay')
@@ -97,13 +79,22 @@ class ColorScanContainerElement extends LitElement {
     this.requestUpdate()
   }
 
+  retryConnection() {
+    this.initCamera()
+  }
+
   render() {
-    return html` <back-arrow
+    return html`
+      <back-arrow
         @click=${() => {
           go(routes.DASHBOARD.path)
         }}
       ></back-arrow>
-      ${this.captureTaken ? this.renderResult() : this.renderScanner()}`
+
+      ${this.captureTaken ? this.renderResult() : this.renderScanner()}
+
+      <button @click=${this.retryConnection} class="retry-button">Retry Connection</button>
+    `
   }
 
   renderScanner() {
@@ -111,7 +102,9 @@ class ColorScanContainerElement extends LitElement {
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
         ${loading}
         <span class="video-mask"><video id="cameraFeed" autoplay></video></span>
-        <canvas id="canvasOverlay" width="400" height="400"></canvas>
+
+        <canvas id="canvasOverlay" width="400" height="400"> </canvas>
+        <div class="crosshairs"></div>
         <div class="color-zapper" @click="${this.captureImage}">ZAP COLOR!</div>
       </div>
     `
@@ -147,6 +140,19 @@ class ColorScanContainerElement extends LitElement {
       top: 43%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    .crosshairs {
+      z-index: 100;
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid orange;
+      border-radius: 50%;
+      box-sizing: border-box;
     }
 
     .wrapper {
