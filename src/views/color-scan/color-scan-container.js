@@ -2,9 +2,9 @@
 import { html, css, LitElement } from 'lit'
 import BackArrowElement from '../../shared/back-arrow.js'
 import ColorScannerElement from '../../shared/color-scanner.js'
-import { loading } from '../../assets/animations.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
+import { loading } from '../../assets/animations.js'
 class ColorScanContainerElement extends LitElement {
   static properties = {
     red: { type: String },
@@ -29,7 +29,9 @@ class ColorScanContainerElement extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    this.retryConnection()
+    setTimeout(() => {
+      this.initCamera()
+    }, 1000)
   }
 
   initCamera() {
@@ -81,15 +83,6 @@ class ColorScanContainerElement extends LitElement {
     setTimeout(() => {
       this.initCamera(), console.log('Retrying connection...')
     }, 3000)
-    setTimeout(() => {
-      this.initCamera(), console.log('Retrying connection...')
-    }, 1000)
-    setTimeout(() => {
-      this.initCamera(), console.log('Retrying connection...')
-    }, 1000)
-    setTimeout(() => {
-      this.initCamera(), console.log('Retrying connection...')
-    }, 1000)
   }
 
   render() {
@@ -107,13 +100,18 @@ class ColorScanContainerElement extends LitElement {
   renderScanner() {
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
-        ${loading}
         <span class="video-mask"><video id="cameraFeed" autoplay></video></span>
 
         <canvas id="canvasOverlay" width="400" height="400"> </canvas>
+
         <div class="crosshairs"></div>
-        <div class="color-zapper" @click="${this.captureImage}">ZAP COLOR!</div>
-        <div class="color-zapper" @click="${this.retryConnection}">RELAUNCH CAMERA</div>
+        <div class="loading-spinner">${loading}</div>
+
+        <div class="buttons">
+          <div class="color-zapper" @click="${this.captureImage}">Grab Color</div>
+          <p>Having trouble?</p>
+          <div class="relaunch-button" @click="${this.retryConnection}">Relaunch Camera</div>
+        </div>
       </div>
     `
   }
@@ -143,9 +141,24 @@ class ColorScanContainerElement extends LitElement {
       display: inline-block;
     }
 
-    svg {
+    .loading-spinner {
+      display: block;
+      z-index: -1;
       position: absolute;
-      top: 43%;
+      top: 36%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    svg {
+      z-index: 100;
+      position: absolute;
+      top: 36%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -153,14 +166,15 @@ class ColorScanContainerElement extends LitElement {
     .crosshairs {
       z-index: 100;
       position: absolute;
-      top: 42%;
+      top: 36%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;
       height: 20px;
-      border: 2px solid orange;
+      border: 4px dashed white;
       border-radius: 50%;
       box-sizing: border-box;
+      box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);
     }
 
     .wrapper {
@@ -186,7 +200,7 @@ class ColorScanContainerElement extends LitElement {
       width: 400px;
       height: 400px;
       border-radius: 32px;
-      scale: 0.5;
+      scale: 0.75;
       border: 8px solid teal;
     }
 
@@ -208,14 +222,40 @@ class ColorScanContainerElement extends LitElement {
 
     .color-zapper {
       position: relative;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 20px auto;
       padding: 10px 20px;
+      width: 75vw;
+      background-color: orange;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Arial';
+    }
+
+    .relaunch-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto;
+      padding: 10px 20px;
+      width: 75vw;
       background-color: teal;
       color: white;
       border-radius: 8px;
       cursor: pointer;
       font-family: 'Arial';
+    }
+
+    .buttons {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
   `
 }
