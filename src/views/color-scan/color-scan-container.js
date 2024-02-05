@@ -5,26 +5,30 @@ import ColorScannerElement from '../../shared/color-scanner.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { loading } from '../../assets/animations.js'
+import { getGoalColor, compareColors } from '../../utility/color-db.js'
 class ColorScanContainerElement extends LitElement {
   static properties = {
-    red: { type: String },
-    green: { type: String },
-    blue: { type: String },
-    alpha: { type: String },
+    capture: { type: Object },
     captureTaken: { type: Boolean },
     isLoading: { type: Boolean },
     video: { type: Object },
+    target: { type: Object },
   }
 
   constructor() {
     super()
-    this.red = '0'
-    this.green = '0'
-    this.blue = '0'
-    this.alpha = '0'
+
+    this.capture = {
+      red: 0,
+      green: 0,
+      blue: 0,
+      alpha: 0,
+    }
     this.captureTaken = false
     this.isLoading = false
     this.video = null
+    this.target = getGoalColor()
+    console.log('Target Color:', this.target)
   }
 
   connectedCallback() {
@@ -69,12 +73,13 @@ class ColorScanContainerElement extends LitElement {
     const centerY = Math.floor(200)
     const pixel = context.getImageData(centerX, centerY, 1, 1).data
 
-    this.red = pixel[0]
-    this.green = pixel[1]
-    this.blue = pixel[2]
-    this.alpha = pixel[3] / 255
+    this.capture = {
+      red: pixel[0],
+      green: pixel[1],
+      blue: pixel[2],
+      alpha: pixel[3] / 255,
+    }
 
-    console.log('RGB Values:', this.red, this.green, this.blue, this.alpha)
     this.captureTaken = true
     this.requestUpdate()
   }
@@ -121,11 +126,9 @@ class ColorScanContainerElement extends LitElement {
       <div class="wrapper">
         <div
           class="result"
-          style="background-color: rgba(${this.red}, ${this.green}, ${this.blue}, ${this.alpha})"
+          style="background-color: rgba(${this.capture.red}, ${this.capture.green}, ${this.capture.blue}, ${this.capture
+            .alpha})"
         ></div>
-        <p>Red: ${this.red}</p>
-        <p>Green: ${this.green}</p>
-        <p>Blue: ${this.blue}</p>
       </div>
     `
   }
