@@ -101,8 +101,6 @@ class ColorScanContainerElement extends LitElement {
       ></back-arrow>
 
       ${this.captureTaken ? this.renderResult() : this.renderScanner()}
-
-      <button @click=${this.retryConnection} class="retry-button">Retry Connection</button>
     `
   }
 
@@ -115,6 +113,7 @@ class ColorScanContainerElement extends LitElement {
         <canvas id="canvasOverlay" width="400" height="400"> </canvas>
         <div class="crosshairs"></div>
         <div class="color-zapper" @click="${this.captureImage}">ZAP COLOR!</div>
+        <div class="color-zapper" @click="${this.retryConnection}">RELAUNCH CAMERA</div>
       </div>
     `
   }
