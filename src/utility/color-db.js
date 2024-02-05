@@ -18,23 +18,27 @@ export function getGoalColor() {
  * @property {number} alpha
  */
 
-export function compareColors(color1, color2) {
+export async function compareColors(color1, color2) {
   const redDiff = Math.abs(color1.red - color2.red)
   const greenDiff = Math.abs(color1.green - color2.green)
   const blueDiff = Math.abs(color1.blue - color2.blue)
 
   // Save differences to local storage
-  saveColorDifferences(redDiff, greenDiff, blueDiff)
+  await saveColorDifferences(redDiff, greenDiff, blueDiff)
 
-  console.log('redDiff', redDiff)
-  console.log('greenDiff', greenDiff)
-  console.log('blueDiff', blueDiff)
-
-  return redDiff + greenDiff + blueDiff
+  try {
+    // Wait for the data to be stored before logging
+    const differences = await getColorDifferences()
+    console.log('color differences:', differences)
+    return redDiff + greenDiff + blueDiff
+  } catch (error) {
+    console.error('Error retrieving color differences:', error)
+    return null // Handle the error gracefully
+  }
 }
 
 // Function to save differences to local storage
-export function saveColorDifferences(redDiff, greenDiff, blueDiff) {
+export async function saveColorDifferences(redDiff, greenDiff, blueDiff) {
   const differences = {
     redDiff,
     greenDiff,
@@ -42,9 +46,13 @@ export function saveColorDifferences(redDiff, greenDiff, blueDiff) {
   }
 
   localStorage.setItem('colorDifferences', JSON.stringify(differences))
+
+  console.log('Differences saved:', differences)
 }
 
-// Function to get differences from local storage
-export function getColorDifferences() {
-  return JSON.parse(localStorage.getItem('colorDifferences'))
+export async function getColorDifferences() {
+  const differencesString = localStorage.getItem('colorDifferences')
+  // Parse the string as JSON
+  const differencesObject = JSON.parse(differencesString)
+  return differencesObject
 }

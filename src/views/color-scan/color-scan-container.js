@@ -90,11 +90,10 @@ class ColorScanContainerElement extends LitElement {
     }, 3000)
   }
 
-  handleSubmit() {
-    console.log('Submitting color...')
+  async handleSubmit() {
     console.log('Color:', this.capture)
     console.log('goalColor:', this.target)
-    console.log('Score:', compareColors(this.capture, this.target))
+    compareColors(this.capture, this.target)
   }
 
   render() {
@@ -138,7 +137,11 @@ class ColorScanContainerElement extends LitElement {
         ></div>
       </div>
       <p>Submit Color?</p>
-      <button class="relaunch-button" @click="${this.handleSubmit}">Submit</button>
+      <div class="buttons">
+        <div class="color-zapper" @click="${this.handleSubmit}">Submit</div>
+        <p>Having trouble?</p>
+        <a @click="${this.retryConnection}">Relaunch Camera</a>
+      </div>
     `
   }
 

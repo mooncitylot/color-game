@@ -1,25 +1,31 @@
 import { html, css, LitElement } from 'lit'
+import { getColorDifferences, getGoalColor } from '../../utility/color-db.js'
 
 class ResultsContainerElement extends LitElement {
   static properties = {
-    results: { type: Object },
     target: { type: Object },
+    result: { type: Object },
     score: { type: Number },
   }
 
   constructor() {
     super()
-    this.results = null
-    this.target = null
+    this.target = getGoalColor()
+    this.result = null
     this.score = 0
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     super.connectedCallback()
-    this.results = localStorage.getItem('colorDifferences')
+    const differences = await getColorDifferences()
+    this.result = differences
+    this.score = differences.redDiff + differences.greenDiff + differences.blueDiff
   }
   render() {
-    return html` <p>Results: ${this.results}</p>`
+    return html`
+      <h2>Results</h2>
+      <p>Result: ${this.result}</p>
+    `
   }
 
   static styles = css`
