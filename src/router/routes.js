@@ -94,6 +94,9 @@ export const routes = processRoutes({
   COLOR_SCAN: {
     isPublic: true,
   },
+  RESULTS: {
+    isPublic: true,
+  },
   SANDBOX: {
     isPublic: true,
   },
