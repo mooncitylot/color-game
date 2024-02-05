@@ -26,5 +26,5 @@ export function compareColors(color1, color2) {
   console.log('redDiff', redDiff)
   console.log('greenDiff', greenDiff)
   console.log('blueDiff', blueDiff)
-  return redDiff + greenDiff + blueDiff + alphaDiff
+  return redDiff + greenDiff + blueDiff
 }

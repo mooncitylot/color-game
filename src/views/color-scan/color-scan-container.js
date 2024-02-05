@@ -90,6 +90,13 @@ class ColorScanContainerElement extends LitElement {
     }, 3000)
   }
 
+  handleSubmit() {
+    console.log('Submitting color...')
+    console.log('Color:', this.capture)
+    console.log('goalColor:', this.target)
+    console.log('Score:', compareColors(this.capture, this.target))
+  }
+
   render() {
     return html`
       <back-arrow
@@ -129,6 +136,16 @@ class ColorScanContainerElement extends LitElement {
           style="background-color: rgba(${this.capture.red}, ${this.capture.green}, ${this.capture.blue}, ${this.capture
             .alpha})"
         ></div>
+      </div>
+      <p>Submit Color?</p>
+      <button class="relaunch-button" @click="${this.handleSubmit}">Submit</button>
+    `
+  }
+
+  renderScore() {
+    return html`
+      <div class="wrapper">
+        <p>Score: ${compareColors(this.capture, this.target)}</p>
       </div>
     `
   }
