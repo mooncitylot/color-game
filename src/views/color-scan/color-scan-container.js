@@ -29,9 +29,6 @@ class ColorScanContainerElement extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    requestAnimationFrame(() => {
-      this.initCamera()
-    })
     this.retryConnection()
   }
 
@@ -83,7 +80,7 @@ class ColorScanContainerElement extends LitElement {
   retryConnection() {
     setTimeout(() => {
       this.initCamera(), console.log('Retrying connection...')
-    }, 1000)
+    }, 3000)
   }
 
   render() {
