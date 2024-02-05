@@ -100,7 +100,7 @@ class ColorScanContainerElement extends LitElement {
   renderScanner() {
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
-        <span class="video-mask"><video id="cameraFeed" autoplay></video></span>
+        <span class="video-mask"><video id="cameraFeed" autoplay controls webkit-playsinline playsinline></video></span>
 
         <canvas id="canvasOverlay" width="400" height="400"> </canvas>
 
