@@ -223,7 +223,7 @@ class ColorScanContainerElement extends LitElement {
       justify-content: center;
       margin: 20px auto;
       padding: 10px 20px;
-      width: 20vw;
+      width: 180px;
       background-color: orange;
       color: white;
       border-radius: 8px;
