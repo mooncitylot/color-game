@@ -229,6 +229,7 @@ class ColorScanContainerElement extends LitElement {
       border-radius: 8px;
       cursor: pointer;
       font-family: 'Arial';
+      font-size: 100%;
     }
 
     .relaunch-button {
