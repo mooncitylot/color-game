@@ -8,12 +8,20 @@ class BackArrowElement extends LitElement {
   render() {
     return html`
       <div @click=${() => window.history.back()}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 11H7.83L10.41 8.41L9 7L3 13L9 19L10.41 17.59L7.83 15H20V11Z" fill="black" />
-        </svg>
+        <h2>Back</h2>
       </div>
     `
   }
+
+  static styles = css`
+    h2 {
+      font-size: 16px;
+      color: var(--color-primary);
+      cursor: pointer;
+      font-family: 'Arial';
+      color: var(--black, #45474b);
+    }
+  `
 }
 customElements.define('back-arrow', BackArrowElement)
 export default BackArrowElement

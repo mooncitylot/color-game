@@ -110,7 +110,7 @@ class ColorScanContainerElement extends LitElement {
         <div class="buttons">
           <div class="color-zapper" @click="${this.captureImage}">Grab Color</div>
           <p>Having trouble?</p>
-          <div class="relaunch-button" @click="${this.retryConnection}">Relaunch Camera</div>
+          <a @click="${this.retryConnection}">Relaunch Camera</a>
         </div>
       </div>
     `
@@ -142,36 +142,31 @@ class ColorScanContainerElement extends LitElement {
     }
 
     .loading-spinner {
-      display: block;
       z-index: -1;
+      display: block;
       position: absolute;
-      top: 36%;
+      top: 41%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
 
-    p {
-      margin: 0;
-      padding: 0;
-    }
-
-    svg {
-      z-index: 100;
-      position: absolute;
-      top: 36%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    a {
+      color: black;
+      cursor: pointer;
+      font-family: 'Arial';
+      text-decoration: underline;
+      color: var(--black, #45474b);
     }
 
     .crosshairs {
       z-index: 100;
       position: absolute;
-      top: 36%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;
       height: 20px;
-      border: 4px dashed white;
+      border: 4px solid white;
       border-radius: 50%;
       box-sizing: border-box;
       box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);
@@ -188,6 +183,7 @@ class ColorScanContainerElement extends LitElement {
       margin: 0;
       padding: 0;
       font-family: 'Arial';
+      color: var(--black, #45474b);
     }
 
     video {
@@ -227,7 +223,7 @@ class ColorScanContainerElement extends LitElement {
       justify-content: center;
       margin: 20px auto;
       padding: 10px 20px;
-      width: 75vw;
+      width: 20vw;
       background-color: orange;
       color: white;
       border-radius: 8px;
