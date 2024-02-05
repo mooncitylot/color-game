@@ -32,6 +32,7 @@ class ColorScanContainerElement extends LitElement {
     requestAnimationFrame(() => {
       this.initCamera()
     })
+    this.retryConnection()
   }
 
   initCamera() {
@@ -80,7 +81,9 @@ class ColorScanContainerElement extends LitElement {
   }
 
   retryConnection() {
-    this.initCamera()
+    setTimeout(() => {
+      this.initCamera(), console.log('Retrying connection...')
+    }, 1000)
   }
 
   render() {
