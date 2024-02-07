@@ -5,7 +5,7 @@ import ColorScannerElement from '../../shared/color-scanner.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { loading } from '../../assets/animations.js'
-import { getGoalColor, compareColors } from '../../utility/color-db.js'
+import { getGoalColor, getGoalColorName, compareColors } from '../../utility/color-db.js'
 class ColorScanContainerElement extends LitElement {
   static properties = {
     capture: { type: Object },
@@ -13,6 +13,7 @@ class ColorScanContainerElement extends LitElement {
     isLoading: { type: Boolean },
     video: { type: Object },
     target: { type: Object },
+    goalColorName: { type: String },
   }
 
   constructor() {
@@ -28,7 +29,7 @@ class ColorScanContainerElement extends LitElement {
     this.isLoading = false
     this.video = null
     this.target = getGoalColor()
-    console.log('Target Color:', this.target)
+    this.goalColorName = getGoalColorName()
   }
 
   connectedCallback() {
@@ -91,8 +92,6 @@ class ColorScanContainerElement extends LitElement {
   }
 
   async handleSubmit() {
-    console.log('Color:', this.capture)
-    console.log('goalColor:', this.target)
     compareColors(this.capture, this.target)
     go(routes.RESULTS.path)
   }
@@ -112,6 +111,7 @@ class ColorScanContainerElement extends LitElement {
   renderScanner() {
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
+        <h1>Your Goal Color: "${this.goalColorName}"</h1>
         <span class="video-mask"><video id="cameraFeed" autoplay webkit-playsinline playsinline></video></span>
 
         <canvas id="canvasOverlay" width="400" height="400"> </canvas>
@@ -163,11 +163,17 @@ class ColorScanContainerElement extends LitElement {
       display: inline-block;
     }
 
+    h1 {
+      font-family: 'Arial';
+      color: var(--black, #45474b);
+      font-size: 24px;
+    }
+
     .loading-spinner {
       z-index: -1;
       display: block;
       position: absolute;
-      top: 41%;
+      top: 46%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -188,7 +194,7 @@ class ColorScanContainerElement extends LitElement {
     .crosshairs {
       z-index: 100;
       position: absolute;
-      top: 40%;
+      top: 46%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;

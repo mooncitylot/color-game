@@ -47,8 +47,6 @@ class ResultsContainerElement extends LitElement {
 
     const displayValue = 100 - roundedPercentCloseness
 
-    console.log('Percent Difference:', roundedPercentCloseness)
-
     return displayValue
   }
 

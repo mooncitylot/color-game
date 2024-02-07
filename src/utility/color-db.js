@@ -1,6 +1,7 @@
 // @ts-nocheck
 const COLOR_INPUT = 'color-input'
 
+const goalColorName = 'Pure White'
 const goalColor = {
   red: 255,
   green: 255,
@@ -12,6 +13,9 @@ export function getGoalColor() {
   return goalColor
 }
 
+export function getGoalColorName() {
+  return goalColorName
+}
 /**
  * @typedef {Object} Color
  * @property {number} red
@@ -31,7 +35,6 @@ export async function compareColors(color1, color2) {
   try {
     // Wait for the data to be stored before logging
     const differences = await getColorDifferences()
-    console.log('color differences:', differences)
     return redDiff + greenDiff + blueDiff
   } catch (error) {
     console.error('Error retrieving color differences:', error)
@@ -44,7 +47,6 @@ export async function compareColors(color1, color2) {
  */
 export function saveColorDifferences(redDiff, greenDiff, blueDiff) {
   localStorage.setItem(COLOR_INPUT, JSON.stringify({ redDiff, greenDiff, blueDiff }))
-  console.log('Color differences saved:', { redDiff, greenDiff, blueDiff })
 }
 
 export function getColorDifferences() {
