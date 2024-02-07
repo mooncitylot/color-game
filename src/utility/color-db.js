@@ -1,4 +1,6 @@
 // @ts-nocheck
+const COLOR_INPUT = 'color-input'
+
 const goalColor = {
   red: 255,
   green: 255,
@@ -37,22 +39,15 @@ export async function compareColors(color1, color2) {
   }
 }
 
-// Function to save differences to local storage
-export async function saveColorDifferences(redDiff, greenDiff, blueDiff) {
-  const differences = {
-    redDiff,
-    greenDiff,
-    blueDiff,
-  }
-
-  localStorage.setItem('colorDifferences', JSON.stringify(differences))
-
-  console.log('Differences saved:', differences)
+/**
+ * @returns {Promise<Color>}
+ */
+export function saveColorDifferences(redDiff, greenDiff, blueDiff) {
+  localStorage.setItem(COLOR_INPUT, JSON.stringify({ redDiff, greenDiff, blueDiff }))
+  console.log('Color differences saved:', { redDiff, greenDiff, blueDiff })
 }
 
-export async function getColorDifferences() {
-  const differencesString = localStorage.getItem('colorDifferences')
-  // Parse the string as JSON
-  const differencesObject = JSON.parse(differencesString)
-  return differencesObject
+export function getColorDifferences() {
+  const differences = localStorage.getItem(COLOR_INPUT)
+  return JSON.parse(differences)
 }

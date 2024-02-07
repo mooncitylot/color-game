@@ -94,6 +94,7 @@ class ColorScanContainerElement extends LitElement {
     console.log('Color:', this.capture)
     console.log('goalColor:', this.target)
     compareColors(this.capture, this.target)
+    go(routes.RESULTS.path)
   }
 
   render() {
@@ -136,7 +137,6 @@ class ColorScanContainerElement extends LitElement {
             .alpha})"
         ></div>
       </div>
-      <p>Submit Color?</p>
       <div class="buttons">
         <div class="color-zapper" @click="${this.handleSubmit}">Submit</div>
         <p>Having trouble?</p>
@@ -155,7 +155,6 @@ class ColorScanContainerElement extends LitElement {
 
   updated(changedProperties) {
     super.updated(changedProperties)
-    this.drawCircle()
   }
 
   static styles = css`
@@ -178,6 +177,11 @@ class ColorScanContainerElement extends LitElement {
       cursor: pointer;
       font-family: 'Arial';
       text-decoration: underline;
+      color: var(--black, #45474b);
+    }
+
+    p {
+      font-family: 'Arial';
       color: var(--black, #45474b);
     }
 

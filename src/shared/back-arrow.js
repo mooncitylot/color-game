@@ -7,7 +7,7 @@ class BackArrowElement extends LitElement {
 
   render() {
     return html`
-      <div @click=${() => window.history.back()}>
+      <div>
         <h2>Back</h2>
       </div>
     `
