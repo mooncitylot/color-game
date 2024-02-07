@@ -57,11 +57,13 @@ class ResultsContainerElement extends LitElement {
   render() {
     return html`
       <back-arrow @click=${() => go(routes.DASHBOARD.path)}></back-arrow>
-      <h1>Score: ${this.score}%</h1>
-      <h3>RGB Hints:</h3>
-      <h4>Red Accuracy: ${this.calculateDifference(this.target.red, this.differences.redDiff)}</h4>
-      <h4>Green Accuracy: ${this.calculateDifference(this.target.green, this.differences.greenDiff)}</h4>
-      <h4>Blue Accuracy: ${this.calculateDifference(this.target.blue, this.differences.blueDiff)}</h4>
+      <div class="wrapper">
+        <h1>Score: ${this.score}%</h1>
+        <h3>RGB Hints:</h3>
+        <h4>Red Accuracy: ${this.calculateDifference(this.target.red, this.differences.redDiff)}%</h4>
+        <h4>Green Accuracy: ${this.calculateDifference(this.target.green, this.differences.greenDiff)}%</h4>
+        <h4>Blue Accuracy: ${this.calculateDifference(this.target.blue, this.differences.blueDiff)}%</h4>
+      </div>
     `
   }
 
@@ -71,6 +73,13 @@ class ResultsContainerElement extends LitElement {
       width: 100%;
       overflow-x: hidden;
       font-family: 'Arial';
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
     }
   `
 }

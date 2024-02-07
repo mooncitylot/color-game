@@ -5,7 +5,7 @@ export const loading = html`<svg width="80" height="80" viewBox="0 0 24 24" xmln
     .spinner_GuJz {
       transform-origin: center;
       animation: spinner_STY6 1.5s linear infinite;
-      fill: orange;
+      fill: grey;
     }
     @keyframes spinner_STY6 {
       100% {

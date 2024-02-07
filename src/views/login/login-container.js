@@ -16,7 +16,11 @@ class LoginContainerElement extends LitElement {
 
   render() {
     return html`
-      <button @click=${() => go(routes.DASHBOARD.path)}>Enter!!!</button>
+      <div class="wrapper">
+        <h1>Untitled Color Game</h1>
+        <button class="login-option" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
+        <button class="login-option">Tutorial</button>
+      </div>
 
       <!-- <h1>LOGIN, BITCH!!!!!</h1>
       <login-form .email=${this.email}></login-form> -->
@@ -30,6 +34,25 @@ class LoginContainerElement extends LitElement {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+          'Helvetica Neue', sans-serif;
+      }
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        height: 100%;
+      }
+      .login-option {
+        padding: 16px;
+        border-radius: 8px;
+        border: none;
+        width: 240px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        transition: background-color 0.3s;
       }
     `,
   ]

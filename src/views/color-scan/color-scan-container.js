@@ -111,7 +111,7 @@ class ColorScanContainerElement extends LitElement {
   renderScanner() {
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
-        <h1>Your Goal Color: "${this.goalColorName}"</h1>
+        <h1>"${this.goalColorName}"</h1>
         <span class="video-mask"><video id="cameraFeed" autoplay webkit-playsinline playsinline></video></span>
 
         <canvas id="canvasOverlay" width="400" height="400"> </canvas>
@@ -230,7 +230,7 @@ class ColorScanContainerElement extends LitElement {
       height: 400px;
       border-radius: 32px;
       scale: 0.75;
-      border: 8px solid teal;
+      border: 8px solid grey;
     }
 
     canvas {
@@ -257,7 +257,7 @@ class ColorScanContainerElement extends LitElement {
       margin: 20px auto;
       padding: 10px 20px;
       width: 180px;
-      background-color: orange;
+      background-color: grey;
       color: white;
       border-radius: 8px;
       cursor: pointer;
