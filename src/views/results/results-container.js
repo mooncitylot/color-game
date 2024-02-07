@@ -58,7 +58,7 @@ class ResultsContainerElement extends LitElement {
     return html`
       <back-arrow @click=${() => go(routes.DASHBOARD.path)}></back-arrow>
       <h1>Score: ${this.score}%</h1>
-      <h3>Hints:</h3>
+      <h3>RGB Hints:</h3>
       <h4>Red Accuracy: ${this.calculateDifference(this.target.red, this.differences.redDiff)}</h4>
       <h4>Green Accuracy: ${this.calculateDifference(this.target.green, this.differences.greenDiff)}</h4>
       <h4>Blue Accuracy: ${this.calculateDifference(this.target.blue, this.differences.blueDiff)}</h4>
