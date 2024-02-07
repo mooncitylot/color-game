@@ -38,7 +38,9 @@ class DashboardContainerElement extends LitElement {
     const seconds = Math.floor((milliseconds / 1000) % 60)
     const minutes = Math.floor((milliseconds / (1000 * 60)) % 60)
     const hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24)
-    return `${hours.toString().padStart(2, '0')} hours  ${minutes.toString().padStart(2, '0')} minutes`
+    return `${hours.toString().padStart(2, '0')} hrs  ${minutes.toString().padStart(2, '0')} mins ${seconds
+      .toString()
+      .padStart(2, '0')} sec`
   }
 
   render() {
