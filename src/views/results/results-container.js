@@ -4,6 +4,7 @@ import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { questionIcon } from '../../assets/icons.js'
+import ProgressBar from '../../shared/progress-bar.js'
 
 class ResultsContainerElement extends LitElement {
   static properties = {
@@ -60,7 +61,10 @@ class ResultsContainerElement extends LitElement {
   render() {
     return html`
       <div class="wrapper">
-        <h1>Score: ${this.score}%</h1>
+        <div class="head">
+          <h1>Score: ${this.score}%</h1>
+          <progress-bar .progress=${this.score}></progress-bar>
+        </div>
 
         <div class="hint-wrapper">
           <span class="hint" @click=${() => (this.opened = !this.opened)}
@@ -119,6 +123,13 @@ class ResultsContainerElement extends LitElement {
       font-size: 18px;
       color: var(--black, #45474b);
     }
+    .head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 16px;
+    }
+
     .hint {
       display: flex;
       align-items: center;
@@ -163,7 +174,7 @@ class ResultsContainerElement extends LitElement {
       margin: 0 auto;
       background-color: white;
       border-radius: 8px;
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+      border: 2px solid grey;
       z-index: 100;
       position: absolute;
       top: 50%;
