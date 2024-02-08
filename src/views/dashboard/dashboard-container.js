@@ -48,8 +48,8 @@ class DashboardContainerElement extends LitElement {
       <div class="wrapper">
         <div class="stats">
           <h2>Color of the Day: <span>"${this.color}"</span></h2>
-          <h3>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></h3>
-          <h3>Today's Attempts: <span>0</span></h3>
+          <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
+          <p>Today's Attempts: <span>0</span></p>
         </div>
         <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Color Grabber</button>
         <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
@@ -63,6 +63,18 @@ class DashboardContainerElement extends LitElement {
       width: 100%;
       overflow-x: hidden;
       font-family: 'Arial';
+    }
+    .stats {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .stats p {
+      margin: 0;
+    }
+    .stats h2 {
+      margin: 0;
     }
     .wrapper {
       display: flex;
