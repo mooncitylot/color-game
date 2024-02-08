@@ -84,13 +84,16 @@ class DashboardContainerElement extends LitElement {
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-align: center;
       gap: 8px;
     }
     .stats p {
       margin: 0;
+      text-align: center;
     }
     .stats h2 {
       margin: 0;
+      text-align: center;
     }
     .wrapper {
       display: flex;
