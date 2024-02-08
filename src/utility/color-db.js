@@ -1,11 +1,12 @@
 // @ts-nocheck
 const COLOR_INPUT = 'color-input'
+const CURRENT_SCORE = 'current-score'
 
-const goalColorName = 'Pure White'
+const goalColorName = 'Shrek Green'
 const goalColor = {
-  red: 255,
-  green: 255,
-  blue: 255,
+  red: 120,
+  green: 148,
+  blue: 97,
   alpha: 1,
 }
 
@@ -52,4 +53,17 @@ export function saveColorDifferences(redDiff, greenDiff, blueDiff) {
 export function getColorDifferences() {
   const differences = localStorage.getItem(COLOR_INPUT)
   return JSON.parse(differences)
+}
+
+export function clearColorDifferences() {
+  localStorage.removeItem(COLOR_INPUT)
+}
+
+export function saveCurrentScore(score) {
+  localStorage.setItem(CURRENT_SCORE, JSON.stringify(score))
+}
+
+export function getCurrentScore() {
+  const score = localStorage.getItem(CURRENT_SCORE)
+  return JSON.parse(score)
 }

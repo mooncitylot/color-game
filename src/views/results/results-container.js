@@ -1,5 +1,11 @@
 import { html, css, LitElement } from 'lit'
-import { getColorDifferences, getGoalColor } from '../../utility/color-db.js'
+import {
+  getColorDifferences,
+  getGoalColor,
+  saveCurrentScore,
+  getCurrentScore,
+  clearColorDifferences,
+} from '../../utility/color-db.js'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
@@ -50,6 +56,9 @@ class ResultsContainerElement extends LitElement {
     const roundedPercentCloseness = Math.round(percentCloseness)
 
     const displayValue = 100 - roundedPercentCloseness
+
+    saveCurrentScore(displayValue)
+    console.log('current score', getCurrentScore())
 
     return displayValue
   }

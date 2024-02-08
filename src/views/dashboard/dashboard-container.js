@@ -3,6 +3,8 @@ import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { getGoalColorName } from '../../utility/color-db.js'
+import ProgressBar from '../../shared/progress-bar.js'
+import { getCurrentScore } from '../../utility/color-db.js'
 
 class DashboardContainerElement extends LitElement {
   constructor() {
@@ -10,6 +12,7 @@ class DashboardContainerElement extends LitElement {
     this.color = getGoalColorName()
     this.timeRemaining = this.calculateTimeRemaining()
     this.startCountdown()
+    this.score = getCurrentScore()
   }
 
   /** @param {RouteEnterArgs} arg0 */
@@ -48,8 +51,11 @@ class DashboardContainerElement extends LitElement {
       <div class="wrapper">
         <div class="stats">
           <h2>Color of the Day: <span>"${this.color}"</span></h2>
-          <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
-          <p>Today's Attempts: <span>0</span></p>
+          <div class="score-wrapper">
+            <h4>Current Progress</h4>
+            <progress-bar .progress=${this.score}></progress-bar>
+            <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
+          </div>
         </div>
         <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Color Grabber</button>
         <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
@@ -63,6 +69,16 @@ class DashboardContainerElement extends LitElement {
       width: 100%;
       overflow-x: hidden;
       font-family: 'Arial';
+    }
+    .score-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin: 32px auto 32px auto;
+    }
+    .score-wrapper h4 {
+      margin: 0;
     }
     .stats {
       display: flex;
