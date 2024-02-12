@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
+import { reset } from '../../utility/color-db.js'
 
 import './login-form.js'
 
@@ -20,6 +21,7 @@ class LoginContainerElement extends LitElement {
         <h1>Untitled Color Game</h1>
         <button class="login-option" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
         <button class="login-option" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
+        <button class="login-option" @click=${() => reset()}>Reset</button>
       </div>
 
       <!-- <h1>LOGIN, BITCH!!!!!</h1>

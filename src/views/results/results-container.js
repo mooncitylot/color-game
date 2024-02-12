@@ -5,6 +5,7 @@ import {
   saveCurrentScore,
   getCurrentScore,
   clearColorDifferences,
+  getMessage,
 } from '../../utility/color-db.js'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
@@ -21,6 +22,7 @@ class ResultsContainerElement extends LitElement {
     score: { type: Number },
     differences: { type: Object },
     opened: { type: Boolean },
+    message: { type: String },
   }
 
   constructor() {
@@ -32,6 +34,7 @@ class ResultsContainerElement extends LitElement {
     this.inputTotal = this.differences.redDiff + this.differences.greenDiff + this.differences.blueDiff
     this.score = this.calculateDifference(this.targetTotal, this.inputTotal)
     this.opened = false
+    this.message = getMessage(this.score)
   }
 
   /**
@@ -56,6 +59,7 @@ class ResultsContainerElement extends LitElement {
     const roundedPercentCloseness = Math.round(percentCloseness)
 
     const displayValue = 100 - roundedPercentCloseness
+    console.log('display value', displayValue)
 
     saveCurrentScore(displayValue)
     console.log('current score', getCurrentScore())
@@ -72,6 +76,7 @@ class ResultsContainerElement extends LitElement {
       <div class="wrapper">
         <div class="head">
           <h1>Score: ${this.score}%</h1>
+          <h2>${this.message}</h2>
           <progress-bar .progress=${this.score}></progress-bar>
         </div>
 
@@ -80,20 +85,7 @@ class ResultsContainerElement extends LitElement {
             ><h3>RGB Hints</h3>
             ${questionIcon}</span
           >
-          <div>
-            <h4>
-              <span style="color: #BD3339">Red</span> Accuracy:
-              ${this.calculateDifference(this.target.red, this.differences.redDiff)}%
-            </h4>
-            <h4>
-              <span style="color: #429754">Green</span> Accuracy:
-              ${this.calculateDifference(this.target.green, this.differences.greenDiff)}%
-            </h4>
-            <h4>
-              <span style="color: #5574B8">Blue</span> Accuracy:
-              ${this.calculateDifference(this.target.blue, this.differences.blueDiff)}%
-            </h4>
-          </div>
+          <div></div>
         </div>
 
         <dialog-box class="${this.opened ? '' : 'hide'}">

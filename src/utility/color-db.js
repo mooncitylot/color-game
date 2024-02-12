@@ -61,10 +61,10 @@ export function clearColorDifferences() {
 }
 
 export function saveCurrentScore(score) {
-  localStorage.setItem(CURRENT_SCORE, JSON.stringify(score))
   if (score > getDailyHighScore()) {
     saveDailyHighScore(score)
   }
+  localStorage.setItem(CURRENT_SCORE, JSON.stringify(score))
 }
 
 export function getCurrentScore() {
@@ -81,8 +81,7 @@ export function getDailyHighScore() {
   return JSON.parse(score)
 }
 
-export function getDailyScoreMessage() {
-  let highScore = getDailyHighScore()
+export function getMessage(highScore) {
   let message = ''
   if (highScore === 0) {
     message = 'Nothing yet'
@@ -103,4 +102,10 @@ export function getDailyScoreMessage() {
     message = 'You did it!'
   }
   return message
+}
+
+export function reset() {
+  clearColorDifferences()
+  localStorage.setItem(CURRENT_SCORE, JSON.stringify(0))
+  localStorage.setItem(DAILY_HIGH_SCORE, JSON.stringify(0))
 }

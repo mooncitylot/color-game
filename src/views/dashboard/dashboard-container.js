@@ -4,8 +4,8 @@ import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { getGoalColorName } from '../../utility/color-db.js'
 import ProgressBar from '../../shared/progress-bar.js'
-import { getDailyScoreMessage, getDailyHighScore } from '../../utility/color-db.js'
-
+import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
+import {} from '../../utility/color-db.js'
 class DashboardContainerElement extends LitElement {
   constructor() {
     super()
@@ -13,9 +13,7 @@ class DashboardContainerElement extends LitElement {
     this.timeRemaining = this.calculateTimeRemaining()
     this.startCountdown()
     this.score = getDailyHighScore()
-    console.log(this.score)
-    this.message = getDailyScoreMessage()
-    console.log(this.message)
+    this.message = getMessage(this.score)
   }
 
   /** @param {RouteEnterArgs} arg0 */
@@ -55,7 +53,8 @@ class DashboardContainerElement extends LitElement {
         <div class="stats">
           <h2>Color of the Day: <span>"${this.color}"</span></h2>
           <div class="score-wrapper">
-            <p>${this.score}% ${this.message}</p>
+            <h4>Daily High Score: ${this.score}</h4>
+            <p>${this.message}</p>
             <progress-bar .progress=${this.score}></progress-bar>
             <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
           </div>
