@@ -1,6 +1,7 @@
 // @ts-nocheck
 const COLOR_INPUT = 'color-input'
 const CURRENT_SCORE = 'current-score'
+const DAILY_HIGH_SCORE = 'daily-high-score'
 
 const goalColorName = 'Shrek Green'
 const goalColor = {
@@ -61,9 +62,21 @@ export function clearColorDifferences() {
 
 export function saveCurrentScore(score) {
   localStorage.setItem(CURRENT_SCORE, JSON.stringify(score))
+  if (score > getDailyHighScore()) {
+    saveDailyHighScore(score)
+  }
 }
 
 export function getCurrentScore() {
   const score = localStorage.getItem(CURRENT_SCORE)
+  return JSON.parse(score)
+}
+
+export function saveDailyHighScore(score) {
+  localStorage.setItem(DAILY_HIGH_SCORE, JSON.stringify(score))
+}
+
+export function getDailyHighScore() {
+  const score = localStorage.getItem(DAILY_HIGH_SCORE)
   return JSON.parse(score)
 }
