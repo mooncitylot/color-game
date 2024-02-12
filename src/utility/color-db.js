@@ -80,3 +80,27 @@ export function getDailyHighScore() {
   const score = localStorage.getItem(DAILY_HIGH_SCORE)
   return JSON.parse(score)
 }
+
+export function getDailyScoreMessage() {
+  let highScore = getDailyHighScore()
+  let message = ''
+  if (highScore === 0) {
+    message = 'Nothing yet'
+  }
+  if (highScore > 0 && highScore < 25) {
+    message = 'Keep searching...'
+  }
+  if (highScore >= 25 && highScore < 50) {
+    message = 'Getting closer...'
+  }
+  if (highScore >= 50 && highScore < 75) {
+    message = 'Almost there...'
+  }
+  if (highScore >= 75 && highScore < 90) {
+    message = 'So close!'
+  }
+  if (highScore >= 90) {
+    message = 'You did it!'
+  }
+  return message
+}
