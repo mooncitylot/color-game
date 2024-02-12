@@ -18,7 +18,6 @@ class LoginContainerElement extends LitElement {
     return html`
       <div class="wrapper">
         <h1>Untitled Color Game</h1>
-        <h3>test</h3>
         <button class="login-option" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
         <button class="login-option" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
       </div>
