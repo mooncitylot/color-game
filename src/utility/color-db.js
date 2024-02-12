@@ -3,11 +3,11 @@ const COLOR_INPUT = 'color-input'
 const CURRENT_SCORE = 'current-score'
 const DAILY_HIGH_SCORE = 'daily-high-score'
 
-const goalColorName = 'Shrek Green'
+const goalColorName = 'Peachy Pink'
 const goalColor = {
-  red: 120,
-  green: 148,
-  blue: 97,
+  red: 231,
+  green: 136,
+  blue: 149,
   alpha: 1,
 }
 
