@@ -26,34 +26,13 @@ export function getGoalColorName() {
  * @property {number} alpha
  */
 
-export async function compareColors(color1, color2) {
-  const redDiff = Math.abs(color1.red - color2.red)
-  const greenDiff = Math.abs(color1.green - color2.green)
-  const blueDiff = Math.abs(color1.blue - color2.blue)
-
-  // Save differences to local storage
-  await saveColorDifferences(redDiff, greenDiff, blueDiff)
-
-  try {
-    // Wait for the data to be stored before logging
-    const differences = await getColorDifferences()
-    return redDiff + greenDiff + blueDiff
-  } catch (error) {
-    console.error('Error retrieving color differences:', error)
-    return null // Handle the error gracefully
-  }
+export function saveInput(color) {
+  localStorage.setItem(COLOR_INPUT, JSON.stringify(color))
 }
 
-/**
- * @returns {Promise<Color>}
- */
-export function saveColorDifferences(redDiff, greenDiff, blueDiff) {
-  localStorage.setItem(COLOR_INPUT, JSON.stringify({ redDiff, greenDiff, blueDiff }))
-}
-
-export function getColorDifferences() {
-  const differences = localStorage.getItem(COLOR_INPUT)
-  return JSON.parse(differences)
+export function getInput() {
+  const input = localStorage.getItem(COLOR_INPUT)
+  return JSON.parse(input)
 }
 
 export function clearColorDifferences() {

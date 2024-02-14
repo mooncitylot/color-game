@@ -1,12 +1,5 @@
 import { html, css, LitElement } from 'lit'
-import {
-  getColorDifferences,
-  getGoalColor,
-  saveCurrentScore,
-  getCurrentScore,
-  clearColorDifferences,
-  getMessage,
-} from '../../utility/color-db.js'
+import { getGoalColor, saveCurrentScore, getCurrentScore, getInput, getMessage } from '../../utility/color-db.js'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
@@ -15,10 +8,10 @@ import ProgressBar from '../../shared/progress-bar.js'
 
 class ResultsContainerElement extends LitElement {
   static properties = {
+    input: { type: Object },
     target: { type: Object },
     targetTotal: { type: Number },
     inputTotal: { type: Number },
-    result: { type: Object },
     score: { type: Number },
     differences: { type: Object },
     opened: { type: Boolean },
@@ -27,48 +20,31 @@ class ResultsContainerElement extends LitElement {
 
   constructor() {
     super()
+    this.input = getInput()
     this.target = getGoalColor()
-    this.result = null
-    this.differences = getColorDifferences()
-    this.targetTotal = this.target.red + this.target.green + this.target.blue
-    this.inputTotal = this.differences.redDiff + this.differences.greenDiff + this.differences.blueDiff
-    this.score = this.calculateDifference(this.targetTotal, this.inputTotal)
     this.opened = false
+    this.score = getCurrentScore()
     this.message = getMessage(this.score)
+    this.calculateDifference()
   }
 
-  /**
-   * @param {Number} [a]
-   * @param {Number} [b]
-   */
-  calculateDifference(a, b) {
-    let n1 = a
-    let n2 = b
-
-    if (n1 < n2) {
-      const temp = n1
-      n1 = n2
-      n2 = temp
+  calculateDifference() {
+    this.differences = {
+      red: Math.abs(this.target.red - this.input.red),
+      green: Math.abs(this.target.green - this.input.green),
+      blue: Math.abs(this.target.blue - this.input.blue),
     }
-
-    const difference = Math.abs(n1 - n2)
-    const maxDifference = Math.max(Math.abs(n1), Math.abs(n2))
-    const percentCloseness = ((maxDifference - difference) / maxDifference) * 100
-
-    // Round the percent closeness to the nearest whole number
-    const roundedPercentCloseness = Math.round(percentCloseness)
-
-    const displayValue = 100 - roundedPercentCloseness
-    console.log('display value', displayValue)
-
-    saveCurrentScore(displayValue)
-    console.log('current score', getCurrentScore())
-
-    return displayValue
+    this.targetTotal = this.target.red + this.target.green + this.target.blue
+    this.inputTotal = this.input.red + this.input.green + this.input.blue
+    this.score = Math.floor(100 - (Math.abs(this.targetTotal - this.inputTotal) / this.targetTotal) * 100)
+    saveCurrentScore(this.score)
+    console.log(this.score)
   }
 
   connectedCallback() {
     super.connectedCallback()
+    console.log(this.target)
+    console.log(this.input)
   }
 
   render() {

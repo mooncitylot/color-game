@@ -5,7 +5,7 @@ import ColorScannerElement from '../../shared/color-scanner.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { loading } from '../../assets/animations.js'
-import { getGoalColor, getGoalColorName, compareColors } from '../../utility/color-db.js'
+import { getGoalColor, getGoalColorName, saveInput } from '../../utility/color-db.js'
 class ColorScanContainerElement extends LitElement {
   static properties = {
     capture: { type: Object },
@@ -14,6 +14,7 @@ class ColorScanContainerElement extends LitElement {
     video: { type: Object },
     target: { type: Object },
     goalColorName: { type: String },
+    input: { type: Object },
   }
 
   constructor() {
@@ -92,7 +93,7 @@ class ColorScanContainerElement extends LitElement {
   }
 
   async handleSubmit() {
-    compareColors(this.capture, this.target)
+    saveInput(this.capture)
     go(routes.RESULTS.path)
   }
 
