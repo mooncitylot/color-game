@@ -58,6 +58,7 @@
     "@types/jest": "^29.5.1",
     "clean-webpack-plugin": "^4.0.0",
     "dotenv": "^16.0.3",
+    "firebase": "^10.8.0",
     "html-webpack-plugin": "^5.5.1",
     "lit": "^2.7.3",
     "path-to-regexp": "^6.2.1",
