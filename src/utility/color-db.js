@@ -3,11 +3,11 @@ const COLOR_INPUT = 'color-input'
 const CURRENT_SCORE = 'current-score'
 const DAILY_HIGH_SCORE = 'daily-high-score'
 
-const goalColorName = 'Peachy Pink'
+const goalColorName = 'Magic Mango'
 const goalColor = {
-  red: 231,
-  green: 136,
-  blue: 149,
+  red: 255,
+  green: 207,
+  blue: 150,
   alpha: 1,
 }
 
