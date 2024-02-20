@@ -112,7 +112,7 @@ class ResultsContainerElement extends LitElement {
             <a @click=${() => (this.opened = !this.opened)}>Close</a>
           </dialog-box>
         </div>
-        <a @click=${() => go(routes.DASHBOARD.path)}>Home</a>
+        <a style="margin-top: 24px;" @click=${() => go(routes.DASHBOARD.path)}>Home</a>
       </div>
     `
   }
