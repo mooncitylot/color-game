@@ -54,6 +54,7 @@ export function processRoute(key, route, parent = null) {
     showHeaderQuickNav: route.showHeaderQuickNav || false,
     permissions: route.permissions || [],
     children: route.children || {},
+    disabled: route.disabled || false,
   }
 
   // After parent is initialized, we can process the child routes

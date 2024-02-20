@@ -9,6 +9,7 @@
  * @property {string} [componentName] - The name of the web-component
  * @property {boolean} [isPublic] - Public routes can be accessed by users that aren't logged in.
  * @property {boolean} [showNav] - Whether or not the nav bar should be shown for the route.
+ * @property {boolean} [disabled] - Whether or not the route should be disabled.
  * @property {boolean} [showHeader] - Whether or not the header should be shown for the route.
  * @property {boolean} [showHeaderQuickNav] - Whether or not the header quick nav should be shown for the route that has login or home icon.
  * @property {boolean} [showBackArrow] - Whether or not the header back navigation arrow should be shown in a sub route

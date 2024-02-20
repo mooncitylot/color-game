@@ -6,6 +6,7 @@ import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { loading } from '../../assets/animations.js'
 import { getGoalColor, getGoalColorName, saveInput } from '../../utility/color-db.js'
+import { getDailyHighScore } from '../../utility/color-db.js'
 class ColorScanContainerElement extends LitElement {
   static properties = {
     capture: { type: Object },
@@ -15,11 +16,12 @@ class ColorScanContainerElement extends LitElement {
     target: { type: Object },
     goalColorName: { type: String },
     input: { type: Object },
+    score: { type: Number },
   }
 
   constructor() {
     super()
-
+    this.score = getDailyHighScore()
     this.capture = {
       red: 0,
       green: 0,
@@ -35,6 +37,9 @@ class ColorScanContainerElement extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.score > 80) {
+      go(routes.DASHBOARD.path)
+    }
     setTimeout(() => {
       this.initCamera()
     }, 1000)

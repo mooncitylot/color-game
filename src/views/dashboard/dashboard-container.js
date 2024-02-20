@@ -14,6 +14,9 @@ class DashboardContainerElement extends LitElement {
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
+    if (this.score < 80) {
+      this.disable = true
+    }
   }
 
   /** @param {RouteEnterArgs} arg0 */
@@ -50,16 +53,19 @@ class DashboardContainerElement extends LitElement {
   render() {
     return html`
       <div class="wrapper">
-        <div class="stats">
-          <h2>Color of the Day: <span>"${this.color}"</span></h2>
-          <div class="score-wrapper">
-            <h4>Daily High Score: ${this.score}</h4>
-            <p>${this.message}</p>
-            <progress-bar .progress=${this.score}></progress-bar>
-            <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
-          </div>
-        </div>
-        <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Color Grabber</button>
+        ${this.disable
+          ? html`<div class="stats">
+              <h2>Color of the Day: <span>"${this.color}"</span></h2>
+              <div class="score-wrapper">
+                <h4>Daily High Score: ${this.score}</h4>
+                <progress-bar .progress=${this.score}></progress-bar>
+                <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
+              </div>
+            </div>`
+          : ''}
+        ${this.disable
+          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Color Grabber</button> `
+          : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
       </div>
     `
