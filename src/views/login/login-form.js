@@ -55,6 +55,7 @@ class LoginFormElement extends LitElement {
         </div>
         <button class="secondary outline" @click=${() => go(routes.SIGNUP.path)}>Sign Up</button>
       </form>
+      <div class="background"></div>
     `
   }
 
@@ -63,6 +64,12 @@ class LoginFormElement extends LitElement {
     css`
       :host {
         display: block;
+      }
+      .background {
+        background-color: black;
+        height: 100%;
+        width: 100%;
+        overflow-y: scroll;
       }
       form {
         padding: 200px;

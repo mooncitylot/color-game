@@ -17,11 +17,13 @@ class LoginContainerElement extends LitElement {
 
   render() {
     return html`
-      <div class="wrapper">
-        <h1>Untitled Color Game</h1>
-        <button class="login-option" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
-        <button class="login-option" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
-        <button class="login-option" @click=${() => reset()}>Reset</button>
+      <div class="background">
+        <div class="wrapper">
+          <h1 style="text-align: center;">Tyler's Untitled Color Game Good Time Fun Zone</h1>
+          <button class="login-option" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
+          <button class="login-option" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
+          <button class="login-option" @click=${() => reset()}>Reset</button>
+        </div>
       </div>
 
       <!-- <h1>LOGIN, BITCH!!!!!</h1>

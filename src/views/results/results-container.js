@@ -26,9 +26,19 @@ class ResultsContainerElement extends LitElement {
     this.score = getCurrentScore()
     this.message = getMessage(this.score)
     this.calculateDifference()
+    this.animateContentFadeIn()
     if (this.score > 90) {
       this.won = true
     }
+  }
+
+  animateContentFadeIn() {
+    requestAnimationFrame(() => {
+      const content = this.shadowRoot.getElementById('content')
+      setTimeout(() => {
+        content.style.opacity = '1'
+      }, 100)
+    })
   }
 
   calculateDifference() {
@@ -58,39 +68,41 @@ class ResultsContainerElement extends LitElement {
 
   render() {
     return html`
-      <div class="wrapper">
-        <div class="head">
-          <h1>Score: ${this.score}%</h1>
-          ${this.won ? html`<h2>Congratulations! You've matched the color!</h2>` : html`<h2>${this.message}</h2>`}
-          <progress-bar .progress=${this.score}></progress-bar>
-        </div>
+      <div id="content">
+        <div class="wrapper">
+          <div class="head">
+            <h1>Score: ${this.score}%</h1>
+            ${this.won ? html`<h2>Congratulations! You've matched the color!</h2>` : html`<h2>${this.message}</h2>`}
+            <progress-bar .progress=${this.score}></progress-bar>
+          </div>
 
-        <div class="hint-wrapper">
-          <span class="hint" @click=${() => (this.opened = !this.opened)}
-            ><h3>RGB Hints</h3>
-            ${questionIcon}</span
-          >
-          <div></div>
-        </div>
+          <div class="hint-wrapper">
+            <span class="hint" @click=${() => (this.opened = !this.opened)}
+              ><h3>RGB Hints</h3>
+              ${questionIcon}</span
+            >
+            <div></div>
+          </div>
 
-        <dialog-box class="${this.opened ? '' : 'hide'}">
-          <p>
-            RGB stands for Red, Green, and Blue – the primary colors of light. In our game, each color is represented by
-            a combination of these three values. The higher the value, the more of that color is present.
-          </p>
-          <p>
-            Here's how it works: Snap a pic of a color you think matches the target. Our algorithm then compares the RGB
-            values of your submission with the target color. The closer your values are to the target, the hotter you're
-            getting! So, pay attention to the feedback.
-          </p>
-          <p>
-            If your RGB values are a match or close, you're on the right track! Keep hunting until you hit the perfect
-            hue. Good luck, and may the RGB be with you!"
-          </p>
-          <a @click=${() => (this.opened = !this.opened)}>Close</a>
-        </dialog-box>
+          <dialog-box class="${this.opened ? '' : 'hide'}">
+            <p>
+              RGB stands for Red, Green, and Blue – the primary colors of light. In our game, each color is represented
+              by a combination of these three values. The higher the value, the more of that color is present.
+            </p>
+            <p>
+              Here's how it works: Snap a pic of a color you think matches the target. Our algorithm then compares the
+              RGB values of your submission with the target color. The closer your values are to the target, the hotter
+              you're getting! So, pay attention to the feedback.
+            </p>
+            <p>
+              If your RGB values are a match or close, you're on the right track! Keep hunting until you hit the perfect
+              hue. Good luck, and may the RGB be with you!"
+            </p>
+            <a @click=${() => (this.opened = !this.opened)}>Close</a>
+          </dialog-box>
+        </div>
+        <a @click=${() => go(routes.DASHBOARD.path)}>Home</a>
       </div>
-      <a @click=${() => go(routes.DASHBOARD.path)}>Home</a>
     `
   }
 
@@ -104,6 +116,14 @@ class ResultsContainerElement extends LitElement {
       gap: 16px;
       overflow-x: hidden;
       font-family: 'Arial';
+    }
+    #content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 1s;
     }
     p {
       font-size: 18px;

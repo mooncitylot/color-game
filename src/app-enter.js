@@ -3,6 +3,7 @@ import RouterBase from './router/router-base.js'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
+// @ts-ignore
 import routes from './router/routes.js'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,9 +23,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
+// @ts-ignore
 const analytics = getAnalytics(app)
 
 class AppEnterElement extends RouterBase {
+  connectedCallback() {
+    super.connectedCallback()
+  }
+
   render() {
     return html` <slot> </slot> `
   }

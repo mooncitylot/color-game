@@ -33,6 +33,7 @@ class ColorScanContainerElement extends LitElement {
     this.video = null
     this.target = getGoalColor()
     this.goalColorName = getGoalColorName()
+    this.animateContentFadeIn()
   }
 
   connectedCallback() {
@@ -43,6 +44,15 @@ class ColorScanContainerElement extends LitElement {
     setTimeout(() => {
       this.initCamera()
     }, 1000)
+  }
+
+  animateContentFadeIn() {
+    requestAnimationFrame(() => {
+      const content = this.shadowRoot.getElementById('content')
+      setTimeout(() => {
+        content.style.opacity = '1'
+      }, 100)
+    })
   }
 
   initCamera() {
@@ -104,13 +114,15 @@ class ColorScanContainerElement extends LitElement {
 
   render() {
     return html`
-      <back-arrow
-        @click=${() => {
-          go(routes.DASHBOARD.path)
-        }}
-      ></back-arrow>
+      <div id="content">
+        ${this.captureTaken ? this.renderResult() : this.renderScanner()}
 
-      ${this.captureTaken ? this.renderResult() : this.renderScanner()}
+        <back-arrow
+          @click=${() => {
+            go(routes.DASHBOARD.path)
+          }}
+        ></back-arrow>
+      </div>
     `
   }
 
@@ -164,6 +176,10 @@ class ColorScanContainerElement extends LitElement {
   }
 
   static styles = css`
+    back-arrow {
+      position: fixed;
+      bottom: 24px;
+    }
     div {
       position: relative;
       display: inline-block;
@@ -173,6 +189,15 @@ class ColorScanContainerElement extends LitElement {
       font-family: 'Arial';
       color: var(--black, #45474b);
       font-size: 24px;
+    }
+
+    #content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 1s;
     }
 
     .loading-spinner {

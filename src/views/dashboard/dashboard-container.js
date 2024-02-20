@@ -1,14 +1,17 @@
 import { LitElement, html, css } from 'lit'
+// @ts-ignore
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { getGoalColorName } from '../../utility/color-db.js'
+// @ts-ignore
 import ProgressBar from '../../shared/progress-bar.js'
 import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
 import {} from '../../utility/color-db.js'
 class DashboardContainerElement extends LitElement {
   constructor() {
     super()
+    this.animateContentFadeIn()
     this.color = getGoalColorName()
     this.timeRemaining = this.calculateTimeRemaining()
     this.startCountdown()
@@ -50,9 +53,18 @@ class DashboardContainerElement extends LitElement {
       .padStart(2, '0')} sec`
   }
 
+  animateContentFadeIn() {
+    requestAnimationFrame(() => {
+      const content = this.shadowRoot.getElementById('content')
+      setTimeout(() => {
+        content.style.opacity = '1'
+      }, 250)
+    })
+  }
+
   render() {
     return html`
-      <div class="wrapper">
+      <div id="content" class="wrapper">
         ${this.disable
           ? html`<div class="stats">
               <h2>Color of the Day: <span>"${this.color}"</span></h2>
@@ -77,6 +89,10 @@ class DashboardContainerElement extends LitElement {
       width: 100%;
       overflow-x: hidden;
       font-family: 'Arial';
+    }
+    #content {
+      opacity: 0;
+      transition: opacity 1s;
     }
     .score-wrapper {
       display: flex;
