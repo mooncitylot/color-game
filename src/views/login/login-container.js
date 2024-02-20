@@ -19,10 +19,9 @@ class LoginContainerElement extends LitElement {
     return html`
       <div class="background">
         <div class="wrapper">
-          <h1 style="text-align: center;">Tyler's Untitled Color Game Good Time Fun Zone</h1>
-          <button class="login-option" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
-          <button class="login-option" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
-          <button class="login-option" @click=${() => reset()}>Reset</button>
+          <button class="login-option-1" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
+          <button class="login-option-1" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
+          <button class="login-option-1" @click=${() => reset()}>Reset</button>
         </div>
       </div>
 
@@ -49,14 +48,19 @@ class LoginContainerElement extends LitElement {
         gap: 16px;
         height: 100%;
       }
-      .login-option {
+      .wrapper > h1 {
+        color: #515151;
+      }
+      .login-option-1 {
         padding: 16px;
-        border-radius: 8px;
-        border: none;
         width: 240px;
-        background-color: #f0f0f0;
+        color: #515151;
+        background-color: #e3e1d9;
         cursor: pointer;
         transition: background-color 0.3s;
+        font-size: 24px;
+        font-weight: bold;
+        border: 4px solid;
       }
     `,
   ]

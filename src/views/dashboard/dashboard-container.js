@@ -69,14 +69,15 @@ class DashboardContainerElement extends LitElement {
           ? html`<div class="stats">
               <h2>Color of the Day: <span>"${this.color}"</span></h2>
               <div class="score-wrapper">
-                <h4>Daily High Score: ${this.score}</h4>
+                <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
+                <p>Score a 90% or higher to complete today's hunt!</p>
                 <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
               </div>
             </div>`
           : ''}
         ${this.disable
-          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Color Grabber</button> `
+          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan a Color</button> `
           : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
       </div>
@@ -129,12 +130,14 @@ class DashboardContainerElement extends LitElement {
     }
     .dashboard-option {
       padding: 16px;
-      border-radius: 8px;
-      border: none;
       width: 240px;
-      background-color: #f0f0f0;
+      color: #515151;
+      background-color: #e3e1d9;
       cursor: pointer;
       transition: background-color 0.3s;
+      font-size: 24px;
+      font-weight: bold;
+      border: 4px solid;
     }
   `
 }

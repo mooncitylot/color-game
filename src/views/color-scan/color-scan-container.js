@@ -7,6 +7,7 @@ import routes from '../../router/routes.js'
 import { loading } from '../../assets/animations.js'
 import { getGoalColor, getGoalColorName, saveInput } from '../../utility/color-db.js'
 import { getDailyHighScore } from '../../utility/color-db.js'
+import RainbowButtonElement from '../../shared/rainbow-button.js'
 class ColorScanContainerElement extends LitElement {
   static properties = {
     capture: { type: Object },
@@ -116,7 +117,6 @@ class ColorScanContainerElement extends LitElement {
     return html`
       <div id="content">
         ${this.captureTaken ? this.renderResult() : this.renderScanner()}
-
         <back-arrow
           @click=${() => {
             go(routes.DASHBOARD.path)
@@ -138,7 +138,7 @@ class ColorScanContainerElement extends LitElement {
         <div class="loading-spinner">${loading}</div>
 
         <div class="buttons">
-          <div class="color-zapper" @click="${this.captureImage}">Grab Color</div>
+          <rainbow-button @click="${this.captureImage}" text="Scan Color"></rainbow-button>
           <p>Having trouble?</p>
           <a @click="${this.retryConnection}">Relaunch Camera</a>
         </div>
@@ -156,7 +156,7 @@ class ColorScanContainerElement extends LitElement {
         ></div>
       </div>
       <div class="buttons">
-        <div class="color-zapper" @click="${this.handleSubmit}">Submit</div>
+        <rainbow-button @click="${this.handleSubmit}" text="Submit"></rainbow-button>
         <p>Having trouble?</p>
         <a @click="${this.retryConnection}">Relaunch Camera</a>
       </div>
@@ -179,6 +179,9 @@ class ColorScanContainerElement extends LitElement {
     back-arrow {
       position: fixed;
       bottom: 24px;
+    }
+    rainbow-button {
+      margin-bottom: 24px;
     }
     div {
       position: relative;
@@ -281,19 +284,18 @@ class ColorScanContainerElement extends LitElement {
     }
 
     .color-zapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 20px auto;
-      padding: 10px 20px;
-      width: 180px;
-      background-color: grey;
-      color: white;
-      border-radius: 8px;
+      padding: 16px;
+      width: 240px;
+      color: #515151;
+      background-color: #e3e1d9;
       cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 24px;
+      font-weight: bold;
+      border: 8px solid;
+      border-image: linear-gradient(to right, #9e4597, #5574b8, #429754, #e19e2b, #bd3339) 1;
       font-family: 'Arial';
-      font-size: 100%;
+      text-align: center;
     }
 
     .relaunch-button {

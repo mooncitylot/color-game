@@ -1,4 +1,5 @@
 import { html, css } from 'lit'
+import AppHeaderElement from './shared/app-header.js'
 import RouterBase from './router/router-base.js'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
@@ -32,7 +33,10 @@ class AppEnterElement extends RouterBase {
   }
 
   render() {
-    return html` <slot> </slot> `
+    return html`
+      <app-header></app-header>
+      <slot></slot>
+    `
   }
 
   static styles = css`
@@ -40,6 +44,18 @@ class AppEnterElement extends RouterBase {
       display: block;
       width: 100%;
       overflow-x: hidden;
+    }
+
+    app-header {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      z-index: 1;
+    }
+
+    slot {
+      display: block;
+      margin-top: 120px;
     }
   `
 }
