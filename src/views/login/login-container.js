@@ -61,6 +61,7 @@ class LoginContainerElement extends LitElement {
         font-size: 24px;
         font-weight: bold;
         border: 4px solid;
+        border-radius: 16px;
       }
     `,
   ]

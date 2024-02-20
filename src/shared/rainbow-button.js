@@ -17,11 +17,17 @@ class RainbowButtonElement extends LitElement {
       <div class="container">
         <button>${this.text}</button>
         <div class="rainbow-container">
-          <div class="rainbow-child" style="background-color: #9E4597;"></div>
+          <div
+            class="rainbow-child"
+            style="background-color: #9E4597; border-top-left-radius: 16px; border-bottom-left-radius: 16px;"
+          ></div>
           <div class="rainbow-child" style="background-color: #5574B8;"></div>
           <div class="rainbow-child" style="background-color: #429754;"></div>
           <div class="rainbow-child" style="background-color: #E19E2B;"></div>
-          <div class="rainbow-child" style="background-color: #BD3339;"></div>
+          <div
+            class="rainbow-child"
+            style="background-color: #BD3339; border-top-right-radius: 16px; border-bottom-right-radius: 16px;"
+          ></div>
         </div>
       </div>
     `
@@ -46,6 +52,7 @@ class RainbowButtonElement extends LitElement {
       cursor: pointer;
       border: none;
       transition: background-color 0.3s;
+      border-radius: 8px;
       font-size: 24px;
       font-weight: bold;
       font-family: 'Arial';

@@ -114,16 +114,7 @@ class ColorScanContainerElement extends LitElement {
   }
 
   render() {
-    return html`
-      <div id="content">
-        ${this.captureTaken ? this.renderResult() : this.renderScanner()}
-        <back-arrow
-          @click=${() => {
-            go(routes.DASHBOARD.path)
-          }}
-        ></back-arrow>
-      </div>
-    `
+    return html` <div id="content">${this.captureTaken ? this.renderResult() : this.renderScanner()}</div> `
   }
 
   renderScanner() {
@@ -190,7 +181,7 @@ class ColorScanContainerElement extends LitElement {
 
     h1 {
       font-family: 'Arial';
-      color: var(--black, #45474b);
+      color: var(--black, #515151);
       font-size: 24px;
     }
 
@@ -217,12 +208,12 @@ class ColorScanContainerElement extends LitElement {
       cursor: pointer;
       font-family: 'Arial';
       text-decoration: underline;
-      color: var(--black, #45474b);
+      color: var(--black, #515151);
     }
 
     p {
       font-family: 'Arial';
-      color: var(--black, #45474b);
+      color: var(--black, #515151);
     }
 
     .crosshairs {
@@ -250,7 +241,7 @@ class ColorScanContainerElement extends LitElement {
       margin: 0;
       padding: 0;
       font-family: 'Arial';
-      color: var(--black, #45474b);
+      color: var(--black, #515151);
     }
 
     video {
@@ -278,6 +269,9 @@ class ColorScanContainerElement extends LitElement {
     .result {
       height: 200px;
       width: 200px;
+      margin-bottom: 24px;
+      border: 8px solid #515151;
+      border-radius: 32px;
     }
     .hide {
       display: none;

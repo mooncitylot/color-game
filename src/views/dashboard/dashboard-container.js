@@ -67,12 +67,13 @@ class DashboardContainerElement extends LitElement {
       <div id="content" class="wrapper">
         ${this.disable
           ? html`<div class="stats">
-              <h2>Color of the Day: <span>"${this.color}"</span></h2>
+              <h4>Color of the Day:</h4>
+              <h2>"${this.color}"</h2>
               <div class="score-wrapper">
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
                 <p>Score a 90% or higher to complete today's hunt!</p>
-                <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p>
+                <!-- <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p> -->
               </div>
             </div>`
           : ''}
@@ -110,11 +111,19 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       text-align: center;
+      width: 80%;
       gap: 8px;
     }
     .stats p {
       margin: 0;
       text-align: center;
+      color: #515151;
+      font-size: 24px;
+    }
+    .stats h4 {
+      margin: 0;
+      text-align: center;
+      color: #515151;
     }
     .stats h2 {
       margin: 0;
@@ -138,6 +147,7 @@ class DashboardContainerElement extends LitElement {
       font-size: 24px;
       font-weight: bold;
       border: 4px solid;
+      border-radius: 16px;
     }
   `
 }

@@ -16,6 +16,9 @@ class ResultsContainerElement extends LitElement {
     differences: { type: Object },
     opened: { type: Boolean },
     message: { type: String },
+    redOff: { type: Number },
+    greenOff: { type: Number },
+    blueOff: { type: Number },
   }
 
   constructor() {
@@ -50,6 +53,10 @@ class ResultsContainerElement extends LitElement {
     const greenDiffPercent = (greenDiff / this.target.green) * 100
     const blueDiffPercent = (blueDiff / this.target.blue) * 100
 
+    this.redOff = 100 - redDiffPercent
+    this.greenOff = 100 - greenDiffPercent
+    this.blueOff = 100 - blueDiffPercent
+
     const averagePercent = (redDiffPercent + greenDiffPercent + blueDiffPercent) / 3
 
     const invertedPercent = 100 - averagePercent
@@ -81,7 +88,11 @@ class ResultsContainerElement extends LitElement {
               ><h3>RGB Hints</h3>
               ${questionIcon}</span
             >
-            <div></div>
+            <div>
+              <p>Red Accuracy: <span class="result-number">${this.redOff.toFixed(0)}%</span></p>
+              <p>Green Accuracy: <span class="result-number">${this.greenOff.toFixed(0)}%</span></p>
+              <p>Blue Accuracy: <span class="result-number">${this.blueOff.toFixed(0)}%</span></p>
+            </div>
           </div>
 
           <dialog-box class="${this.opened ? '' : 'hide'}">
@@ -206,6 +217,10 @@ class ResultsContainerElement extends LitElement {
       background-color: #f0f0f0;
       cursor: pointer;
       transition: background-color 0.3s;
+    }
+    .result-number {
+      font-weight: bold;
+      color: #515151;
     }
   `
 }
