@@ -52,7 +52,7 @@ class ResultsContainerElement extends LitElement {
       <div class="wrapper">
         <div class="head">
           <h1>Score: ${this.score}%</h1>
-          <h2>${this.message}</h2>
+          <!-- <h2>${this.message}</h2> -->
           <progress-bar .progress=${this.score}></progress-bar>
         </div>
 
