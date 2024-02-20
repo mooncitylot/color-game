@@ -14,7 +14,7 @@ class DashboardContainerElement extends LitElement {
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
-    if (this.score < 80) {
+    if (this.score < 90) {
       this.disable = true
     }
   }

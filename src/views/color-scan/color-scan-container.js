@@ -37,7 +37,7 @@ class ColorScanContainerElement extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
-    if (this.score > 80) {
+    if (this.score > 90) {
       go(routes.DASHBOARD.path)
     }
     setTimeout(() => {

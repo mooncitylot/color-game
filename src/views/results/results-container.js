@@ -26,17 +26,26 @@ class ResultsContainerElement extends LitElement {
     this.score = getCurrentScore()
     this.message = getMessage(this.score)
     this.calculateDifference()
+    if (this.score > 90) {
+      this.won = true
+    }
   }
 
   calculateDifference() {
-    this.differences = {
-      red: Math.abs(this.target.red - this.input.red),
-      green: Math.abs(this.target.green - this.input.green),
-      blue: Math.abs(this.target.blue - this.input.blue),
-    }
-    this.targetTotal = this.target.red + this.target.green + this.target.blue
-    this.inputTotal = this.input.red + this.input.green + this.input.blue
-    this.score = Math.floor(100 - (Math.abs(this.targetTotal - this.inputTotal) / this.targetTotal) * 100)
+    const redDiff = Math.abs(this.target.red - this.input.red)
+    const greenDiff = Math.abs(this.target.green - this.input.green)
+    const blueDiff = Math.abs(this.target.blue - this.input.blue)
+
+    const redDiffPercent = (redDiff / this.target.red) * 100
+    const greenDiffPercent = (greenDiff / this.target.green) * 100
+    const blueDiffPercent = (blueDiff / this.target.blue) * 100
+
+    const averagePercent = (redDiffPercent + greenDiffPercent + blueDiffPercent) / 3
+
+    const invertedPercent = 100 - averagePercent
+    const roundedPercent = Math.round(invertedPercent)
+
+    this.score = roundedPercent
     saveCurrentScore(this.score)
     console.log(this.score)
   }
@@ -52,7 +61,7 @@ class ResultsContainerElement extends LitElement {
       <div class="wrapper">
         <div class="head">
           <h1>Score: ${this.score}%</h1>
-          <!-- <h2>${this.message}</h2> -->
+          ${this.won ? html`<h2>Congratulations! You've matched the color!</h2>` : html`<h2>${this.message}</h2>`}
           <progress-bar .progress=${this.score}></progress-bar>
         </div>
 
