@@ -9,8 +9,7 @@ import ProgressBar from '../../shared/progress-bar.js'
 import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
 import {} from '../../utility/color-db.js'
 
-import { setValue } from '../../utility/firebase-utils.js'
-import { set } from 'firebase/database'
+import { setValue, getColor } from '../../utility/firebase-utils.js'
 
 class DashboardContainerElement extends LitElement {
   constructor() {
@@ -21,7 +20,7 @@ class DashboardContainerElement extends LitElement {
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
-    setValue(4)
+    getColor()
 
     if (this.score < 90) {
       this.disable = true
@@ -63,20 +62,6 @@ class DashboardContainerElement extends LitElement {
     })
   }
 
-  /**
-   * @param {{ preventDefault: () => void; target: any; }} event
-   */
-  handleFormSubmit(event) {
-    event.preventDefault()
-    const form = event.target
-    const input = form.querySelector('#numberInput')
-    const userInput = input.value.trim()
-
-    const number = parseFloat(userInput)
-
-    setValue(number)
-  }
-
   render() {
     return html`
       <div id="content" class="wrapper">
@@ -96,12 +81,6 @@ class DashboardContainerElement extends LitElement {
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan a Color</button> `
           : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
-
-        <form @submit="${this.handleFormSubmit}">
-          <label for="numberInput">Enter a number:</label>
-          <input type="number" id="numberInput" name="numberInput" />
-          <button type="submit">Submit</button>
-        </form>
       </div>
     `
   }
