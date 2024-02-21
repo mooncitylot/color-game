@@ -8,6 +8,9 @@ import { getGoalColorName } from '../../utility/color-db.js'
 import ProgressBar from '../../shared/progress-bar.js'
 import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
 import {} from '../../utility/color-db.js'
+
+import { setValue } from '../../utility/firebase-utils.js'
+
 class DashboardContainerElement extends LitElement {
   constructor() {
     super()
@@ -17,6 +20,8 @@ class DashboardContainerElement extends LitElement {
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
+    this.setValues()
+
     if (this.score < 90) {
       this.disable = true
     }
@@ -25,6 +30,10 @@ class DashboardContainerElement extends LitElement {
   /** @param {RouteEnterArgs} arg0 */
   routeEnter({ nextView, context }) {
     console.log('DashboardContainerElement.routeEnter', { nextView, context })
+  }
+
+  setValues() {
+    setValue(100)
   }
 
   calculateTimeRemaining() {
@@ -81,6 +90,7 @@ class DashboardContainerElement extends LitElement {
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan a Color</button> `
           : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
+        <button class="dashboard-option" @click=${this.setValues}>test</button>
       </div>
     `
   }
