@@ -18,6 +18,7 @@ class ColorScanContainerElement extends LitElement {
     goalColorName: { type: String },
     input: { type: Object },
     score: { type: Number },
+    name: { type: String },
   }
 
   constructor() {
@@ -35,10 +36,12 @@ class ColorScanContainerElement extends LitElement {
     this.target = getGoalColor()
     this.goalColorName = getGoalColorName()
     this.animateContentFadeIn()
+    this.name = ''
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     super.connectedCallback()
+    this.name = await this.goalColorName
     if (this.score > 90) {
       go(routes.DASHBOARD.path)
     }
@@ -120,7 +123,7 @@ class ColorScanContainerElement extends LitElement {
   renderScanner() {
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
-        <h1>"${this.goalColorName}"</h1>
+        <h1>"${this.name}"</h1>
         <span class="video-mask"><video id="cameraFeed" autoplay webkit-playsinline playsinline></video></span>
 
         <canvas id="canvasOverlay" width="400" height="400"> </canvas>

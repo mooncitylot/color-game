@@ -1,22 +1,61 @@
+import { getColor } from './firebase-utils.js'
+import { getDatabase, set, ref, onValue } from 'firebase/database'
 // @ts-nocheck
 const COLOR_INPUT = 'color-input'
 const CURRENT_SCORE = 'current-score'
 const DAILY_HIGH_SCORE = 'daily-high-score'
 
-const goalColorName = 'Magic Mango'
-const goalColor = {
-  red: 255,
-  green: 207,
-  blue: 150,
-  alpha: 1,
+/**
+ * @param {{ getMonth: () => number; getDate: () => any; getFullYear: () => any; }} date
+ */
+export function formatDate(date) {
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const year = String(date.getFullYear())
+  return month + day + year
 }
 
 export function getGoalColor() {
+  const database = getDatabase()
+  const date = formatDate(new Date())
+  console.log(date)
+  const reference = ref(database, `/daily_color/${date}`)
+  console.log(reference)
+
+  const goalColor = {
+    red: 0,
+    green: 0,
+    blue: 0,
+  }
+
+  onValue(reference, (snapshot) => {
+    const data = snapshot.val()
+    const goalColor = { red: data.red, blue: data.blue, green: data.green }
+    console.log(goalColor)
+  })
+
   return goalColor
 }
 
-export function getGoalColorName() {
-  return goalColorName
+export async function getGoalColorName() {
+  const database = getDatabase()
+  const date = formatDate(new Date())
+  const reference = ref(database, `/daily_color/${date}`)
+
+  return new Promise((resolve, reject) => {
+    onValue(
+      reference,
+      (snapshot) => {
+        const data = snapshot.val()
+        const name = data.name
+        const goalColorName = name
+        resolve(goalColorName)
+      },
+      (error) => {
+        reject(error)
+      }
+    )
+  })
 }
 /**
  * @typedef {Object} Color
@@ -26,6 +65,7 @@ export function getGoalColorName() {
  * @property {number} alpha
  */
 
+// @ts-ignore
 export function saveInput(color) {
   localStorage.setItem(COLOR_INPUT, JSON.stringify(color))
 }
@@ -38,6 +78,7 @@ export function getInput() {
 export function clearColorDifferences() {
   localStorage.removeItem(COLOR_INPUT)
 }
+// @ts-ignore
 
 export function saveCurrentScore(score) {
   if (score > getDailyHighScore()) {
@@ -50,6 +91,7 @@ export function getCurrentScore() {
   const score = localStorage.getItem(CURRENT_SCORE)
   return JSON.parse(score)
 }
+// @ts-ignore
 
 export function saveDailyHighScore(score) {
   localStorage.setItem(DAILY_HIGH_SCORE, JSON.stringify(score))
@@ -59,6 +101,7 @@ export function getDailyHighScore() {
   const score = localStorage.getItem(DAILY_HIGH_SCORE)
   return JSON.parse(score)
 }
+// @ts-ignore
 
 export function getMessage(highScore) {
   let message = ''

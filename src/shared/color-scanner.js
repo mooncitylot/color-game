@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { html, css, LitElement } from 'lit'
 import { loading } from '../assets/animations.js'
+import { getGoalColor, getGoalColorName } from '../utility/color-db.js'
 
 class ColorScannerElement extends LitElement {
   static properties = {
@@ -8,6 +9,7 @@ class ColorScannerElement extends LitElement {
     green: { type: String },
     blue: { type: String },
     alpha: { type: String },
+    name: { type: String },
     captureTaken: { type: Boolean },
     isLoading: { type: Boolean },
     video: { type: Object },
@@ -19,13 +21,15 @@ class ColorScannerElement extends LitElement {
     this.green = '0'
     this.blue = '0'
     this.alpha = '0'
+    this.name = ''
     this.captureTaken = false
     this.isLoading = false
     this.video = null
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     super.connectedCallback()
+    this.name = await getGoalColorName()
     requestAnimationFrame(() => {
       this.initCamera()
     })

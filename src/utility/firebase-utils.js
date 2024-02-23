@@ -41,3 +41,21 @@ export function getColor() {
     console.log(red, blue, green, name)
   })
 }
+
+/**
+ * @param {number} red
+ * @param {number} green
+ * @param {number} blue
+ * @param {string} name
+ * @param {number} date
+ */
+export function setColor(red, green, blue, name, date) {
+  const database = getDatabase()
+  const reference = ref(database, `/daily_color/${date}`)
+  set(reference, {
+    red,
+    green,
+    blue,
+    name,
+  })
+}

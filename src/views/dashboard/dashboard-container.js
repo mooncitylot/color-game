@@ -12,19 +12,31 @@ import {} from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 
 class DashboardContainerElement extends LitElement {
+  static properties = {
+    color: { type: String },
+    timeRemaining: { type: Number },
+    score: { type: Number },
+    message: { type: String },
+    disable: { type: Boolean },
+  }
   constructor() {
     super()
     this.animateContentFadeIn()
-    this.color = getGoalColorName()
+    this.color = ''
     this.timeRemaining = this.calculateTimeRemaining()
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
-    getColor()
-
     if (this.score < 90) {
       this.disable = true
     }
+  }
+
+  async connectedCallback() {
+    super.connectedCallback()
+    this.color = await getGoalColorName()
+    console.log('Dashboard', this.color)
+    this.requestUpdate()
   }
 
   calculateTimeRemaining() {

@@ -98,6 +98,9 @@ export const routes = processRoutes({
   RESULTS: {
     isPublic: true,
   },
+  ADMIN: {
+    isPublic: true,
+  },
   SANDBOX: {
     isPublic: true,
   },
