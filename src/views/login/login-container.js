@@ -23,6 +23,9 @@ class LoginContainerElement extends LitElement {
           <button class="login-option-1" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
           <button class="login-option-1" @click=${() => reset()}>Reset</button>
         </div>
+        <div style="margin-top: 80px;" class="wrapper">
+          <a @click=${() => go(routes.ADMIN.path)}>Admin</a>
+        </div>
       </div>
 
       <!-- <h1>LOGIN, BITCH!!!!!</h1>
@@ -32,6 +35,10 @@ class LoginContainerElement extends LitElement {
 
   static styles = [
     css`
+      a {
+        text-decoration: underline;
+        color: grey;
+      }
       :host {
         display: flex;
         flex-direction: column;

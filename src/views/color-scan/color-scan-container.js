@@ -18,7 +18,6 @@ class ColorScanContainerElement extends LitElement {
     goalColorName: { type: String },
     input: { type: Object },
     score: { type: Number },
-    name: { type: String },
   }
 
   constructor() {
@@ -33,15 +32,15 @@ class ColorScanContainerElement extends LitElement {
     this.captureTaken = false
     this.isLoading = false
     this.video = null
-    this.target = getGoalColor()
-    this.goalColorName = getGoalColorName()
+    this.target = ''
     this.animateContentFadeIn()
-    this.name = ''
   }
 
   async connectedCallback() {
     super.connectedCallback()
-    this.name = await this.goalColorName
+    this.target = await getGoalColor()
+    console.log('Target', this.target)
+    this.goalColorName = await getGoalColorName()
     if (this.score > 90) {
       go(routes.DASHBOARD.path)
     }
@@ -123,7 +122,7 @@ class ColorScanContainerElement extends LitElement {
   renderScanner() {
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
-        <h1>"${this.name}"</h1>
+        <h1>"${this.goalColorName}"</h1>
         <span class="video-mask"><video id="cameraFeed" autoplay webkit-playsinline playsinline></video></span>
 
         <canvas id="canvasOverlay" width="400" height="400"> </canvas>
@@ -201,7 +200,7 @@ class ColorScanContainerElement extends LitElement {
       z-index: -1;
       display: block;
       position: absolute;
-      top: 46%;
+      top: 44%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -222,7 +221,7 @@ class ColorScanContainerElement extends LitElement {
     .crosshairs {
       z-index: 100;
       position: absolute;
-      top: 46%;
+      top: 43.5%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;

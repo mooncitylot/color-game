@@ -24,7 +24,11 @@ class ResultsContainerElement extends LitElement {
   constructor() {
     super()
     this.input = getInput()
-    this.target = getGoalColor()
+    this.target = {
+      red: 0,
+      green: 0,
+      blue: 0,
+    }
     this.opened = false
     this.score = getCurrentScore()
     this.message = getMessage(this.score)
@@ -34,7 +38,6 @@ class ResultsContainerElement extends LitElement {
       this.won = true
     }
   }
-
   animateContentFadeIn() {
     requestAnimationFrame(() => {
       const content = this.shadowRoot.getElementById('content')
@@ -42,6 +45,13 @@ class ResultsContainerElement extends LitElement {
         content.style.opacity = '1'
       }, 100)
     })
+  }
+  async connectedCallback() {
+    super.connectedCallback()
+    this.target = await getGoalColor()
+    console.log('Goal', this.target)
+    console.log('User Input', this.input)
+    this.calculateDifference()
   }
 
   calculateDifference() {
@@ -53,24 +63,18 @@ class ResultsContainerElement extends LitElement {
     const greenDiffPercent = (greenDiff / this.target.green) * 100
     const blueDiffPercent = (blueDiff / this.target.blue) * 100
 
-    this.redOff = 100 - redDiffPercent
-    this.greenOff = 100 - greenDiffPercent
-    this.blueOff = 100 - blueDiffPercent
+    this.redOff = Math.abs(100 - redDiffPercent)
+    this.greenOff = Math.abs(100 - greenDiffPercent)
+    this.blueOff = Math.abs(100 - blueDiffPercent)
 
     const averagePercent = (redDiffPercent + greenDiffPercent + blueDiffPercent) / 3
 
     const invertedPercent = 100 - averagePercent
     const roundedPercent = Math.round(invertedPercent)
 
-    this.score = roundedPercent
+    this.score = Math.abs(roundedPercent)
     saveCurrentScore(this.score)
     console.log(this.score)
-  }
-
-  connectedCallback() {
-    super.connectedCallback()
-    console.log(this.target)
-    console.log(this.input)
   }
 
   render() {

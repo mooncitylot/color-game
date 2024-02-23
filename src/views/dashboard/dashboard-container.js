@@ -87,7 +87,7 @@ class DashboardContainerElement extends LitElement {
                 <p>Score a 90% or higher to complete today's hunt!</p>
                 <!-- <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p> -->
               </div>
-            </div>`
+            </div> `
           : ''}
         ${this.disable
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan a Color</button> `
@@ -98,6 +98,13 @@ class DashboardContainerElement extends LitElement {
   }
 
   static styles = css`
+    a {
+      color: #515151;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
     :host {
       display: block;
       width: 100%;

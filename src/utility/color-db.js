@@ -15,26 +15,34 @@ export function formatDate(date) {
   return month + day + year
 }
 
-export function getGoalColor() {
+export async function getGoalColor() {
   const database = getDatabase()
   const date = formatDate(new Date())
-  console.log(date)
+  console.log('Function', date)
   const reference = ref(database, `/daily_color/${date}`)
-  console.log(reference)
+  console.log('Function', reference)
+  let goalColor = {}
 
-  const goalColor = {
-    red: 0,
-    green: 0,
-    blue: 0,
-  }
-
-  onValue(reference, (snapshot) => {
-    const data = snapshot.val()
-    const goalColor = { red: data.red, blue: data.blue, green: data.green }
-    console.log(goalColor)
+  return new Promise((resolve, reject) => {
+    onValue(
+      reference,
+      (snapshot) => {
+        const data = snapshot.val()
+        const red = parseInt(data.red, 10) // Parse red as an integer
+        const blue = parseInt(data.blue, 10) // Parse blue as an integer
+        const green = parseInt(data.green, 10) // Parse green as an integer
+        goalColor = {
+          red,
+          blue,
+          green,
+        }
+        resolve(goalColor)
+      },
+      (error) => {
+        reject(error)
+      }
+    )
   })
-
-  return goalColor
 }
 
 export async function getGoalColorName() {
