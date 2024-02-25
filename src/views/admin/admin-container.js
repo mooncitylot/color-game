@@ -41,29 +41,39 @@ export class AdminContainer extends LitElement {
     return html`
       ${this.unlocked
         ? ''
-        : html`<h1>Enter Pin</h1>
+        : html` <div class="wrapper">
+            <h3>Enter Pin</h3>
             <input type="password" />
-            <button @click=${this.checkPassword}>Submit</button>`}
+            <button @click=${this.checkPassword}>Submit</button>
+          </div>
+      </div>`}
       ${this.unlocked ? this.renderContent() : ''}
     `
   }
 
   renderContent() {
-    return html`<h1>Admin</h1>
+    return html` <div class="wrapper">
+      <h3>Add Color</h3>
       <form @submit="${this.handleFormSubmit}">
         <label for="redInput">Red:</label>
         <input type="number" id="redInput" name="numberInput" />
+
         <label for="greenInput">Green:</label>
         <input type="number" id="greenInput" name="numberInput" />
+
         <label for="blueInput">Blue:</label>
         <input type="number" id="blueInput" name="numberInput" />
+
         <label for="nameInput">Name:</label>
         <input type="text" id="nameInput" name="nameInput" />
+
         <label for="dateInput">Date:</label>
         <input type="number" id="dateInput" name="dateInput" />
+
         <button type="submit">Submit Color</button>
       </form>
-      <button @click=${() => (this.unlocked = false)}>Lock</button> `
+      <button @click=${() => (this.unlocked = false)}>Lock</button>
+    </div>`
   }
 
   static styles = css`
@@ -71,6 +81,25 @@ export class AdminContainer extends LitElement {
       display: block;
       padding: 25px;
       font-family: Roboto, sans-serif;
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      width: 100px;
+      gap: 16px;
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    input {
+      width: 100px;
     }
   `
 }

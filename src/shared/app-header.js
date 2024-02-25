@@ -46,7 +46,7 @@ class AppHeaderElement extends LitElement {
             </g>
           </svg>
         </div>
-        <h1>Color Game</h1>
+        <!-- <h1>Color Game</h1> -->
       </div>
     `
   }
@@ -66,7 +66,7 @@ class AppHeaderElement extends LitElement {
     }
     .rainbow-container {
       position: absolute;
-      left: 0;
+      right: 0;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -75,10 +75,11 @@ class AppHeaderElement extends LitElement {
     }
     .header > h1 {
       position: absolute;
-      right: 16px;
+      left: 16px;
       margin: 0;
       font-family: 'Arial';
       color: #515151;
+      font-size: 24px;
     }
     .rainbow-child {
       height: 64px;
@@ -86,7 +87,7 @@ class AppHeaderElement extends LitElement {
     }
     svg {
       position: absolute;
-      left: 96px;
+      left: 16px;
       cursor: pointer;
       height: 40px;
       width: 40px;

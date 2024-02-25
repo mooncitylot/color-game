@@ -90,7 +90,7 @@ class DashboardContainerElement extends LitElement {
             </div> `
           : ''}
         ${this.disable
-          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan a Color</button> `
+          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Color Grabber</button> `
           : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
       </div>
