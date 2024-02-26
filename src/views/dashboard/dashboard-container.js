@@ -8,7 +8,6 @@ import { getGoalColorName } from '../../utility/color-db.js'
 import ProgressBar from '../../shared/progress-bar.js'
 import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
 import {} from '../../utility/color-db.js'
-
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 
 class DashboardContainerElement extends LitElement {
@@ -85,7 +84,6 @@ class DashboardContainerElement extends LitElement {
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
                 <p>Score a 90% or higher to complete today's hunt!</p>
-                <!-- <p>Time Remaining: <span>${this.formatTime(this.timeRemaining)}</span></p> -->
               </div>
             </div> `
           : ''}
