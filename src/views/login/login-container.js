@@ -20,7 +20,6 @@ class LoginContainerElement extends LitElement {
       <div class="background">
         <div class="wrapper">
           <button class="login-option-1" @click=${() => go(routes.DASHBOARD.path)}>Start</button>
-          <button class="login-option-1" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
           <button class="login-option-1" @click=${() => reset()}>Reset</button>
         </div>
         <div style="margin-top: 80px;" class="wrapper">
@@ -62,7 +61,7 @@ class LoginContainerElement extends LitElement {
         padding: 16px;
         width: 240px;
         color: #515151;
-        background-color: #e3e1d9;
+        background-color: #f0f0f0;
         cursor: pointer;
         transition: background-color 0.3s;
         font-size: 24px;

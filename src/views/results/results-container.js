@@ -49,44 +49,28 @@ class ResultsContainerElement extends LitElement {
   async connectedCallback() {
     super.connectedCallback()
     this.target = await getGoalColor()
-    console.log('Goal', this.target)
-    console.log('User Input', this.input)
+
     this.calculateDifference()
   }
 
   calculateDifference() {
-    // const redDiff = Math.abs(this.target.red - this.input.red)
-    // const greenDiff = Math.abs(this.target.green - this.input.green)
-    // const blueDiff = Math.abs(this.target.blue - this.input.blue)
-
-    // const redDiffPercent = (redDiff / this.target.red) * 100
-    // const greenDiffPercent = (greenDiff / this.target.green) * 100
-    // const blueDiffPercent = (blueDiff / this.target.blue) * 100
-
-    // this.redOff = Math.abs(100 - redDiffPercent)
-    // this.greenOff = Math.abs(100 - greenDiffPercent)
-    // this.blueOff = Math.abs(100 - blueDiffPercent)
-
-    // const averagePercent = (redDiffPercent + greenDiffPercent + blueDiffPercent) / 3
-
-    // const invertedPercent = 100 - averagePercent
-    // const roundedPercent = Math.round(invertedPercent)
-
-    // this.score = Math.abs(roundedPercent)
-
     const target = this.target
 
     const input = this.input
 
-    const redDiff = Math.abs(target.red - input.red)
-    const greenDiff = Math.abs(target.green - input.green)
-    const blueDiff = Math.abs(target.blue - input.blue)
+    const redScore = Math.abs(target.red - input.red)
+    const greenScore = Math.abs(target.green - input.green)
+    const blueScore = Math.abs(target.blue - input.blue)
+    const average = (redScore + greenScore + blueScore) / 3
 
-    console.log((blueDiff + greenDiff + redDiff) / 3)
+    console.log('redScore', redScore)
+    console.log('greenScore', greenScore)
+    console.log('blueScore', blueScore)
+    console.log('average', average)
 
-    this.score = Math.abs(100 - (redDiff + greenDiff + blueDiff) / 3).toFixed(0)
+    this.score = (100 - average).toFixed(0)
 
-    console.log(this.score)
+    console.log('score', this.score)
 
     saveCurrentScore(this.score)
   }

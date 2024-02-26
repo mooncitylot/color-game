@@ -79,9 +79,9 @@ class DashboardContainerElement extends LitElement {
       <div id="content" class="wrapper">
         ${this.disable
           ? html`<div class="stats">
-              <h4>Color of the Day:</h4>
-              <h2>"${this.color}"</h2>
               <div class="score-wrapper">
+                <h4>Color of the Day:</h4>
+                <h2>"${this.color}"</h2>
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
                 <p>Score a 90% or higher to complete today's hunt!</p>
@@ -90,9 +90,10 @@ class DashboardContainerElement extends LitElement {
             </div> `
           : ''}
         ${this.disable
-          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Color Grabber</button> `
+          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color</button> `
           : 'Play Again Tomorrow'}
-        <button class="dashboard-option" @click=${() => go(routes.LOGIN.path)}>Exit</button>
+        <button class="dashboard-option" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
+        <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
       </div>
     `
   }
@@ -104,9 +105,13 @@ class DashboardContainerElement extends LitElement {
       font-size: 24px;
       font-weight: bold;
       cursor: pointer;
+      text-decoration: underline;
     }
     :host {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       overflow-x: hidden;
       font-family: 'Arial';
@@ -119,8 +124,13 @@ class DashboardContainerElement extends LitElement {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      margin: 32px auto 32px auto;
+      width: 100%;
+      padding: 16px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      border: 1px solid #d9d9d9;
     }
     .score-wrapper h4 {
       margin: 0;
@@ -153,14 +163,14 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 24px;
       height: 100%;
     }
     .dashboard-option {
       padding: 16px;
-      width: 240px;
+      width: 90%;
       color: #515151;
-      background-color: #e3e1d9;
+      background-color: #f0f0f0;
       cursor: pointer;
       transition: background-color 0.3s;
       font-size: 24px;

@@ -4,6 +4,7 @@ import { go } from '../router/router-base.js'
 import routes from '../router/routes.js'
 import getRoutes from '../router/routes.js'
 import AppEvents from '../shared/app-events.js'
+import { logoutIcon, homeIcon } from '../assets/icons.js'
 
 class AppHeaderElement extends LitElement {
   constructor() {
@@ -27,26 +28,7 @@ class AppHeaderElement extends LitElement {
           <div class="rainbow-child" style="background-color: #E19E2B;"></div>
           <div class="rainbow-child" style="background-color: #BD3339;"></div>
         </div>
-        <div style="display: flex; justify-content: center; align-items: center;" class="${this.hideButton ? '' : ''}">
-          <svg
-            @click=${() => {
-              go(routes.DASHBOARD.path)
-            }}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <mask id="a" width="24" height="24" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha">
-              <path fill="#D9D9D9" d="M0 0h24v24H0z" />
-            </mask>
-            <g mask="url(#a)">
-              <path fill="#515151" d="M6 19h3v-6h6v6h3v-9l-6-4.5L6 10v9Zm-2 2V9l8-6 8 6v12h-7v-6h-2v6H4Z" />
-            </g>
-          </svg>
-        </div>
-        <!-- <h1>Color Game</h1> -->
+        <span @click=${() => go(routes.DASHBOARD.path)}>${homeIcon}</span>
       </div>
     `
   }
@@ -54,23 +36,25 @@ class AppHeaderElement extends LitElement {
   static styles = css`
     .header {
       display: flex;
-      justify-content: center;
+      justify-content: left;
       align-items: center;
       height: 64px;
       width: 100vw;
+      padding-left: 16px;
       margin-bottom: 100px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
       background-color: #f2efe5;
       font-family: 'Arial';
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+      gap: 16px;
     }
     .rainbow-container {
       position: absolute;
-      right: 0;
+      right: 16px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
+      align-items: left;
       gap: 0;
     }
     .header > h1 {
@@ -86,11 +70,9 @@ class AppHeaderElement extends LitElement {
       width: 16px;
     }
     svg {
-      position: absolute;
-      left: 16px;
       cursor: pointer;
-      height: 40px;
-      width: 40px;
+      height: 32px;
+      width: 32px;
     }
     .hide {
       display: none;
