@@ -1,5 +1,13 @@
 import { html, css, LitElement } from 'lit'
-import { getGoalColor, saveCurrentScore, getCurrentScore, getInput, getMessage } from '../../utility/color-db.js'
+import {
+  getGoalColor,
+  saveCurrentScore,
+  getCurrentScore,
+  getInput,
+  getMessage,
+  getLives,
+  saveLives,
+} from '../../utility/color-db.js'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
@@ -19,10 +27,12 @@ class ResultsContainerElement extends LitElement {
     redOff: { type: Number },
     greenOff: { type: Number },
     blueOff: { type: Number },
+    lives: { type: Number },
   }
 
   constructor() {
     super()
+    this.lives = getLives()
     this.input = getInput()
     this.target = {
       red: 0,
@@ -55,7 +65,7 @@ class ResultsContainerElement extends LitElement {
 
   calculateDifference() {
     const target = this.target
-
+    const newLife = this.lives - 1
     const input = this.input
 
     const redScore = Math.abs(target.red - input.red)
@@ -68,10 +78,10 @@ class ResultsContainerElement extends LitElement {
     console.log('blueScore', blueScore)
     console.log('average', average)
 
-    this.score = (100 - average).toFixed(0)
+    this.score = Math.abs(100 - average).toFixed(0)
 
     console.log('score', this.score)
-
+    saveLives(newLife)
     saveCurrentScore(this.score)
   }
 
@@ -81,7 +91,6 @@ class ResultsContainerElement extends LitElement {
         <div class="wrapper">
           <div class="head">
             <h1>Score: ${this.score}%</h1>
-            ${this.won ? html`<h2>Congratulations! You've matched the color!</h2>` : html`<h2>Keep Going!</h2>`}
             <progress-bar .progress=${this.score}></progress-bar>
           </div>
 

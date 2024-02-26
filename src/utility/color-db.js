@@ -135,6 +135,18 @@ export function getMessage(highScore) {
   return message
 }
 
+/**
+ * @param {Number} lives
+ */
+export function saveLives(lives) {
+  localStorage.setItem(LIVES, JSON.stringify(lives))
+}
+
+export function getLives() {
+  const lives = localStorage.getItem(LIVES)
+  return JSON.parse(lives)
+}
+
 export function reset() {
   clearColorDifferences()
   localStorage.setItem(CURRENT_SCORE, JSON.stringify(0))

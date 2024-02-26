@@ -9,6 +9,7 @@ import ProgressBar from '../../shared/progress-bar.js'
 import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
 import {} from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
+import lifeCount from '../../shared/life-count.js'
 
 class DashboardContainerElement extends LitElement {
   static properties = {
@@ -84,6 +85,7 @@ class DashboardContainerElement extends LitElement {
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
                 <p>Score a 90% or higher to complete today's hunt!</p>
+                <life-count></life-count>
               </div>
             </div> `
           : ''}
