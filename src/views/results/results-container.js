@@ -55,26 +55,40 @@ class ResultsContainerElement extends LitElement {
   }
 
   calculateDifference() {
-    const redDiff = Math.abs(this.target.red - this.input.red)
-    const greenDiff = Math.abs(this.target.green - this.input.green)
-    const blueDiff = Math.abs(this.target.blue - this.input.blue)
+    // const redDiff = Math.abs(this.target.red - this.input.red)
+    // const greenDiff = Math.abs(this.target.green - this.input.green)
+    // const blueDiff = Math.abs(this.target.blue - this.input.blue)
 
-    const redDiffPercent = (redDiff / this.target.red) * 100
-    const greenDiffPercent = (greenDiff / this.target.green) * 100
-    const blueDiffPercent = (blueDiff / this.target.blue) * 100
+    // const redDiffPercent = (redDiff / this.target.red) * 100
+    // const greenDiffPercent = (greenDiff / this.target.green) * 100
+    // const blueDiffPercent = (blueDiff / this.target.blue) * 100
 
-    this.redOff = Math.abs(100 - redDiffPercent)
-    this.greenOff = Math.abs(100 - greenDiffPercent)
-    this.blueOff = Math.abs(100 - blueDiffPercent)
+    // this.redOff = Math.abs(100 - redDiffPercent)
+    // this.greenOff = Math.abs(100 - greenDiffPercent)
+    // this.blueOff = Math.abs(100 - blueDiffPercent)
 
-    const averagePercent = (redDiffPercent + greenDiffPercent + blueDiffPercent) / 3
+    // const averagePercent = (redDiffPercent + greenDiffPercent + blueDiffPercent) / 3
 
-    const invertedPercent = 100 - averagePercent
-    const roundedPercent = Math.round(invertedPercent)
+    // const invertedPercent = 100 - averagePercent
+    // const roundedPercent = Math.round(invertedPercent)
 
-    this.score = Math.abs(roundedPercent)
-    saveCurrentScore(this.score)
+    // this.score = Math.abs(roundedPercent)
+
+    const target = this.target
+
+    const input = this.input
+
+    const redDiff = Math.abs(target.red - input.red)
+    const greenDiff = Math.abs(target.green - input.green)
+    const blueDiff = Math.abs(target.blue - input.blue)
+
+    console.log((blueDiff + greenDiff + redDiff) / 3)
+
+    this.score = Math.abs(100 - (redDiff + greenDiff + blueDiff) / 3).toFixed(0)
+
     console.log(this.score)
+
+    saveCurrentScore(this.score)
   }
 
   render() {
@@ -95,11 +109,7 @@ class ResultsContainerElement extends LitElement {
               ><h3>RGB Hints</h3>
               ${questionIcon}</span
             >
-            <div>
-              <p>Red Accuracy: <span class="result-number">${this.redOff.toFixed(0)}%</span></p>
-              <p>Green Accuracy: <span class="result-number">${this.greenOff.toFixed(0)}%</span></p>
-              <p>Blue Accuracy: <span class="result-number">${this.blueOff.toFixed(0)}%</span></p>
-            </div>
+            <div></div>
           </div>
 
           <dialog-box class="${this.opened ? '' : 'hide'}">
