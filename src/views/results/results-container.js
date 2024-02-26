@@ -81,10 +81,7 @@ class ResultsContainerElement extends LitElement {
         <div class="wrapper">
           <div class="head">
             <h1>Score: ${this.score}%</h1>
-            <!-- TODO: Fix this shit -->
-            <!-- ${this.won
-              ? html`<h2>Congratulations! You've matched the color!</h2>`
-              : html`<h2>Keep Going!</h2>`} -->
+            ${this.won ? html`<h2>Congratulations! You've matched the color!</h2>` : html`<h2>Keep Going!</h2>`}
             <progress-bar .progress=${this.score}></progress-bar>
           </div>
 

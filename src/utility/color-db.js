@@ -4,6 +4,7 @@ import { getDatabase, set, ref, onValue } from 'firebase/database'
 const COLOR_INPUT = 'color-input'
 const CURRENT_SCORE = 'current-score'
 const DAILY_HIGH_SCORE = 'daily-high-score'
+const LIVES = 'lives'
 
 /**
  * @param {{ getMonth: () => number; getDate: () => any; getFullYear: () => any; }} date
@@ -138,4 +139,5 @@ export function reset() {
   clearColorDifferences()
   localStorage.setItem(CURRENT_SCORE, JSON.stringify(0))
   localStorage.setItem(DAILY_HIGH_SCORE, JSON.stringify(0))
+  localStorage.setItem(LIVES, JSON.stringify(5))
 }
