@@ -48,7 +48,7 @@ class RainbowButtonElement extends LitElement {
       padding: 16px;
       width: 240px;
       color: #515151;
-      background-color: #e3e1d9;
+      background-color: white;
       cursor: pointer;
       border: none;
       transition: background-color 0.3s;

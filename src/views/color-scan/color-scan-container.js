@@ -116,7 +116,11 @@ class ColorScanContainerElement extends LitElement {
   }
 
   render() {
-    return html` <div id="content">${this.captureTaken ? this.renderResult() : this.renderScanner()}</div> `
+    return html`
+      <div class="wrapper-card">
+        <div id="content">${this.captureTaken ? this.renderResult() : this.renderScanner()}</div>
+      </div>
+    `
   }
 
   renderScanner() {
@@ -169,6 +173,16 @@ class ColorScanContainerElement extends LitElement {
   }
 
   static styles = css`
+    :host {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 16px;
+      overflow-x: hidden;
+      font-family: 'Arial';
+    }
     back-arrow {
       position: fixed;
       bottom: 24px;
@@ -185,6 +199,7 @@ class ColorScanContainerElement extends LitElement {
       font-family: 'Arial';
       color: var(--black, #515151);
       font-size: 24px;
+      margin: 0;
     }
 
     #content {
@@ -196,11 +211,26 @@ class ColorScanContainerElement extends LitElement {
       transition: opacity 1s;
     }
 
+    .wrapper-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 80%;
+      gap: 16px;
+      overflow-x: hidden;
+      font-family: 'Arial';
+      background-color: #f2efe5;
+      padding: 16px;
+      border-radius: 16px;
+      border: 2px solid #b4b4b8;
+    }
+
     .loading-spinner {
       z-index: -1;
       display: block;
       position: absolute;
-      top: 44%;
+      top: 41%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -221,12 +251,12 @@ class ColorScanContainerElement extends LitElement {
     .crosshairs {
       z-index: 100;
       position: absolute;
-      top: 43.5%;
+      top: 41%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;
       height: 20px;
-      border: 4px solid white;
+      border: 4px solid #f2efe5;
       border-radius: 50%;
       box-sizing: border-box;
       box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);

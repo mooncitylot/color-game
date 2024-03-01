@@ -96,7 +96,7 @@ class DashboardContainerElement extends LitElement {
         ${this.disable
           ? html`<div class="stats">
               <div class="score-wrapper">
-                <h4>Color of the Day:</h4>
+                <h4>Mystery Color:</h4>
                 <h2>"${this.color}"</h2>
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
@@ -108,7 +108,7 @@ class DashboardContainerElement extends LitElement {
         ${this.disable
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color</button> `
           : 'Play Again Tomorrow'}
-        <button class="dashboard-option" @click=${() => window.alert('Not ready yet LOL')}>Tutorial</button>
+        <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play</button>
         <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
       </div>
     `

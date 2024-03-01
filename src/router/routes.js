@@ -104,6 +104,9 @@ export const routes = processRoutes({
   SANDBOX: {
     isPublic: true,
   },
+  TUTORIAL: {
+    isPublic: true,
+  },
 })
 
 export default routes

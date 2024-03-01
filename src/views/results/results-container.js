@@ -93,33 +93,12 @@ class ResultsContainerElement extends LitElement {
             <h1>Score: ${this.score}%</h1>
             <progress-bar .progress=${this.score}></progress-bar>
           </div>
-
-          <div class="hint-wrapper">
-            <span class="hint" @click=${() => (this.opened = !this.opened)}
-              ><h3>RGB Hints</h3>
-              ${questionIcon}</span
-            >
-            <div></div>
-          </div>
-
-          <dialog-box class="${this.opened ? '' : 'hide'}">
-            <p>
-              RGB stands for Red, Green, and Blue – the primary colors of light. In our game, each color is represented
-              by a combination of these three values. The higher the value, the more of that color is present.
-            </p>
-            <p>
-              Here's how it works: Snap a pic of a color you think matches the target. Our algorithm then compares the
-              RGB values of your submission with the target color. The closer your values are to the target, the hotter
-              you're getting! So, pay attention to the feedback.
-            </p>
-            <p>
-              If your RGB values are a match or close, you're on the right track! Keep hunting until you hit the perfect
-              hue. Good luck, and may the RGB be with you!"
-            </p>
-            <a @click=${() => (this.opened = !this.opened)}>Close</a>
-          </dialog-box>
+          <div
+            style="background-color: rgba(${this.input.red} ${this.input.green} ${this.input.blue})"
+            class="result-preview"
+          ></div>
         </div>
-        <a style="margin-top: 24px;" @click=${() => go(routes.DASHBOARD.path)}>Home</a>
+        <div class="results-option" @click=${() => go(routes.DASHBOARD.path)}>Try Again</div>
       </div>
     `
   }
@@ -142,10 +121,22 @@ class ResultsContainerElement extends LitElement {
       justify-content: center;
       opacity: 0;
       transition: opacity 1s;
+      gap: 32px;
     }
     p {
       font-size: 18px;
       color: var(--black, #45474b);
+    }
+    .result-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 300px;
+      height: 300px;
+      border-radius: 8px;
+      border: 2px solid #d9d9d9;
     }
     .head {
       display: flex;
@@ -228,6 +219,22 @@ class ResultsContainerElement extends LitElement {
     .result-number {
       font-weight: bold;
       color: #515151;
+    }
+    .results-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      width: 90%;
+      color: #515151;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 24px;
+      font-weight: bold;
+      border: 4px solid;
+      border-radius: 16px;
     }
   `
 }

@@ -14,13 +14,13 @@ export const loading = html`<svg width="80" height="80" viewBox="0 0 24 24" xmln
     }
   </style>
   <g class="spinner_GuJz">
-    <circle cx="3" cy="12" r="2" />
-    <circle cx="21" cy="12" r="2" />
-    <circle cx="12" cy="21" r="2" />
-    <circle cx="12" cy="3" r="2" />
-    <circle cx="5.64" cy="5.64" r="2" />
-    <circle cx="18.36" cy="18.36" r="2" />
-    <circle cx="5.64" cy="18.36" r="2" />
-    <circle cx="18.36" cy="5.64" r="2" />
+    <circle cx="3" cy="12" r="2" fill="#9E4597" />
+    <circle cx="21" cy="12" r="2" fill="#5574B8" />
+    <circle cx="12" cy="21" r="2" fill="#429754" />
+    <circle cx="12" cy="3" r="2" fill="#E19E2B" />
+    <circle cx="5.64" cy="5.64" r="2" fill="#BD3339" />
+    <circle cx="18.36" cy="18.36" r="2" fill="#9E4597" />
+    <circle cx="5.64" cy="18.36" r="2" fill="#5574B8" />
+    <circle cx="18.36" cy="5.64" r="2" fill="#429754" />
   </g>
 </svg>`
