@@ -195,8 +195,10 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
       gap: 24px;
       height: 100%;
+      width: 80%;
     }
     .dashboard-option {
       padding: 16px;

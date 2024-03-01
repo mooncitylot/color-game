@@ -43,7 +43,6 @@ class ResultsContainerElement extends LitElement {
     this.score = getCurrentScore()
     this.message = getMessage(this.score)
     this.calculateDifference()
-    this.animateContentFadeIn()
     if (this.score > 90) {
       this.won = true
     }
@@ -86,6 +85,15 @@ class ResultsContainerElement extends LitElement {
   }
 
   render() {
+    if (this.score > 90) {
+      return this.renderYouWin()
+    }
+    this.animateContentFadeIn()
+
+    return this.renderResults()
+  }
+
+  renderResults() {
     return html`
       <div id="content">
         <div class="wrapper">
@@ -101,6 +109,26 @@ class ResultsContainerElement extends LitElement {
         <div class="results-option" @click=${() => go(routes.DASHBOARD.path)}>Try Again</div>
       </div>
     `
+  }
+
+  renderYouWin() {
+    return html`<div class="wrapper">
+      <h1>Congratulations, you won!</h1>
+      <p>See you tomorrow</p>
+      <div
+        style="background-color: rgba(${this.input.red} ${this.input.green} ${this.input.blue})"
+        class="result-preview"
+      ></div>
+      <div class="results-option" @click=${() => go(routes.LOGIN.path)}>Exit</div>
+    </div>`
+  }
+
+  renderYouLose() {
+    return html`<div class="wrapper">
+      <h1>Sorry, you lost!</h1>
+      <p>Try Again Tomorrow</p>
+      <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
+    </div>`
   }
 
   static styles = css`
@@ -180,7 +208,14 @@ class ResultsContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
       height: 100%;
+      width: 80%;
+      gap: 24px;
+    }
+    .wrapper > h1 {
+      color: #515151;
+      margin: 0;
     }
     dialog-box {
       width: 80%;
