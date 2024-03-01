@@ -17,9 +17,9 @@ class TutorialContainerElement extends LitElement {
     return html`<div class="wrapper">
       <h1>How to Play</h1>
       <p>
-        Welcome to the Color Scan Challenge! Your mission: Find a real-world color that matches the mystery color with
-        90% accuracy or higher. Scan colors using your phone's camera, receive feedback on your matches, and aim to
-        solve the mystery within 5 tries.
+        Welcome to the Color Game! Your mission: Find a real-world color that matches the mystery color with 90%
+        accuracy or higher. Scan colors using your phone's camera, receive feedback on your matches, and aim to solve
+        the mystery within 5 tries.
       </p>
       <rainbow-button .text=${'Lets Go!'} @click=${() => go(routes.DASHBOARD.path)}></rainbow-button>
     </div> `
