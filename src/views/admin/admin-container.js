@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit'
 
 import { setColor } from '../../utility/firebase-utils.js'
+import { set } from 'firebase/database'
 
 export class AdminContainer extends LitElement {
   static properties = {
@@ -22,19 +23,31 @@ export class AdminContainer extends LitElement {
   }
 
   /**
+   * @param {string} hex
+   */
+  hexToRgb(hex) {
+    const r = parseInt(hex.substring(1, 3), 16)
+    const g = parseInt(hex.substring(3, 5), 16)
+    const b = parseInt(hex.substring(5, 7), 16)
+    return { r, g, b }
+  }
+
+  /**
    * @param {{ preventDefault: () => void; target: any; }} event
    */
   handleFormSubmit(event) {
     event.preventDefault() // Prevents the default form submission behavior
 
     const form = event.target
-    const red = form.querySelector('#redInput')
-    const green = form.querySelector('#greenInput')
-    const blue = form.querySelector('#blueInput')
+    const color = form.querySelector('#colorInput')
+    const colorRGB = this.hexToRgb(color.value)
     const name = form.querySelector('#nameInput')
     const date = form.querySelector('#dateInput')
+    console.log(colorRGB, name.value, date.value)
 
-    setColor(red.value, green.value, blue.value, name.value, date.value)
+    setColor(colorRGB.r, colorRGB.g, colorRGB.b, name.value, date.value)
+
+    // setColor(red.value, green.value, blue.value, name.value, date.value)
   }
 
   render() {
@@ -55,14 +68,8 @@ export class AdminContainer extends LitElement {
     return html` <div class="wrapper">
       <h3>Add Color</h3>
       <form @submit="${this.handleFormSubmit}">
-        <label for="redInput">Red:</label>
-        <input type="number" id="redInput" name="numberInput" />
-
-        <label for="greenInput">Green:</label>
-        <input type="number" id="greenInput" name="numberInput" />
-
-        <label for="blueInput">Blue:</label>
-        <input type="number" id="blueInput" name="numberInput" />
+        <label for="colorInput">Color:</label>
+        <input type="color" id="colorInput" name="colorInput" />
 
         <label for="nameInput">Name:</label>
         <input type="text" id="nameInput" name="nameInput" />

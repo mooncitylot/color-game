@@ -5,6 +5,7 @@ import RouterBase from './router/router-base.js'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getDatabase, ref, set } from 'firebase/database'
+import { reset } from './utility/color-db.js'
 
 // @ts-ignore
 import routes from './router/routes.js'
@@ -32,6 +33,26 @@ const analytics = getAnalytics(app)
 class AppEnterElement extends RouterBase {
   connectedCallback() {
     super.connectedCallback()
+    this.resetAtMidnight()
+  }
+
+  resetAtMidnight() {
+    const now = new Date()
+    const midnight = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1, // Next day
+      0, // Midnight hours
+      0, // Midnight minutes
+      0 // Midnight seconds
+    )
+    const timeUntilMidnight = midnight.getTime() - now.getTime()
+    console.log('Time until reset', timeUntilMidnight)
+
+    setTimeout(() => {
+      reset()
+      this.resetAtMidnight()
+    }, timeUntilMidnight)
   }
 
   render() {

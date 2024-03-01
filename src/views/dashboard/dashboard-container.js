@@ -1,3 +1,4 @@
+//@ts
 import { LitElement, html, css } from 'lit'
 // @ts-ignore
 import BackArrowElement from '../../shared/back-arrow.js'
@@ -10,6 +11,7 @@ import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
 import {} from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
+import { getLives } from '../../utility/color-db.js'
 
 class DashboardContainerElement extends LitElement {
   static properties = {
@@ -18,15 +20,17 @@ class DashboardContainerElement extends LitElement {
     score: { type: Number },
     message: { type: String },
     disable: { type: Boolean },
+    lifeCount: { type: Number },
   }
   constructor() {
     super()
-    this.animateContentFadeIn()
     this.color = ''
     this.timeRemaining = this.calculateTimeRemaining()
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
+    this.lifeCount = getLives()
+    console.log('Life', this.lifeCount)
     if (this.score < 90) {
       this.disable = true
     }
@@ -75,6 +79,18 @@ class DashboardContainerElement extends LitElement {
   }
 
   render() {
+    if (this.lifeCount === 0) {
+      return this.renderYouLose()
+    }
+    if (this.score > 90) {
+      return this.renderYouWin()
+    }
+    this.animateContentFadeIn()
+
+    return this.renderDashboard()
+  }
+
+  renderDashboard() {
     return html`
       <div id="content" class="wrapper">
         ${this.disable
@@ -96,6 +112,22 @@ class DashboardContainerElement extends LitElement {
         <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
       </div>
     `
+  }
+
+  renderYouLose() {
+    return html`<div class="wrapper">
+      <h1>Sorry, you lost!</h1>
+      <p>Try Again Tomorrow</p>
+      <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
+    </div>`
+  }
+
+  renderYouWin() {
+    return html`<div class="wrapper">
+      <h1>Congratulations, you won!</h1>
+      <p>See you tomorrow</p>
+      <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
+    </div>`
   }
 
   static styles = css`
