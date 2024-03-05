@@ -125,6 +125,7 @@ class DashboardContainerElement extends LitElement {
   renderYouWin() {
     return html`<div class="wrapper">
       <h1>Congratulations, you won!</h1>
+
       <p>See you tomorrow</p>
       <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
     </div>`
@@ -212,6 +213,7 @@ class DashboardContainerElement extends LitElement {
       border: 4px solid;
       border-radius: 16px;
     }
+    // FIREWORKS
   `
 }
 

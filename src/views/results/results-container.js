@@ -21,6 +21,7 @@ class ResultsContainerElement extends LitElement {
     targetTotal: { type: Number },
     inputTotal: { type: Number },
     score: { type: Number },
+    roundedScore: { type: Number },
     differences: { type: Object },
     opened: { type: Boolean },
     message: { type: String },
@@ -42,19 +43,14 @@ class ResultsContainerElement extends LitElement {
     this.opened = false
     this.score = getCurrentScore()
     this.message = getMessage(this.score)
-    this.calculateDifference()
+    setTimeout(() => {
+      this.calculateDifference()
+    }, 100)
     if (this.score > 90) {
       this.won = true
     }
   }
-  animateContentFadeIn() {
-    requestAnimationFrame(() => {
-      const content = this.shadowRoot.getElementById('content')
-      setTimeout(() => {
-        content.style.opacity = '1'
-      }, 100)
-    })
-  }
+
   async connectedCallback() {
     super.connectedCallback()
     this.target = await getGoalColor()
@@ -67,10 +63,10 @@ class ResultsContainerElement extends LitElement {
     const newLife = this.lives - 1
     const input = this.input
 
-    const redScore = Math.abs(target.red - input.red)
-    const greenScore = Math.abs(target.green - input.green)
-    const blueScore = Math.abs(target.blue - input.blue)
-    const average = (redScore + greenScore + blueScore) / 3
+    const redScore = Math.abs(Math.ceil(target.red / 10) * 10 - Math.ceil((input.red / 10) * 10))
+    const greenScore = Math.abs(Math.ceil(target.green / 10) * 10 - Math.ceil((input.green / 10) * 10))
+    const blueScore = Math.abs(Math.ceil(target.blue / 10) * 10 - Math.ceil((input.blue / 10) * 10))
+    const average = Math.abs((redScore + greenScore + blueScore) / 3)
 
     console.log('redScore', redScore)
     console.log('greenScore', greenScore)
@@ -78,17 +74,18 @@ class ResultsContainerElement extends LitElement {
     console.log('average', average)
 
     this.score = Math.abs(100 - average).toFixed(0)
+    this.roundedScore = Math.round(this.score)
 
-    console.log('score', this.score)
+    console.log('score', this.roundedScore)
+
     saveLives(newLife)
-    saveCurrentScore(this.score)
+    saveCurrentScore(this.roundedScore)
   }
 
   render() {
-    if (this.score > 90) {
+    if (this.roundedScore >= 90) {
       return this.renderYouWin()
     }
-    this.animateContentFadeIn()
 
     return this.renderResults()
   }
@@ -114,6 +111,21 @@ class ResultsContainerElement extends LitElement {
   renderYouWin() {
     return html`<div class="wrapper">
       <h1>Congratulations, you won!</h1>
+      <script
+        src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+        type="module"
+      ></script>
+      <dotlottie-player
+        src="https://lottie.host/272b60dd-462d-42a3-8ed6-fec4143633d6/X4FxBascRI.json"
+        background="transparent"
+        speed="1"
+        style="width: 300px; height: 300px"
+        direction="1"
+        playMode="normal"
+        loop
+        controls
+        autoplay
+      ></dotlottie-player>
       <p>See you tomorrow</p>
       <div
         style="background-color: rgba(${this.input.red} ${this.input.green} ${this.input.blue})"
@@ -147,7 +159,7 @@ class ResultsContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      opacity: 0;
+      opacity: 1;
       transition: opacity 1s;
       gap: 32px;
     }
