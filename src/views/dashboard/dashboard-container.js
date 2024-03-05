@@ -12,6 +12,7 @@ import {} from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
 import { getLives } from '../../utility/color-db.js'
+import FireworksElement from '../../shared/fireworks.js'
 
 class DashboardContainerElement extends LitElement {
   static properties = {
@@ -125,7 +126,7 @@ class DashboardContainerElement extends LitElement {
   renderYouWin() {
     return html`<div class="wrapper">
       <h1>Congratulations, you won!</h1>
-
+      <fireworks-element></fireworks-element>
       <p>See you tomorrow</p>
       <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
     </div>`
