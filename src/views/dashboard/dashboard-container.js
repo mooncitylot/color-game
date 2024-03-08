@@ -260,7 +260,11 @@ class DashboardContainerElement extends LitElement {
       width: 75px;
       height: 75px;
       border-radius: 8px;
-      border: 2px solid #d9d9d9;
+      border: 4px solid black;
+    }
+    .small-result-preview p {
+      font-size: 24px;
+      box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);
     }
     // FIREWORKS
   `
