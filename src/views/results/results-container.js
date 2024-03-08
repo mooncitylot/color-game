@@ -7,6 +7,7 @@ import {
   getMessage,
   getLives,
   saveLives,
+  saveLastColor,
 } from '../../utility/color-db.js'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
@@ -75,15 +76,10 @@ class ResultsContainerElement extends LitElement {
     const blueScore = Math.abs(Math.ceil(target.blue / 10) * 10 - Math.ceil((input.blue / 10) * 10))
     const average = Math.abs((redScore + greenScore + blueScore) / 3)
 
-    console.log('redScore', redScore)
-    console.log('greenScore', greenScore)
-    console.log('blueScore', blueScore)
-    console.log('average', average)
-
     this.score = Math.abs(100 - average).toFixed(0)
     this.roundedScore = Math.round(this.score)
 
-    console.log('score', this.roundedScore)
+    saveLastColor(input)
 
     saveLives(newLife)
     saveCurrentScore(this.roundedScore)

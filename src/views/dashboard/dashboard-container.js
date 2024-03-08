@@ -4,10 +4,10 @@ import { LitElement, html, css } from 'lit'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
-import { getGoalColorName } from '../../utility/color-db.js'
+import { getGoalColorName, getGoalColor, getInput } from '../../utility/color-db.js'
 // @ts-ignore
 import ProgressBar from '../../shared/progress-bar.js'
-import { getDailyHighScore, getMessage } from '../../utility/color-db.js'
+import { getDailyHighScore, getMessage, GetLastColor } from '../../utility/color-db.js'
 import {} from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
@@ -23,6 +23,8 @@ class DashboardContainerElement extends LitElement {
     message: { type: String },
     disable: { type: Boolean },
     lifeCount: { type: Number },
+    colorRGB: { type: Object },
+    inputRGB: { type: Object },
   }
   constructor() {
     super()
@@ -41,7 +43,9 @@ class DashboardContainerElement extends LitElement {
   async connectedCallback() {
     super.connectedCallback()
     this.color = await getGoalColorName()
-    console.log('Dashboard', this.color)
+    this.colorRGB = await getGoalColor()
+    this.inputRGB = await GetLastColor()
+    console.log('input' + this.inputRGB)
     this.requestUpdate()
   }
 
@@ -121,6 +125,20 @@ class DashboardContainerElement extends LitElement {
       <h1>Sorry, you lost!</h1>
       ${loseIcon}
       <p>Try Again Tomorrow</p>
+      <div style="display: flex; gap: 16px;">
+        <div
+          class="small-result-preview"
+          style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
+        >
+          <p>Goal Color</p>
+        </div>
+        <div
+          class="small-result-preview"
+          style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
+        >
+          <p>Your Color</p>
+        </div>
+      </div>
       <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
     </div>`
   }
@@ -130,6 +148,20 @@ class DashboardContainerElement extends LitElement {
       <h1>Congratulations, you won!</h1>
       ${winIcon}
       <p>See you tomorrow</p>
+      <div style="display: flex; gap: 16px;">
+        <div
+          class="small-result-preview"
+          style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
+        >
+          <p>Goal Color</p>
+        </div>
+        <div
+          class="small-result-preview"
+          style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
+        >
+          <p>Your Color</p>
+        </div>
+      </div>
       <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
     </div>`
   }
@@ -218,6 +250,17 @@ class DashboardContainerElement extends LitElement {
       font-weight: bold;
       border: 4px solid;
       border-radius: 16px;
+    }
+    .small-result-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 75px;
+      height: 75px;
+      border-radius: 8px;
+      border: 2px solid #d9d9d9;
     }
     // FIREWORKS
   `

@@ -6,6 +6,7 @@ const CURRENT_SCORE = 'current-score'
 const DAILY_HIGH_SCORE = 'daily-high-score'
 const LIVES = 'lives'
 const DATE = 'date'
+const LAST_COLOR = 'last-color'
 
 /**
  * @param {{ getMonth: () => number; getDate: () => any; getFullYear: () => any; }} date
@@ -101,6 +102,21 @@ export function getCurrentScore() {
   const score = localStorage.getItem(CURRENT_SCORE)
   return JSON.parse(score)
 }
+
+/**
+ * @param {any} color
+ */
+export function saveLastColor(color) {
+  localStorage.setItem(LAST_COLOR, JSON.stringify(color))
+  console.log('Last color saved', color)
+}
+
+export function GetLastColor() {
+  const color = localStorage.getItem(LAST_COLOR)
+  console.log('Last color', color)
+  return JSON.parse(color)
+}
+
 // @ts-ignore
 
 export function saveDailyHighScore(score) {
