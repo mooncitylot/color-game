@@ -153,7 +153,6 @@ export function reset() {
   localStorage.setItem(CURRENT_SCORE, JSON.stringify(0))
   localStorage.setItem(DAILY_HIGH_SCORE, JSON.stringify(0))
   localStorage.setItem(LIVES, JSON.stringify(5))
-  alert('Reset complete')
 }
 
 /**

@@ -20,7 +20,6 @@ class LoginContainerElement extends LitElement {
       <div class="background">
         <div class="wrapper">
           <button class="login-option-1" @click=${() => go(routes.DASHBOARD.path)}>Start Game</button>
-          <button class="login-option-1" @click=${() => reset()}>Reset for testing purposes</button>
         </div>
         <div style="margin-top: 80px;" class="wrapper">
           <a @click=${() => go(routes.ADMIN.path)}>Admin</a>

@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit'
 
 import { setColor } from '../../utility/firebase-utils.js'
 import { set } from 'firebase/database'
-
+import { reset } from '../../utility/color-db.js'
 export class AdminContainer extends LitElement {
   static properties = {
     unlocked: { type: Boolean },
@@ -55,7 +55,7 @@ export class AdminContainer extends LitElement {
       ${this.unlocked
         ? ''
         : html` <div class="wrapper">
-            <h3>Enter Pin</h3>
+            <h3>Enter Passphrase</h3>
             <input type="password" />
             <button @click=${this.checkPassword}>Submit</button>
           </div>
@@ -80,6 +80,7 @@ export class AdminContainer extends LitElement {
         <button type="submit">Submit Color</button>
       </form>
       <button @click=${() => (this.unlocked = false)}>Lock</button>
+      <button class="login-option-1" @click=${() => reset()}>Reset for testing purposes</button>
     </div>`
   }
 
