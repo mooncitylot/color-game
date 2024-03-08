@@ -93,7 +93,7 @@ class DashboardContainerElement extends LitElement {
   }
   render() {
     if (this.lifeCount === 0) {
-      return this.renderYouWin()
+      return this.renderYouLose()
     }
     if (this.score > 90) {
       return this.renderYouWin()
