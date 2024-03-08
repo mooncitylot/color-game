@@ -68,7 +68,7 @@ class AppEnterElement extends RouterBase {
 
     slot {
       display: block;
-      margin-top: 120px;
+      margin-top: 80px;
     }
   `
 }

@@ -47,6 +47,7 @@ class AppHeaderElement extends LitElement {
       font-family: 'Arial';
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
       gap: 16px;
+      margin: 0;
     }
     .rainbow-container {
       position: absolute;
