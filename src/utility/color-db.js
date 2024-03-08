@@ -5,6 +5,7 @@ const COLOR_INPUT = 'color-input'
 const CURRENT_SCORE = 'current-score'
 const DAILY_HIGH_SCORE = 'daily-high-score'
 const LIVES = 'lives'
+const DATE = 'date'
 
 /**
  * @param {{ getMonth: () => number; getDate: () => any; getFullYear: () => any; }} date
@@ -153,4 +154,18 @@ export function reset() {
   localStorage.setItem(DAILY_HIGH_SCORE, JSON.stringify(0))
   localStorage.setItem(LIVES, JSON.stringify(5))
   alert('Reset complete')
+}
+
+/**
+ * @param {any} date
+ */
+export function saveDate(date) {
+  localStorage.setItem(DATE, JSON.stringify(date))
+  console.log('Date saved' + date)
+}
+
+export function getDate() {
+  const date = localStorage.getItem(DATE)
+  console.log('Date retrieved' + date)
+  return JSON.parse(date)
 }
