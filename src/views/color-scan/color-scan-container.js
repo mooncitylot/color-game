@@ -154,8 +154,7 @@ class ColorScanContainerElement extends LitElement {
       </div>
       <div class="buttons">
         <rainbow-button @click="${this.handleSubmit}" text="Submit"></rainbow-button>
-        <p>Having trouble?</p>
-        <a @click="${this.retryConnection}">Relaunch Camera</a>
+        <a @click=${() => go(routes.COLOR_SCAN.path)}>Take New Photo</a>
       </div>
     `
   }
