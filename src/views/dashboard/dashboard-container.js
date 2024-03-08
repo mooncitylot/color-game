@@ -25,6 +25,7 @@ class DashboardContainerElement extends LitElement {
     lifeCount: { type: Number },
     colorRGB: { type: Object },
     inputRGB: { type: Object },
+    showResults: { type: Boolean },
   }
   constructor() {
     super()
@@ -34,6 +35,7 @@ class DashboardContainerElement extends LitElement {
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
     this.lifeCount = getLives()
+    this.showResults = false
     console.log('Life', this.lifeCount)
     if (this.score < 90) {
       this.disable = true
@@ -84,9 +86,14 @@ class DashboardContainerElement extends LitElement {
     })
   }
 
+  toggleResults() {
+    this.showResults = !this.showResults
+    console.log(this.showResults)
+    this.requestUpdate()
+  }
   render() {
     if (this.lifeCount === 0) {
-      return this.renderYouLose()
+      return this.renderYouWin()
     }
     if (this.score > 90) {
       return this.renderYouWin()
@@ -121,49 +128,80 @@ class DashboardContainerElement extends LitElement {
   }
 
   renderYouLose() {
-    return html`<div class="wrapper">
-      <h1>Sorry, you lost!</h1>
-      ${loseIcon}
-      <p>Try Again Tomorrow</p>
-      <div style="display: flex; gap: 16px;">
-        <div
-          class="small-result-preview"
-          style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
-        >
-          <p>Goal Color</p>
+    return html` <div class="${this.showResults ? 'dimmer' : ''}"></div>
+
+      <div class="wrapper">
+        <div class="score-wrapper">
+          <h1>Sorry, you lost!</h1>
+          <p>Try Again Tomorrow</p>
+          ${loseIcon}
+          <div style="display: flex; gap: 16px;">
+            <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
+            <a @click=${this.toggleResults}>Results</a>
+          </div>
         </div>
-        <div
-          class="small-result-preview"
-          style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
-        >
-          <p>Your Color</p>
-        </div>
-      </div>
-      <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
-    </div>`
+        <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}
+          ><div>
+            <p>Accuracy: ${this.score}%</p>
+            <progress-bar .progress=${this.score}></progress-bar>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div
+              class="small-result-preview"
+              style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
+            >
+              <p>Goal Color</p>
+            </div>
+            <div
+              class="small-result-preview"
+              style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
+            >
+              <p>Your Color</p>
+            </div>
+          </div>
+
+          <a @click=${this.toggleResults}>Close</a>
+        </dialog-box>
+      </div>`
   }
 
   renderYouWin() {
-    return html`<div class="wrapper">
-      <h1>Congratulations, you won!</h1>
-      ${winIcon}
-      <p>See you tomorrow</p>
-      <div style="display: flex; gap: 16px;">
-        <div
-          class="small-result-preview"
-          style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
-        >
-          <p>Goal Color</p>
+    return html` <div class="${this.showResults ? 'dimmer' : ''}"></div>
+
+      <div class="wrapper">
+        <div class="score-wrapper">
+          <h1>Congratulations, you won!</h1>
+          <p>See you tomorrow</p>
+          ${winIcon}
+
+          <div style="display: flex; gap: 16px;">
+            <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
+            <a @click=${this.toggleResults}>Results</a>
+          </div>
         </div>
-        <div
-          class="small-result-preview"
-          style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
-        >
-          <p>Your Color</p>
-        </div>
-      </div>
-      <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
-    </div>`
+        <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
+          <div>
+            <p>Accuracy: ${this.score}%</p>
+            <progress-bar .progress=${this.score}></progress-bar>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div
+              class="small-result-preview"
+              style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
+            >
+              <p>Goal Color</p>
+            </div>
+            <div
+              class="small-result-preview"
+              style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
+            >
+              <p>Your Color</p>
+            </div>
+          </div>
+
+          <a @click=${this.toggleResults}>Close</a>
+        </dialog-box>
+      </div>`
   }
 
   static styles = css`
@@ -184,6 +222,33 @@ class DashboardContainerElement extends LitElement {
       position: relative;
       font-family: 'Arial';
     }
+    dialog-box {
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      top: 80px;
+      gap: 24px;
+      margin: auto;
+      z-index: 100;
+      padding: 16px;
+      max-width: 500px;
+      background-color: #e3e1d9;
+      border: 2px solid #515151;
+      border-radius: 16px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .dimmer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
     #content {
       opacity: 0;
       transition: opacity 1s;
@@ -193,7 +258,7 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 16px;
       width: 100%;
       padding: 16px;
       background-color: #f0f0f0;
@@ -203,8 +268,16 @@ class DashboardContainerElement extends LitElement {
     .score-wrapper h4 {
       margin: 0;
     }
+    .score-wrapper h1 {
+      margin: 0;
+      color: #515151;
+    }
     .score-wrapper progress-bar {
       scale: 0.75;
+    }
+    .score-wrapper svg {
+      width: 150px;
+      height: 150px;
     }
     .stats {
       display: flex;
@@ -257,17 +330,19 @@ class DashboardContainerElement extends LitElement {
       align-items: center;
       justify-content: center;
       gap: 16px;
-      width: 75px;
-      height: 75px;
-      border-radius: 8px;
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
       border: 4px solid #515151;
     }
     .small-result-preview p {
-      font-size: 24px;
+      font-size: 20px;
       box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);
       color: #515151;
     }
-    // FIREWORKS
+    .hidden {
+      display: none;
+    }
   `
 }
 
