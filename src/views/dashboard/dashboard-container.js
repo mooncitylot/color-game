@@ -95,7 +95,7 @@ class DashboardContainerElement extends LitElement {
     if (this.lifeCount === 0) {
       return this.renderYouLose()
     }
-    if (this.score > 90) {
+    if (this.score > 80) {
       return this.renderYouWin()
     }
     this.animateContentFadeIn()
@@ -113,7 +113,7 @@ class DashboardContainerElement extends LitElement {
                 <h2>"${this.color}"</h2>
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
-                <p>Score a 90% or higher to complete today's hunt!</p>
+                <p>Score a 80% or higher to complete today's hunt!</p>
                 <life-count></life-count>
               </div>
             </div> `

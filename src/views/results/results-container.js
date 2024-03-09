@@ -47,7 +47,7 @@ class ResultsContainerElement extends LitElement {
     setTimeout(() => {
       this.calculateDifference()
     }, 100)
-    if (this.score > 90) {
+    if (this.score > 80) {
       this.won = true
     }
   }
@@ -86,7 +86,7 @@ class ResultsContainerElement extends LitElement {
   }
 
   render() {
-    if (this.roundedScore >= 90) {
+    if (this.roundedScore >= 80) {
       return this.renderYouWin()
     }
 
