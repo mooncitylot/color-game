@@ -134,7 +134,7 @@ class DashboardContainerElement extends LitElement {
         <div class="score-wrapper">
           <h1>Sorry, you lost!</h1>
           <p>Try Again Tomorrow</p>
-          ${loseIcon}
+          <div class="icon">${loseIcon}</div>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
@@ -172,8 +172,7 @@ class DashboardContainerElement extends LitElement {
         <div class="score-wrapper">
           <h1>Congratulations, you won!</h1>
           <p>See you tomorrow</p>
-          ${winIcon}
-
+          <div class="icon">${winIcon}</div>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
@@ -240,6 +239,12 @@ class DashboardContainerElement extends LitElement {
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
     }
 
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 24px;
+    }
     .dimmer {
       position: fixed;
       top: 0;
@@ -258,7 +263,7 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 8px;
       width: 100%;
       padding: 16px;
       background-color: #f0f0f0;

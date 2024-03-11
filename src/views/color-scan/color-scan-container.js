@@ -284,7 +284,7 @@ class ColorScanContainerElement extends LitElement {
       overflow: hidden;
       width: 400px;
       height: 400px;
-      border-radius: 32px;
+      border-radius: 50%;
       scale: 0.75;
       border: 8px solid grey;
     }
@@ -302,7 +302,7 @@ class ColorScanContainerElement extends LitElement {
       width: 200px;
       margin-bottom: 24px;
       border: 8px solid #515151;
-      border-radius: 32px;
+      border-radius: 50%;
     }
     .hide {
       display: none;

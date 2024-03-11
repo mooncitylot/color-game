@@ -181,8 +181,8 @@ class ResultsContainerElement extends LitElement {
       gap: 16px;
       width: 300px;
       height: 300px;
-      border-radius: 8px;
-      border: 2px solid #d9d9d9;
+      border-radius: 50%;
+      border: 8px solid #515151;
     }
     .small-result-preview {
       display: flex;
