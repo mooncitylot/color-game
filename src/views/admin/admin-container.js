@@ -47,7 +47,13 @@ export class AdminContainer extends LitElement {
 
     setColor(colorRGB.r, colorRGB.g, colorRGB.b, name.value, date.value)
 
+    alert('Color added')
+
     // setColor(red.value, green.value, blue.value, name.value, date.value)
+  }
+
+  resetAndAlert() {
+    alert('Resetting the database')
   }
 
   render() {
@@ -80,7 +86,7 @@ export class AdminContainer extends LitElement {
         <button type="submit">Submit Color</button>
       </form>
       <button @click=${() => (this.unlocked = false)}>Lock</button>
-      <button class="login-option-1" @click=${() => reset()}>Reset for testing purposes</button>
+      <button class="login-option-1" @click=${this.resetAndAlert}>Reset for testing purposes</button>
     </div>`
   }
 
@@ -90,6 +96,11 @@ export class AdminContainer extends LitElement {
       padding: 25px;
       font-family: Roboto, sans-serif;
     }
+    input {
+      width: 100px;
+      font-size: 16px; /* Prevent zooming on iOS */
+    }
+
     .wrapper {
       display: flex;
       flex-direction: column;

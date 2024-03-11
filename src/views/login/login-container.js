@@ -22,7 +22,8 @@ class LoginContainerElement extends LitElement {
           <button class="login-option-1" @click=${() => go(routes.DASHBOARD.path)}>Start Game</button>
         </div>
         <div style="margin-top: 80px;" class="wrapper">
-          <a @click=${() => go(routes.ADMIN.path)}>Made by Tyler 2024</a>
+          <a style="color: #515151" href="mailto:mooncitylot@gmail.com">Report a Problem</a>
+          <a style="text-decoration: none;" @click=${() => go(routes.ADMIN.path)}>Made by Tyler 2024</a>
         </div>
       </div>
 
