@@ -21,7 +21,6 @@ class AppHeaderElement extends LitElement {
   render() {
     return html`
       <div class="header">
-        <h2 style="color: #515151;">Color Game</h2>
         <div class="rainbow-container">
           <div class="rainbow-child" style="background-color: #9E4597;"></div>
           <div class="rainbow-child" style="background-color: #5574B8;"></div>
@@ -29,6 +28,7 @@ class AppHeaderElement extends LitElement {
           <div class="rainbow-child" style="background-color: #E19E2B;"></div>
           <div class="rainbow-child" style="background-color: #BD3339;"></div>
         </div>
+        <span @click=${() => go(routes.DASHBOARD.path)}><h2>Color Game</h2></span>
       </div>
     `
   }
