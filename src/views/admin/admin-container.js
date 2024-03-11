@@ -54,6 +54,7 @@ export class AdminContainer extends LitElement {
 
   resetAndAlert() {
     alert('Resetting the database')
+    reset()
   }
 
   render() {
