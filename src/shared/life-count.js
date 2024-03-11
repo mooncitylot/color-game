@@ -36,7 +36,7 @@ class lifeCount extends LitElement {
 
   renderFiveLives() {
     return html`<div class="life-count">
-      ${heartIconRed} ${heartIconRed} ${heartIconRed} ${heartIconRed} ${heartIconRed}
+      <h4>Tries Left: 5</h4>
     </div>`
   }
 
@@ -45,7 +45,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      ${heartIconRed} ${heartIconRed} ${heartIconRed} ${heartIconRed} ${heartIconGrey}
+      <h4>Tries Left: 4</h4>
     </div>`
   }
 
@@ -54,7 +54,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      ${heartIconRed} ${heartIconRed} ${heartIconRed} ${heartIconGrey} ${heartIconGrey}
+      <h4>Tries Left: 3</h4>
     </div>`
   }
 
@@ -63,7 +63,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      ${heartIconRed} ${heartIconRed} ${heartIconGrey} ${heartIconGrey} ${heartIconGrey}
+      <h4>Tries Left: 2</h4>
     </div>`
   }
 
@@ -72,7 +72,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      ${heartIconRed} ${heartIconGrey} ${heartIconGrey} ${heartIconGrey} ${heartIconGrey}
+      <h4>Tries Left: 1</h4>
     </div>`
   }
 
