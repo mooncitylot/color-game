@@ -178,7 +178,6 @@ class ColorScanContainerElement extends LitElement {
       align-items: center;
       justify-content: center;
       width: 100%;
-      gap: 16px;
       overflow-x: hidden;
       font-family: 'Arial';
     }

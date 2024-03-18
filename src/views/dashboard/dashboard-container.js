@@ -129,12 +129,11 @@ class DashboardContainerElement extends LitElement {
       <div class="wrapper">
         <div class="score-wrapper">
           <h1>Game Over!</h1>
-          <p>See you tomorrow</p>
-          <p>Score ${this.score}%</p>
           <stars-element></stars-element>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
+            <a @click=${() => alert('Not Ready Yet!!!!')}>Share</a>
           </div>
         </div>
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
@@ -164,12 +163,19 @@ class DashboardContainerElement extends LitElement {
 
   static styles = css`
     a {
-      color: #515151;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      height: 40px;
       text-decoration: none;
-      font-size: 24px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      text-decoration: underline;
+      color: #515151;
+      border: 2px solid #b4b4b8;
+      border-radius: 4px;
+      background-color: white;
     }
     :host {
       display: flex;
@@ -222,7 +228,7 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 16px;
       width: 100%;
       padding: 16px;
       background-color: #f0f0f0;

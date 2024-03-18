@@ -29,29 +29,39 @@ class StarsElement extends LitElement {
     }
   }
   renderFiveStars() {
-    return html`<div>${goldStar}${goldStar}${goldStar}${goldStar}${goldStar}</div>`
+    return html` <h1>Incredible!</h1>
+      <div>${goldStar}${goldStar}${goldStar}${goldStar}${goldStar}</div>`
   }
   renderFourStars() {
-    return html`<div>${goldStar}${goldStar}${goldStar}${goldStar}${greyStar}</div>`
+    return html` <h4>Great job!</h4>
+      <div>${goldStar}${goldStar}${goldStar}${goldStar}${greyStar}</div>`
   }
   renderThreeStars() {
-    return html`<div>${goldStar}${goldStar}${goldStar}${greyStar}${greyStar}</div>`
+    return html` <h4>Not bad!</h4>
+      <div>${goldStar}${goldStar}${goldStar}${greyStar}${greyStar}</div>`
   }
   renderTwoStars() {
-    return html`<div>${goldStar}${goldStar}${greyStar}${greyStar}${greyStar}</div>`
+    return html` <h4>I think you can do better...</h4>
+      <div>${goldStar}${goldStar}${greyStar}${greyStar}${greyStar}</div>`
   }
   renderOneStar() {
-    return html`<div>${goldStar}${greyStar}${greyStar}${greyStar}${greyStar}</div>`
+    return html` <h4>Too bad...</h4>
+      <div>${goldStar}${greyStar}${greyStar}${greyStar}${greyStar}</div>`
   }
   static styles = css`
     div {
       display: flex;
       justify-content: center;
       align-items: center;
+      gap: 16px;
     }
     div > svg {
-      width: 50px;
-      height: 50px;
+      width: 32px;
+      height: 32px;
+    }
+    h4 {
+      margin: 16px;
+      color: #515151;
     }
   `
 }
