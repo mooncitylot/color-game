@@ -13,7 +13,7 @@ import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
 import { getLives } from '../../utility/color-db.js'
 import FireworksElement from '../../shared/fireworks.js'
-import { winIcon, loseIcon } from '../../assets/icons.js'
+import StarsElement from '../../shared/stars.js'
 
 class DashboardContainerElement extends LitElement {
   static properties = {
@@ -93,11 +93,9 @@ class DashboardContainerElement extends LitElement {
   }
   render() {
     if (this.lifeCount === 0) {
-      return this.renderYouLose()
+      return this.renderGameOver()
     }
-    if (this.score > 80) {
-      return this.renderYouWin()
-    }
+
     this.animateContentFadeIn()
 
     return this.renderDashboard()
@@ -113,7 +111,6 @@ class DashboardContainerElement extends LitElement {
                 <h2>"${this.color}"</h2>
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
-                <p>Score a 80% or higher to complete today's hunt!</p>
                 <life-count></life-count>
               </div>
             </div> `
@@ -127,52 +124,14 @@ class DashboardContainerElement extends LitElement {
     `
   }
 
-  renderYouLose() {
+  renderGameOver() {
     return html` <div class="${this.showResults ? 'dimmer' : ''}"></div>
-
       <div class="wrapper">
         <div class="score-wrapper">
-          <h1>Sorry, you lost!</h1>
-          <p>Try Again Tomorrow</p>
-          <div class="icon">${loseIcon}</div>
-          <div style="display: flex; gap: 16px;">
-            <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
-            <a @click=${this.toggleResults}>Results</a>
-          </div>
-        </div>
-        <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}
-          ><div>
-            <p>Accuracy: ${this.score}%</p>
-            <progress-bar .progress=${this.score}></progress-bar>
-          </div>
-          <div style="display: flex; gap: 16px;">
-            <div
-              class="small-result-preview"
-              style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
-            >
-              <p>Goal Color</p>
-            </div>
-            <div
-              class="small-result-preview"
-              style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
-            >
-              <p>Your Color</p>
-            </div>
-          </div>
-
-          <a @click=${this.toggleResults}>Close</a>
-        </dialog-box>
-      </div>`
-  }
-
-  renderYouWin() {
-    return html` <div class="${this.showResults ? 'dimmer' : ''}"></div>
-
-      <div class="wrapper">
-        <div class="score-wrapper">
-          <h1>Congratulations, you won!</h1>
+          <h1>Game Over!</h1>
           <p>See you tomorrow</p>
-          <div class="icon">${winIcon}</div>
+          <p>Score ${this.score}%</p>
+          <stars-element></stars-element>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
