@@ -153,6 +153,7 @@ class DashboardContainerElement extends LitElement {
       <div class="wrapper">
         <div class="score-wrapper">
           <h1>Game Over!</h1>
+          <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
           <stars-element></stars-element>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
@@ -384,6 +385,7 @@ class DashboardContainerElement extends LitElement {
       align-items: center;
       justify-content: center;
       padding: 16px;
+      margin: 16px;
       background-color: white;
       border: 2px solid #515151;
     }
