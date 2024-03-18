@@ -150,3 +150,43 @@ export const loseIcon = html`<svg
   <rect x="29" y="123" width="95" height="25.2907" fill="#E19E2B" />
   <path d="M72 217C88.5086 194.359 138.22 154.09 204.998 174.143" stroke="black" stroke-width="14" />
 </svg> `
+
+export const goldStar = html`<svg
+  width="80"
+  height="80"
+  viewBox="0 0 80 80"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <mask id="mask0_45_7" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="80" height="80">
+    <rect x="2" y="2" width="76" height="76" fill="#D9D9D9" stroke="#515151" stroke-width="4" />
+  </mask>
+  <g mask="url(#mask0_45_7)">
+    <path
+      d="M26.1435 45.0722L11.5468 32.4172L30.8397 30.7425L32.04 30.6383L32.509 29.5286L40.0001 11.8041L47.4912 29.5286L47.9602 30.6383L49.1605 30.7425L68.4533 32.4172L53.8566 45.0722L52.9468 45.8609L53.2182 47.0341L57.5698 65.8463L41.0331 55.8708L40.0001 55.2476L38.967 55.8708L22.4304 65.8463L26.782 47.0341L27.0533 45.8609L26.1435 45.0722Z"
+      fill="#E19E2B"
+      stroke="#515151"
+      stroke-width="4"
+    />
+  </g>
+</svg> `
+
+export const greyStar = html`<svg
+  width="80"
+  height="80"
+  viewBox="0 0 80 80"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <mask id="mask0_45_16" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="80" height="80">
+    <rect x="2" y="2" width="76" height="76" fill="#D9D9D9" stroke="#515151" stroke-width="4" />
+  </mask>
+  <g mask="url(#mask0_45_16)">
+    <path
+      d="M26.1435 45.0722L11.5468 32.4172L30.8397 30.7425L32.04 30.6383L32.509 29.5286L40.0001 11.8041L47.4912 29.5286L47.9602 30.6383L49.1605 30.7425L68.4533 32.4172L53.8566 45.0722L52.9468 45.8609L53.2182 47.0341L57.5698 65.8463L41.0331 55.8708L40.0001 55.2476L38.967 55.8708L22.4304 65.8463L26.782 47.0341L27.0533 45.8609L26.1435 45.0722Z"
+      fill="#B4B4B8"
+      stroke="#515151"
+      stroke-width="4"
+    />
+  </g>
+</svg> `

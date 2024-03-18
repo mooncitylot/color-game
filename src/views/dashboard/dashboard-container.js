@@ -13,7 +13,8 @@ import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
 import { getLives } from '../../utility/color-db.js'
 import FireworksElement from '../../shared/fireworks.js'
-import { winIcon, loseIcon } from '../../assets/icons.js'
+import StarsElement from '../../shared/stars.js'
+import shareElement from '../../shared/share.js'
 
 class DashboardContainerElement extends LitElement {
   static properties = {
@@ -26,6 +27,7 @@ class DashboardContainerElement extends LitElement {
     colorRGB: { type: Object },
     inputRGB: { type: Object },
     showResults: { type: Boolean },
+    showShare: { type: Boolean },
   }
   constructor() {
     super()
@@ -36,6 +38,7 @@ class DashboardContainerElement extends LitElement {
     this.message = getMessage(this.score)
     this.lifeCount = getLives()
     this.showResults = false
+    this.showShare = false
     console.log('Life', this.lifeCount)
     if (this.score < 90) {
       this.disable = true
@@ -91,13 +94,16 @@ class DashboardContainerElement extends LitElement {
     console.log(this.showResults)
     this.requestUpdate()
   }
+  toggleShare() {
+    this.showShare = !this.showShare
+    console.log(this.showShare)
+    this.requestUpdate()
+  }
   render() {
     if (this.lifeCount === 0) {
-      return this.renderYouLose()
+      return this.renderGameOver()
     }
-    if (this.score > 80) {
-      return this.renderYouWin()
-    }
+
     this.animateContentFadeIn()
 
     return this.renderDashboard()
@@ -113,7 +119,6 @@ class DashboardContainerElement extends LitElement {
                 <h2>"${this.color}"</h2>
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
-                <p>Score a 80% or higher to complete today's hunt!</p>
                 <life-count></life-count>
               </div>
             </div> `
@@ -127,57 +132,28 @@ class DashboardContainerElement extends LitElement {
     `
   }
 
-  renderYouLose() {
+  renderGameOver() {
     return html` <div class="${this.showResults ? 'dimmer' : ''}"></div>
-
       <div class="wrapper">
         <div class="score-wrapper">
-          <h1>Sorry, you lost!</h1>
-          <p>Try Again Tomorrow</p>
-          <div class="icon">${loseIcon}</div>
+          <h1>Game Over!</h1>
+          <stars-element></stars-element>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
+            <a @click=${this.toggleShare}>Share</a>
           </div>
-        </div>
-        <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}
-          ><div>
-            <p>Accuracy: ${this.score}%</p>
-            <progress-bar .progress=${this.score}></progress-bar>
-          </div>
-          <div style="display: flex; gap: 16px;">
-            <div
-              class="small-result-preview"
-              style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
-            >
-              <p>Goal Color</p>
-            </div>
-            <div
-              class="small-result-preview"
-              style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
-            >
-              <p>Your Color</p>
+          <div class="${this.showShare ? '' : 'hidden'}">
+            <div class="popup">
+              <div class="popup-content">
+                <h1>Share your score</h1>
+                <p>Share your score with your friends and challenge them to beat it!</p>
+                <button class="share-button" @click=${this.toggleShare}>Close</button>
+              </div>
             </div>
           </div>
-
-          <a @click=${this.toggleResults}>Close</a>
-        </dialog-box>
-      </div>`
-  }
-
-  renderYouWin() {
-    return html` <div class="${this.showResults ? 'dimmer' : ''}"></div>
-
-      <div class="wrapper">
-        <div class="score-wrapper">
-          <h1>Congratulations, you won!</h1>
-          <p>See you tomorrow</p>
-          <div class="icon">${winIcon}</div>
-          <div style="display: flex; gap: 16px;">
-            <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
-            <a @click=${this.toggleResults}>Results</a>
-          </div>
         </div>
+
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
           <div>
             <p>Accuracy: ${this.score}%</p>
@@ -205,12 +181,19 @@ class DashboardContainerElement extends LitElement {
 
   static styles = css`
     a {
-      color: #515151;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      height: 40px;
       text-decoration: none;
-      font-size: 24px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      text-decoration: underline;
+      color: #515151;
+      border: 2px solid #b4b4b8;
+      border-radius: 4px;
+      background-color: white;
     }
     :host {
       display: flex;
@@ -263,7 +246,7 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 16px;
       width: 100%;
       padding: 16px;
       background-color: #f0f0f0;
@@ -347,6 +330,35 @@ class DashboardContainerElement extends LitElement {
     }
     .hidden {
       display: none;
+    }
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
+      background-color: white;
+      padding: 24px;
+      border-radius: 8px;
+    }
+    .share-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    .share-button {
+      padding: 8px 16px;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      color: #515151;
+    }
+    .share-button:hover {
+      cursor: pointer;
     }
   `
 }

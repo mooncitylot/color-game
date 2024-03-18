@@ -86,7 +86,7 @@ class ResultsContainerElement extends LitElement {
   }
 
   render() {
-    if (this.roundedScore >= 80) {
+    if (this.lives === 0) {
       return this.renderYouWin()
     }
 
@@ -106,7 +106,7 @@ class ResultsContainerElement extends LitElement {
             class="result-preview"
           ></div>
         </div>
-        <div class="results-option" @click=${() => go(routes.DASHBOARD.path)}>Try Again</div>
+        <div class="results-option" @click=${() => go(routes.DASHBOARD.path)}>Home</div>
       </div>
     `
   }
