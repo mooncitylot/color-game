@@ -28,6 +28,7 @@ class DashboardContainerElement extends LitElement {
     inputRGB: { type: Object },
     showResults: { type: Boolean },
     showShare: { type: Boolean },
+    shareMessage: { type: String },
   }
   constructor() {
     super()
@@ -39,6 +40,7 @@ class DashboardContainerElement extends LitElement {
     this.lifeCount = getLives()
     this.showResults = false
     this.showShare = false
+    this.shareMessage = this.createShareMessage()
     console.log('Life', this.lifeCount)
     if (this.score < 90) {
       this.disable = true
@@ -99,6 +101,20 @@ class DashboardContainerElement extends LitElement {
     console.log(this.showShare)
     this.requestUpdate()
   }
+  createShareMessage() {
+    return 'I scored ' + this.score + '% on the Color Game. Can you beat me? ' + 'https://bit.ly/48YKlHN'
+  }
+  copyText() {
+    const copyText = this.shadowRoot.getElementById('copyMe')
+    const textArea = document.createElement('textarea')
+    textArea.value = copyText.innerText
+    document.body.appendChild(textArea)
+    textArea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textArea)
+    alert('Copied to clipboard!')
+    this.toggleShare()
+  }
   render() {
     if (this.lifeCount === 0) {
       return this.renderGameOver()
@@ -127,7 +143,7 @@ class DashboardContainerElement extends LitElement {
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color</button> `
           : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play</button>
-        <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
+        <a style="border: none; text-decoration: underline;" @click=${() => go(routes.LOGIN.path)}>Exit</a>
       </div>
     `
   }
@@ -147,8 +163,10 @@ class DashboardContainerElement extends LitElement {
             <div class="popup">
               <div class="popup-content">
                 <h1>Share your score</h1>
-                <p>Share your score with your friends and challenge them to beat it!</p>
-                <button class="share-button" @click=${this.toggleShare}>Close</button>
+                <div class="share-box">
+                  <p id="copyMe">${this.shareMessage}</p>
+                </div>
+                <button class="share-button" @click=${this.copyText}>Copy</button>
               </div>
             </div>
           </div>
@@ -359,6 +377,15 @@ class DashboardContainerElement extends LitElement {
     }
     .share-button:hover {
       cursor: pointer;
+    }
+    .share-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background-color: white;
+      border: 2px solid #515151;
     }
   `
 }
