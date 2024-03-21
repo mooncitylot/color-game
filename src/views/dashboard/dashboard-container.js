@@ -154,7 +154,8 @@ class DashboardContainerElement extends LitElement {
         <div class="score-wrapper">
           <h1>Game Over!</h1>
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
-          <stars-element></stars-element>
+          <h4>Accuracy: ${this.score}%</h4>
+          <progress-bar .progress=${this.score}></progress-bar>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>

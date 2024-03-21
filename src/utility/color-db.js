@@ -26,26 +26,30 @@ export async function getGoalColor() {
   console.log('Function', reference)
   let goalColor = {}
 
-  return new Promise((resolve, reject) => {
-    onValue(
-      reference,
-      (snapshot) => {
-        const data = snapshot.val()
-        const red = parseInt(data.red, 10) // Parse red as an integer
-        const blue = parseInt(data.blue, 10) // Parse blue as an integer
-        const green = parseInt(data.green, 10) // Parse green as an integer
-        goalColor = {
-          red,
-          blue,
-          green,
+  try {
+    return new Promise((resolve, reject) => {
+      onValue(
+        reference,
+        (snapshot) => {
+          const data = snapshot.val()
+          const red = parseInt(data.red, 10) // Parse red as an integer
+          const blue = parseInt(data.blue, 10) // Parse blue as an integer
+          const green = parseInt(data.green, 10) // Parse green as an integer
+          goalColor = {
+            red,
+            blue,
+            green,
+          }
+          resolve(goalColor)
+        },
+        (error) => {
+          reject(error)
         }
-        resolve(goalColor)
-      },
-      (error) => {
-        reject(error)
-      }
-    )
-  })
+      )
+    })
+  } catch (error) {
+    console.error('Error getting goal color', error)
+  }
 }
 
 export async function getGoalColorName() {
@@ -58,6 +62,9 @@ export async function getGoalColorName() {
       reference,
       (snapshot) => {
         const data = snapshot.val()
+        if (data === null) {
+          resolve('No color... text Tyler')
+        }
         const name = data.name
         const goalColorName = name
         resolve(goalColorName)
