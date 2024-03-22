@@ -155,7 +155,7 @@ class DashboardContainerElement extends LitElement {
           <h1>Game Over!</h1>
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
           <h4>Accuracy: ${this.score}%</h4>
-          <progress-bar .progress=${this.score}></progress-bar>
+          <stars-element score=${this.score}></stars-element>
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
@@ -175,10 +175,7 @@ class DashboardContainerElement extends LitElement {
         </div>
 
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
-          <div>
-            <p>Accuracy: ${this.score}%</p>
-            <progress-bar .progress=${this.score}></progress-bar>
-          </div>
+          <div></div>
           <div style="display: flex; gap: 16px;">
             <div
               class="small-result-preview"
