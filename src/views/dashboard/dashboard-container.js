@@ -45,6 +45,9 @@ class DashboardContainerElement extends LitElement {
     if (this.score < 90) {
       this.disable = true
     }
+    this.quote = ''
+    this.author = ''
+    this.fetchQuote()
   }
 
   async connectedCallback() {
@@ -54,6 +57,19 @@ class DashboardContainerElement extends LitElement {
     this.inputRGB = await GetLastColor()
     console.log('input' + this.inputRGB)
     this.requestUpdate()
+  }
+
+  async fetchQuote() {
+    try {
+      const response = await fetch('https://api.quotable.io/random')
+      const data = await response.json()
+      this.quote = data.content
+      this.author = data.author
+      console.log('Quote:', this.quote)
+      console.log('Author:', this.author)
+    } catch (error) {
+      console.error('Error fetching quote:', error)
+    }
   }
 
   calculateTimeRemaining() {
@@ -125,6 +141,10 @@ class DashboardContainerElement extends LitElement {
     return this.renderDashboard()
   }
 
+  inspire() {
+    alert(this.quote + ' - ' + this.author)
+  }
+
   renderDashboard() {
     return html`
       <div id="content" class="wrapper">
@@ -140,9 +160,10 @@ class DashboardContainerElement extends LitElement {
             </div> `
           : ''}
         ${this.disable
-          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color</button> `
+          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button> `
           : 'Play Again Tomorrow'}
-        <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play</button>
+        <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
+        <button class="dashboard-option" @click=${this.inspire}>INSPIRE ME! 😇</button>
         <a style="border: none; text-decoration: underline;" @click=${() => go(routes.LOGIN.path)}>Exit</a>
       </div>
     `
@@ -154,6 +175,7 @@ class DashboardContainerElement extends LitElement {
         <div class="score-wrapper">
           <h1>Game Over!</h1>
           <h1>Score: ${this.score}%</h1>
+          <stars-element score=${this.score}></stars-element>
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
 
           <div style="display: flex; gap: 16px;">

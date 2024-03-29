@@ -79,6 +79,11 @@ class ResultsContainerElement extends LitElement {
     this.score = Math.abs(100 - average).toFixed(0)
     this.roundedScore = Math.round(this.score)
 
+    if (this.roundedScore > 100) {
+      go(routes.DASHBOARD.path)
+      return
+    }
+
     saveLastColor(input)
 
     saveLives(newLife)

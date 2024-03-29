@@ -11,6 +11,10 @@ class StarsElement extends LitElement {
     this.score = 0
   }
 
+  async connectedCallback() {
+    super.connectedCallback()
+  }
+
   render() {
     if (this.score >= 90) {
       return this.renderFiveStars()
@@ -30,23 +34,23 @@ class StarsElement extends LitElement {
   }
   renderFiveStars() {
     return html` <h1>Incredible!</h1>
-      <div>${goldStar}${goldStar}${goldStar}${goldStar}${goldStar}</div>`
+      <h1>🤩 🤯 🙀</h1>`
   }
   renderFourStars() {
     return html` <h4>Great job!</h4>
-      <div>${goldStar}${goldStar}${goldStar}${goldStar}${greyStar}</div>`
+      <h1>😄 🥳 🤪</h1>`
   }
   renderThreeStars() {
     return html` <h4>Not bad!</h4>
-      <div>${goldStar}${goldStar}${goldStar}${greyStar}${greyStar}</div>`
+      <h1>😎 😌 😏</h1>`
   }
   renderTwoStars() {
     return html` <h4>I think you can do better...</h4>
-      <div>${goldStar}${goldStar}${greyStar}${greyStar}${greyStar}</div>`
+      <h1>🙃 🫤 😐</h1>`
   }
   renderOneStar() {
     return html` <h4>Too bad...</h4>
-      <div>${goldStar}${greyStar}${greyStar}${greyStar}${greyStar}</div>`
+      <h1>😵 🥺 🤬</h1>`
   }
   static styles = css`
     div {
