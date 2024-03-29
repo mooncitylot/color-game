@@ -28,9 +28,7 @@ class StarsElement extends LitElement {
     if (this.score >= 60) {
       return this.renderTwoStars()
     }
-    if (this.score <= 50) {
-      return this.renderOneStar()
-    }
+    return this.renderOneStar()
   }
   renderFiveStars() {
     return html` <h1>Incredible!</h1>

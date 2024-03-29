@@ -17,10 +17,12 @@ class TutorialContainerElement extends LitElement {
     return html`<div class="wrapper">
       <h1>How to Play</h1>
       <p>
-        Welcome to the Color Game! Your mission: Find a real-world color that matches the mystery color with 90%
-        accuracy or higher. Scan colors using your phone's camera, receive feedback on your matches, and aim to solve
-        the mystery within 5 tries.
+        Welcome to the Color Game you silly goose! Here's the deal... the game will give you the name of a color and
+        then you have to figure out what that color looks like. You'll use your phone to scan colors and then the super
+        smart app will tell you how close you are! Here's the deal... you only get 5 tries. In the end, you'll get your
+        score for how well you did! Try to beat your friends! Also, tell your friends to play this game!
       </p>
+      <p>-Tyler</p>
       <rainbow-button .text=${'Lets Go!'} @click=${() => go(routes.DASHBOARD.path)}></rainbow-button>
     </div> `
   }
