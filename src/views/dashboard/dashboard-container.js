@@ -153,9 +153,9 @@ class DashboardContainerElement extends LitElement {
       <div class="wrapper">
         <div class="score-wrapper">
           <h1>Game Over!</h1>
+          <h1>Score: ${this.score}%</h1>
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
-          <h4>Accuracy: ${this.score}%</h4>
-          <stars-element score=${this.score}></stars-element>
+
           <div style="display: flex; gap: 16px;">
             <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
@@ -176,18 +176,14 @@ class DashboardContainerElement extends LitElement {
 
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
           <div></div>
-          <div style="display: flex; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <h2>Score: ${this.score}%</h2>
+            <progress-bar .progress=${this.score}></progress-bar>
             <div
               class="small-result-preview"
               style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
             >
               <p>Goal Color</p>
-            </div>
-            <div
-              class="small-result-preview"
-              style="background-color: rgba(${this.inputRGB.red},${this.inputRGB.green},${this.inputRGB.blue}) "
-            >
-              <p>Your Color</p>
             </div>
           </div>
 
