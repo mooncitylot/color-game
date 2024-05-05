@@ -191,3 +191,22 @@ export function getDate() {
   console.log('Date retrieved' + date)
   return JSON.parse(date)
 }
+
+export async function generateRandomColorScheme() {
+  const randomIndex = Math.floor(Math.random() * 6)
+  const r = Math.floor(Math.random() * 256)
+  const g = Math.floor(Math.random() * 256)
+  const b = Math.floor(Math.random() * 256)
+  const response = await fetch(
+    `https://www.thecolorapi.com/scheme?rgb=(${r},${g},${b})&mode=analogic&count=6&format=json`
+  )
+  const data = await response.json()
+  const color = data.colors[randomIndex]
+  const colorObject = {
+    name: color.name.value,
+    red: color.rgb.r,
+    green: color.rgb.g,
+    blue: color.rgb.b,
+  }
+  return colorObject
+}

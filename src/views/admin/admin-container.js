@@ -1,17 +1,33 @@
+// @ts-nocheck
 import { LitElement, html, css } from 'lit'
 
 import { setColor } from '../../utility/firebase-utils.js'
 import { set } from 'firebase/database'
-import { reset } from '../../utility/color-db.js'
+import { reset, generateRandomColorScheme } from '../../utility/color-db.js'
 export class AdminContainer extends LitElement {
   static properties = {
     unlocked: { type: Boolean },
+    randomColor: { type: Object },
   }
 
   constructor() {
     super()
     this.unlocked = false
+    this.newColor = {
+      red: 0,
+      green: 0,
+      blue: 0,
+      name: '',
+      date: 0,
+    }
   }
+
+  async createColor() {
+    this.newColor = await generateRandomColorScheme()
+    console.log('New Color', this.newColor)
+    this.requestUpdate()
+  }
+
   checkPassword() {
     const input = this.shadowRoot.querySelector('input')
     if (input.value === '1234') {
@@ -23,33 +39,28 @@ export class AdminContainer extends LitElement {
   }
 
   /**
-   * @param {string} hex
-   */
-  hexToRgb(hex) {
-    const r = parseInt(hex.substring(1, 3), 16)
-    const g = parseInt(hex.substring(3, 5), 16)
-    const b = parseInt(hex.substring(5, 7), 16)
-    return { r, g, b }
-  }
-
-  /**
    * @param {{ preventDefault: () => void; target: any; }} event
    */
   handleFormSubmit(event) {
     event.preventDefault() // Prevents the default form submission behavior
 
     const form = event.target
-    const color = form.querySelector('#colorInput')
-    const colorRGB = this.hexToRgb(color.value)
-    const name = form.querySelector('#nameInput')
-    const date = form.querySelector('#dateInput')
-    console.log(colorRGB, name.value, date.value)
+    const date = new Date(form.date.value) // Convert string to Date object
+    const formattedDate = this.dateFormat(date)
+    console.log('Date', date)
+    console.log('Formatted Date', formattedDate)
 
-    setColor(colorRGB.r, colorRGB.g, colorRGB.b, name.value, date.value)
+    setColor(this.newColor.red, this.newColor.green, this.newColor.blue, this.newColor.name, formattedDate)
 
     alert('Color added')
+  }
 
-    // setColor(red.value, green.value, blue.value, name.value, date.value)
+  dateFormat(date) {
+    const day = String(date.getDate() + 1).padStart(2, '0')
+    let month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+
+    return month + day + year
   }
 
   resetAndAlert() {
@@ -73,20 +84,16 @@ export class AdminContainer extends LitElement {
 
   renderContent() {
     return html` <div class="wrapper">
-      <h3>Add Color</h3>
+      <button @click=${() => this.createColor()}>Generate New Color</button>
+      <h1>${this.newColor.name}</h1>
+      <div
+        class="preview"
+        style="background-color: rgb(${this.newColor.red}, ${this.newColor.green}, ${this.newColor.blue})"
+      ></div>
       <form @submit="${this.handleFormSubmit}">
-        <label for="colorInput">Color:</label>
-        <input type="color" id="colorInput" name="colorInput" />
-
-        <label for="nameInput">Name:</label>
-        <input type="text" id="nameInput" name="nameInput" />
-
-        <label for="dateInput">Date:</label>
-        <input type="number" id="dateInput" name="dateInput" />
-
+        <input id="date" type="date" name="date" id="dateInput" />
         <button type="submit">Submit Color</button>
       </form>
-      <button @click=${() => (this.unlocked = false)}>Lock</button>
       <button class="login-option-1" @click=${this.resetAndAlert}>Reset for testing purposes</button>
     </div>`
   }
@@ -102,6 +109,10 @@ export class AdminContainer extends LitElement {
       font-size: 16px; /* Prevent zooming on iOS */
     }
 
+    .preview {
+      width: 100px;
+      height: 100px;
+    }
     .wrapper {
       display: flex;
       flex-direction: column;
