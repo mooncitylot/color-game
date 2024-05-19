@@ -21,9 +21,7 @@ export function formatDate(date) {
 export async function getGoalColor() {
   const database = getDatabase()
   const date = formatDate(new Date())
-  console.log('Function', date)
   const reference = ref(database, `/daily_color/${date}`)
-  console.log('Function', reference)
   let goalColor = {}
 
   try {
@@ -115,12 +113,10 @@ export function getCurrentScore() {
  */
 export function saveLastColor(color) {
   localStorage.setItem(LAST_COLOR, JSON.stringify(color))
-  console.log('Last color saved', color)
 }
 
 export function GetLastColor() {
   const color = localStorage.getItem(LAST_COLOR)
-  console.log('Last color', color)
   return JSON.parse(color)
 }
 
@@ -183,12 +179,10 @@ export function reset() {
  */
 export function saveDate(date) {
   localStorage.setItem(DATE, JSON.stringify(date))
-  console.log('Date saved' + date)
 }
 
 export function getDate() {
   const date = localStorage.getItem(DATE)
-  console.log('Date retrieved' + date)
   return JSON.parse(date)
 }
 

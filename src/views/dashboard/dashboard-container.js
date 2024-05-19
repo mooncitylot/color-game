@@ -11,7 +11,7 @@ import { getDailyHighScore, getMessage, GetLastColor } from '../../utility/color
 import {} from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
-import { getLives } from '../../utility/color-db.js'
+import { getLives, saveLives } from '../../utility/color-db.js'
 import FireworksElement from '../../shared/fireworks.js'
 import StarsElement from '../../shared/stars.js'
 import shareElement from '../../shared/share.js'
@@ -41,7 +41,6 @@ class DashboardContainerElement extends LitElement {
     this.showResults = false
     this.showShare = false
     this.shareMessage = this.createShareMessage()
-    console.log('Life', this.lifeCount)
     if (this.score < 90) {
       this.disable = true
     }
@@ -55,7 +54,6 @@ class DashboardContainerElement extends LitElement {
     this.color = await getGoalColorName()
     this.colorRGB = await getGoalColor()
     this.inputRGB = await GetLastColor()
-    console.log('input' + this.inputRGB)
     this.requestUpdate()
   }
 
@@ -65,8 +63,6 @@ class DashboardContainerElement extends LitElement {
       const data = await response.json()
       this.quote = data.content
       this.author = data.author
-      console.log('Quote:', this.quote)
-      console.log('Author:', this.author)
     } catch (error) {
       console.error('Error fetching quote:', error)
     }
@@ -109,12 +105,10 @@ class DashboardContainerElement extends LitElement {
 
   toggleResults() {
     this.showResults = !this.showResults
-    console.log(this.showResults)
     this.requestUpdate()
   }
   toggleShare() {
     this.showShare = !this.showShare
-    console.log(this.showShare)
     this.requestUpdate()
   }
   createShareMessage() {
@@ -145,6 +139,12 @@ class DashboardContainerElement extends LitElement {
     alert(this.quote + ' - ' + this.author)
   }
 
+  endGame() {
+    saveLives(0)
+    go(routes.DASHBOARD.path)
+    this.requestUpdate()
+  }
+
   renderDashboard() {
     return html`
       <div id="content" class="wrapper">
@@ -156,6 +156,7 @@ class DashboardContainerElement extends LitElement {
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
                 <life-count></life-count>
+                <a @click=${this.endGame}>End Game</a>
               </div>
             </div> `
           : ''}
@@ -355,6 +356,7 @@ class DashboardContainerElement extends LitElement {
       gap: 16px;
       width: 125px;
       height: 125px;
+      margin: auto;
       border-radius: 50%;
       border: 4px solid #515151;
     }
