@@ -31,24 +31,19 @@ class StarsElement extends LitElement {
     return this.renderOneStar()
   }
   renderFiveStars() {
-    return html` <h1>Incredible!</h1>
-      <h1>🤩 🤯 🙀</h1>`
+    return html` <h1>🤩 🤯 🙀</h1>`
   }
   renderFourStars() {
-    return html` <h4>Great job!</h4>
-      <h1>😄 🥳 🤪</h1>`
+    return html` <h1>😄 🥳 🤪</h1>`
   }
   renderThreeStars() {
-    return html` <h4>Not bad!</h4>
-      <h1>😎 😌 😏</h1>`
+    return html` <h1>😎 😌 😏</h1>`
   }
   renderTwoStars() {
-    return html` <h4>I think you can do better...</h4>
-      <h1>🙃 🫤 😐</h1>`
+    return html` <h1>🙃 🫤 😐</h1>`
   }
   renderOneStar() {
-    return html` <h4>Too bad...</h4>
-      <h1>😵 🥺 🤬</h1>`
+    return html` <h1>😵 🥺 🤬</h1>`
   }
   static styles = css`
     div {
@@ -62,8 +57,12 @@ class StarsElement extends LitElement {
       height: 32px;
     }
     h4 {
-      margin: 16px;
+      margin: 0;
       color: #515151;
+    }
+    h1 {
+      margin: 16px;
+      font-size: 50px;
     }
   `
 }

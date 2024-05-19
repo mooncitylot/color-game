@@ -44,9 +44,6 @@ class DashboardContainerElement extends LitElement {
     if (this.score < 90) {
       this.disable = true
     }
-    this.quote = ''
-    this.author = ''
-    this.fetchQuote()
   }
 
   async connectedCallback() {
@@ -55,17 +52,6 @@ class DashboardContainerElement extends LitElement {
     this.colorRGB = await getGoalColor()
     this.inputRGB = await GetLastColor()
     this.requestUpdate()
-  }
-
-  async fetchQuote() {
-    try {
-      const response = await fetch('https://api.quotable.io/random')
-      const data = await response.json()
-      this.quote = data.content
-      this.author = data.author
-    } catch (error) {
-      console.error('Error fetching quote:', error)
-    }
   }
 
   calculateTimeRemaining() {
@@ -135,10 +121,6 @@ class DashboardContainerElement extends LitElement {
     return this.renderDashboard()
   }
 
-  inspire() {
-    alert(this.quote + ' - ' + this.author)
-  }
-
   endGame() {
     saveLives(0)
     go(routes.DASHBOARD.path)
@@ -156,15 +138,13 @@ class DashboardContainerElement extends LitElement {
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
                 <life-count></life-count>
-                <a @click=${this.endGame}>End Game</a>
               </div>
             </div> `
           : ''}
         ${this.disable
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button> `
           : 'Play Again Tomorrow'}
-        <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
-        <button class="dashboard-option" @click=${this.inspire}>INSPIRE ME! 😇</button>
+        <button class="dashboard-option" @click=${this.endGame}>End Game 😇</button>
         <a style="border: none; text-decoration: underline;" @click=${() => go(routes.LOGIN.path)}>Exit</a>
       </div>
     `
@@ -175,7 +155,7 @@ class DashboardContainerElement extends LitElement {
       <div class="wrapper">
         <div class="score-wrapper">
           <h1>Game Over!</h1>
-          <h1>Score: ${this.score}%</h1>
+          <h2>Score: ${this.score}%</h2>
           <stars-element score=${this.score}></stars-element>
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
 
@@ -289,8 +269,9 @@ class DashboardContainerElement extends LitElement {
       border-radius: 8px;
       border: 1px solid #d9d9d9;
     }
-    .score-wrapper h4 {
+    .score-wrapper h2 {
       margin: 0;
+      color: #515151;
     }
     .score-wrapper h1 {
       margin: 0;
@@ -406,6 +387,14 @@ class DashboardContainerElement extends LitElement {
       margin: 16px;
       background-color: white;
       border: 2px solid #515151;
+    }
+    .submit-score {
+      background-color: transparent;
+      border: none;
+      border-radius: 8px;
+      color: #515151;
+      margin: 0;
+      cursor: pointer;
     }
   `
 }
