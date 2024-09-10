@@ -47,6 +47,7 @@
     }
   },
   "dependencies": {
+    "@firebase/auth": "^1.7.8",
     "@honeycombio/opentelemetry-node": "^0.4.0",
     "@opentelemetry/api": "^1.4.1",
     "@opentelemetry/auto-instrumentations-node": "^0.36.6",
@@ -58,7 +59,7 @@
     "@types/jest": "^29.5.1",
     "clean-webpack-plugin": "^4.0.0",
     "dotenv": "^16.0.3",
-    "firebase": "^10.8.0",
+    "firebase": "^10.13.1",
     "html-webpack-plugin": "^5.5.1",
     "lit": "^2.7.3",
     "path-to-regexp": "^6.2.1",

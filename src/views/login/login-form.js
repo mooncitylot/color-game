@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit'
 
+import { signIn } from '../../utility/auth-service.js'
+
 import { routes } from '../../router/routes.js'
 import { go } from '../../router/router-base.js'
 import globalStyles from '../../styles/global-styles.js'
@@ -18,6 +20,7 @@ class LoginFormElement extends LitElement {
     e.preventDefault() // Prevent form submission
     const data = Object.fromEntries(new FormData(e.target).entries())
     console.log(data)
+    signIn(data.email, data.password)
   }
 
   render() {
