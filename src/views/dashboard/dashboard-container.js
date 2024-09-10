@@ -140,6 +140,7 @@ class DashboardContainerElement extends LitElement {
                 <h2>"${this.color}"</h2>
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
+                <a @click=${this.endGame}>Submit Score & End Game 😇</a>
                 <life-count></life-count>
               </div>
             </div> `
@@ -148,7 +149,6 @@ class DashboardContainerElement extends LitElement {
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button> `
           : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
-        <button class="dashboard-option" @click=${this.endGame}>End Game 😇</button>
         <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}>Log Out ${this.user}</a>
       </div>
     `
@@ -206,19 +206,11 @@ class DashboardContainerElement extends LitElement {
 
   static styles = css`
     a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 80px;
-      height: 40px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
+      text-decoration: underline;
       color: #515151;
-      border: 2px solid #b4b4b8;
-      border-radius: 4px;
-      background-color: white;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
     }
     :host {
       display: flex;
