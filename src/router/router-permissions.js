@@ -1,4 +1,10 @@
+import { getCurrentUser } from '../utility/auth-service.js'
+
 /** @type {PermissionCheck} */
 export function userIsLoggedIn(options) {
-  return !!options.sessionUser?.id
+  const user = getCurrentUser()
+  if (!user) {
+    return false
+  }
+  return true
 }

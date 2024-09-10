@@ -46,6 +46,21 @@ class SignupContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      font-family: 'Arial';
+      gap: 16px;
+    }
+
+    button {
+      padding: 8px;
+      width: 180px;
+      color: #515151;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 12px;
+      font-weight: bold;
+      border: 4px solid;
+      border-radius: 16px;
     }
   `
 }

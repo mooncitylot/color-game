@@ -26,9 +26,8 @@ class LoginContainerElement extends LitElement {
         </div>
         <div style="margin-top: 80px;" class="wrapper">
           <a style="color: #515151" href="mailto:mooncitylot@gmail.com">Report a Problem</a>
-          <a style="text-decoration: none;" @click=${() => go(routes.ADMIN.path)}>Made by Tyler 2024</a>
+          <a style="text-decoration: none;">Made by Tyler 2024</a>
         </div>
-        <button @click=${() => console.log(getCurrentUser())}>Console Log User</button>
       </div>
     `
   }
