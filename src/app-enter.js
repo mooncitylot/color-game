@@ -5,6 +5,7 @@ import RouterBase from './router/router-base.js'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getDatabase, ref, set } from 'firebase/database'
+import { getAuth } from 'firebase/auth' // Add this import
 import { reset, getDate, saveDate } from './utility/color-db.js'
 
 // @ts-ignore
@@ -29,6 +30,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 // @ts-ignore
 const analytics = getAnalytics(app)
+export const auth = getAuth(app) // Initialize and export Auth
 
 class AppEnterElement extends RouterBase {
   connectedCallback() {

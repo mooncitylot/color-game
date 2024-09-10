@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit'
 
+import { setCurrentUser, signIn } from '../../utility/auth-service.js'
+
 import { routes } from '../../router/routes.js'
 import { go } from '../../router/router-base.js'
 import globalStyles from '../../styles/global-styles.js'
@@ -18,6 +20,15 @@ class LoginFormElement extends LitElement {
     e.preventDefault() // Prevent form submission
     const data = Object.fromEntries(new FormData(e.target).entries())
     console.log(data)
+    signIn(data.email, data.password)
+      .then((user) => {
+        setCurrentUser(user)
+        go(routes.DASHBOARD.path)
+      })
+      .catch((error) => {
+        console.error('Login failed:', error)
+        alert('Invalid email or password')
+      })
   }
 
   render() {
@@ -49,11 +60,13 @@ class LoginFormElement extends LitElement {
           placeholder="Password"
           required
         />
-        <button type="submit" id="submit-button">Log In</button>
-        <div class="separator-bar">
-          <span class="separator-text">OR</span>
+        <div class="button-wrap">
+          <button class="login-option-1" type="submit" id="submit-button">Log In</button>
+          <div class="separator-bar">
+            <span class="separator-text">OR</span>
+          </div>
+          <button class="login-option-1" @click=${() => go(routes.SIGNUP.path)}>Sign Up</button>
         </div>
-        <button class="secondary outline" @click=${() => go(routes.SIGNUP.path)}>Sign Up</button>
       </form>
       <div class="background"></div>
     `
@@ -72,11 +85,31 @@ class LoginFormElement extends LitElement {
         overflow-y: scroll;
       }
       form {
-        padding: 200px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 16px;
+      }
+      .login-option-1 {
+        padding: 8px;
+        width: 180px;
+        color: #515151;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 12px;
+        font-weight: bold;
+        border: 4px solid;
+        border-radius: 16px;
+      }
+
+      .button-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
       }
     `,
   ]

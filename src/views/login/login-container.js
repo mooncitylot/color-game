@@ -4,6 +4,7 @@ import routes from '../../router/routes.js'
 import { reset } from '../../utility/color-db.js'
 
 import './login-form.js'
+import { getCurrentUser } from '../../utility/auth-service.js'
 
 class LoginContainerElement extends LitElement {
   static properties = {
@@ -19,17 +20,15 @@ class LoginContainerElement extends LitElement {
     return html`
       <div class="background">
         <div class="wrapper">
-          <button class="login-option-1" @click=${() => go(routes.DASHBOARD.path)}>Start Game 🤯</button>
-          <button class="login-option-1" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
+          <login-form .email=${this.email}></login-form>
+          <!-- <button class="login-option-1" @click=${() => go(routes.DASHBOARD.path)}>Start Game 🤯</button>
+          <button class="login-option-1" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button> -->
         </div>
         <div style="margin-top: 80px;" class="wrapper">
           <a style="color: #515151" href="mailto:mooncitylot@gmail.com">Report a Problem</a>
-          <a style="text-decoration: none;" @click=${() => go(routes.ADMIN.path)}>Made by Tyler 2024</a>
+          <a style="text-decoration: none;">Made by Tyler 2024</a>
         </div>
       </div>
-
-      <!-- <h1>LOGIN, BITCH!!!!!</h1>
-      <login-form .email=${this.email}></login-form> -->
     `
   }
 

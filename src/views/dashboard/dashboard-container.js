@@ -15,6 +15,7 @@ import { getLives, saveLives } from '../../utility/color-db.js'
 import FireworksElement from '../../shared/fireworks.js'
 import StarsElement from '../../shared/stars.js'
 import shareElement from '../../shared/share.js'
+import { clearCurrentUser, getCurrentUser } from '../../utility/auth-service.js'
 
 class DashboardContainerElement extends LitElement {
   static properties = {
@@ -29,6 +30,7 @@ class DashboardContainerElement extends LitElement {
     showResults: { type: Boolean },
     showShare: { type: Boolean },
     shareMessage: { type: String },
+    user: { type: Object },
   }
   constructor() {
     super()
@@ -41,6 +43,7 @@ class DashboardContainerElement extends LitElement {
     this.showResults = false
     this.showShare = false
     this.shareMessage = this.createShareMessage()
+    this.user = getCurrentUser().user.email
     if (this.score < 90) {
       this.disable = true
     }
@@ -144,8 +147,9 @@ class DashboardContainerElement extends LitElement {
         ${this.disable
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button> `
           : 'Play Again Tomorrow'}
+        <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
         <button class="dashboard-option" @click=${this.endGame}>End Game 😇</button>
-        <a style="border: none; text-decoration: underline;" @click=${() => go(routes.LOGIN.path)}>Exit</a>
+        <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}>Log Out ${this.user}</a>
       </div>
     `
   }
@@ -160,10 +164,14 @@ class DashboardContainerElement extends LitElement {
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
 
           <div style="display: flex; gap: 16px;">
-            <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
             <a @click=${this.toggleResults}>Results</a>
             <a @click=${this.toggleShare}>Share</a>
           </div>
+          <a
+            style="border: none; text-decoration: underline; color: #515151; background-color: transparent;"
+            @click=${() => clearCurrentUser()}
+            >Log Out ${this.user}</a
+          >
           <div class="${this.showShare ? '' : 'hidden'}">
             <div class="popup">
               <div class="popup-content">
@@ -172,6 +180,7 @@ class DashboardContainerElement extends LitElement {
                   <p id="copyMe">${this.shareMessage}</p>
                 </div>
                 <button class="share-button" @click=${this.copyText}>Copy</button>
+                <button class="share-button" @click=${() => go(routes.DASHBOARD.path)}>Close</button>
               </div>
             </div>
           </div>
