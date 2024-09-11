@@ -6,6 +6,10 @@ import { routes } from '../../router/routes.js'
 import { go } from '../../router/router-base.js'
 import globalStyles from '../../styles/global-styles.js'
 
+import { getUserData } from '../../utility/firebase-utils.js'
+
+import { updateCurrentUser } from '../../utility/auth-service.js'
+
 class LoginFormElement extends LitElement {
   static properties = {
     email: { type: String },
@@ -16,14 +20,14 @@ class LoginFormElement extends LitElement {
   }
 
   /** @param {Event & {target: HTMLFormElement}} e */
-  handleFormSubmit(e) {
+  async handleFormSubmit(e) {
     e.preventDefault() // Prevent form submission
     const data = Object.fromEntries(new FormData(e.target).entries())
-    console.log(data)
 
     signIn(data.email, data.password)
-      .then((user) => {
+      .then(async (user) => {
         setCurrentUser(user)
+        await updateCurrentUser()
         go(routes.DASHBOARD.path)
       })
       .catch((error) => {

@@ -15,8 +15,7 @@ import { getLives, saveLives } from '../../utility/color-db.js'
 import FireworksElement from '../../shared/fireworks.js'
 import StarsElement from '../../shared/stars.js'
 import shareElement from '../../shared/share.js'
-import { clearCurrentUser, getCurrentUser } from '../../utility/auth-service.js'
-
+import { clearCurrentUser, getCurrentUser, updateCurrentUser } from '../../utility/auth-service.js'
 class DashboardContainerElement extends LitElement {
   static properties = {
     color: { type: String },
@@ -43,7 +42,7 @@ class DashboardContainerElement extends LitElement {
     this.showResults = false
     this.showShare = false
     this.shareMessage = this.createShareMessage()
-    this.user = getCurrentUser().user.email
+
     if (this.score < 90) {
       this.disable = true
     }
@@ -54,6 +53,8 @@ class DashboardContainerElement extends LitElement {
     this.color = await getGoalColorName()
     this.colorRGB = await getGoalColor()
     this.inputRGB = await GetLastColor()
+    const currentUser = getCurrentUser()
+    this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player'
     this.requestUpdate()
   }
 

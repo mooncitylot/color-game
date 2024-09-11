@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { get, getDatabase } from 'firebase/database'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
@@ -58,4 +59,64 @@ export function setColor(red, green, blue, name, date) {
     blue,
     name,
   })
+}
+
+/**
+ * @param {string} userId
+ * @param {string} username
+ * @param {number} points
+ * @param {string} profilePic
+ * @param {string} friends
+ */
+export function setUserData(userId, username, points, profilePic, friends) {
+  const database = getDatabase()
+  const reference = ref(database, `/user_data/${userId}`)
+  set(reference, {
+    username,
+    points,
+    profilePic,
+    friends,
+  })
+}
+
+export function getUserData(userId) {
+  const database = getDatabase()
+  const reference = ref(database, `/user_data/${userId}`)
+
+  return get(reference)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val()
+      } else {
+        console.log('No data available for this user')
+        return null
+      }
+    })
+    .catch((error) => {
+      console.error('Error getting user data:', error)
+      throw error
+    })
+}
+
+/**
+ * Checks if a username already exists in the database
+ * @param {string} username - The username to check
+ * @returns {Promise<boolean>} - A promise that resolves to true if the username exists, false otherwise
+ */
+export function checkUsernameExists(username) {
+  const database = getDatabase()
+  const reference = ref(database, '/user_data')
+
+  return get(reference)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const userData = snapshot.val()
+        return Object.values(userData).some((user) => user.username === username)
+      }
+      return false
+    })
+    .catch((error) => {
+      console.error('Error checking username:', error)
+      throw error
+    })
 }
