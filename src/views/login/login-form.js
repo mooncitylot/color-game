@@ -20,6 +20,7 @@ class LoginFormElement extends LitElement {
     e.preventDefault() // Prevent form submission
     const data = Object.fromEntries(new FormData(e.target).entries())
     console.log(data)
+
     signIn(data.email, data.password)
       .then((user) => {
         setCurrentUser(user)

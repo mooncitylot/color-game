@@ -14,6 +14,12 @@ class LoginContainerElement extends LitElement {
   /** @param {RouteEnterArgs} next */
   routeEnter({ nextView, context }) {
     if (context.params?.email) this.email = context.params.email
+
+    const currentUser = getCurrentUser()
+    if (currentUser) {
+      go(routes.DASHBOARD.path)
+      return
+    }
   }
 
   render() {
