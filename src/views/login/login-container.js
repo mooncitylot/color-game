@@ -20,6 +20,13 @@ class LoginContainerElement extends LitElement {
       go(routes.DASHBOARD.path)
       return
     }
+
+    window.dispatchEvent(
+      new CustomEvent('update-header', {
+        bubbles: true,
+        composed: true,
+      })
+    )
   }
 
   render() {

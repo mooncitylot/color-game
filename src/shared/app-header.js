@@ -26,6 +26,12 @@ class AppHeaderElement extends LitElement {
     super.connectedCallback()
     this.user = await getCurrentUser()
     this.profilePic = this.user?.additionalData?.profilePic || ''
+    window.addEventListener('update-header', async () => {
+      console.log('got it')
+      this.user = await getCurrentUser()
+      this.profilePic = this.user?.additionalData?.profilePic || ''
+      this.requestUpdate()
+    })
     this.requestUpdate()
   }
 

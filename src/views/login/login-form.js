@@ -28,7 +28,17 @@ class LoginFormElement extends LitElement {
       .then(async (user) => {
         setCurrentUser(user)
         await updateCurrentUser()
-        go(routes.DASHBOARD.path)
+        // Dispatch an event to update the header profile pic
+        window.dispatchEvent(
+          new CustomEvent('update-header', {
+            bubbles: true,
+            composed: true,
+            detail: { user },
+          })
+        )
+        setTimeout(() => {
+          go(routes.DASHBOARD.path)
+        }, 250)
       })
       .catch((error) => {
         console.error('Login failed:', error)

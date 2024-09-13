@@ -56,6 +56,11 @@ class DashboardContainerElement extends LitElement {
     const currentUser = getCurrentUser()
     this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player'
     this.requestUpdate()
+    setTimeout(() => {
+      console.log('updating')
+      this.requestUpdate()
+      this.dispatchEvent(new CustomEvent('update-header', { bubbles: true, composed: true }))
+    }, 1000)
   }
 
   calculateTimeRemaining() {
