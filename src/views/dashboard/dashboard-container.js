@@ -138,7 +138,7 @@ class DashboardContainerElement extends LitElement {
           ? html`<div class="stats">
               <div class="score-wrapper">
                 <h4>Mystery Color:</h4>
-                <h2>"${this.color}"</h2>
+                <h2 class="do-hyeon-h2">${this.color}</h2>
                 <h4>Daily High Score: ${this.score}%</h4>
                 <progress-bar .progress=${this.score}></progress-bar>
                 <a @click=${this.endGame}>Submit Score & End Game 😇</a>
@@ -206,6 +206,8 @@ class DashboardContainerElement extends LitElement {
   }
 
   static styles = css`
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
     a {
       text-decoration: underline;
       color: #515151;
@@ -274,10 +276,15 @@ class DashboardContainerElement extends LitElement {
     .score-wrapper h2 {
       margin: 0;
       color: #515151;
+      font-family: 'Do Hyeon', sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 40px;
     }
     .score-wrapper h1 {
       margin: 0;
       color: #515151;
+      font-family: 'Do Hyeon', sans-serif;
     }
     .score-wrapper progress-bar {
       scale: 0.75;
@@ -397,6 +404,11 @@ class DashboardContainerElement extends LitElement {
       color: #515151;
       margin: 0;
       cursor: pointer;
+    }
+    .do-hyeon-h2 {
+      font-family: 'Do Hyeon', sans-serif;
+      font-weight: 400;
+      font-style: normal;
     }
   `
 }

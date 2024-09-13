@@ -57,6 +57,7 @@ class TutorialContainerElement extends LitElement {
     }
     .wrapper h1 {
       margin: 0;
+      font-family: 'Do Hyeon', sans-serif;
     }
     .tutorial-option {
       display: flex;

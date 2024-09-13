@@ -114,11 +114,29 @@ class SignupContainerElement extends LitElement {
       <form @submit=${this.setAdditionalUserData}>
         <label for="username">Username</label>
         <input type="text" name="username" required />
-        <label for="profilePic">Profile Picture</label>
-        <input type="file" name="profilePic" accept="image/*" required />
+        <label for="profilePic" class="file-input-label">
+          Choose Profile Picture
+          <input
+            type="file"
+            id="profilePic"
+            name="profilePic"
+            accept="image/*"
+            required
+            @change=${this.updateFileName}
+          />
+        </label>
+        <div class="file-name"></div>
         <button type="submit">Complete Signup</button>
       </form>
     `
+  }
+
+  updateFileName(e) {
+    const fileName = e.target.files[0]?.name
+    const fileNameDiv = this.shadowRoot.querySelector('.file-name')
+    if (fileNameDiv) {
+      fileNameDiv.textContent = fileName || ''
+    }
   }
 
   static styles = css`
@@ -142,6 +160,32 @@ class SignupContainerElement extends LitElement {
       font-weight: bold;
       border: 4px solid;
       border-radius: 16px;
+    }
+
+    input[type='file'] {
+      display: none;
+    }
+
+    .file-input-label {
+      display: inline-block;
+      padding: 8px 12px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      color: #515151;
+      border: 2px solid #515151;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .file-input-label:hover {
+      background-color: #e0e0e0;
+    }
+
+    .file-name {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
     }
   `
 }
