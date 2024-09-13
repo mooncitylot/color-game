@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { html, css, LitElement } from 'lit'
 import { setUserData, getUserData } from '../../utility/firebase-utils.js'
+import { getCurrentUser } from '../../utility/auth-service.js'
 
 class SandboxContainer extends LitElement {
   static styles = css`
@@ -8,21 +9,24 @@ class SandboxContainer extends LitElement {
       display: block;
       padding: 1rem;
     }
+    .profile-pic {
+      position: absolute;
+      right: 32px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ccc;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+    }
   `
 
   async connectedCallback() {
     super.connectedCallback()
-
-    this.requestUpdate() // Request a re-render after setting user data
-  }
-
-  async upadateUser() {
-    console.log('Setting user data')
-    const userId = 'mj6hwyBTMsMWtgl5SeuzxPfJMZc2'
-    const username = 'mooncitylot2'
-    const points = 1234
-    const profilePic = 1234
-    await setUserData(userId, username, points, profilePic)
+    this.user = await getCurrentUser()
+    console.log(this.user?.additionalData?.profilePic)
+    this.requestUpdate()
   }
 
   async getUserData() {
@@ -31,10 +35,12 @@ class SandboxContainer extends LitElement {
   }
 
   render() {
+    if (!this.user) {
+      return html`<p>Loading...</p>`
+    }
     return html`
       <h1>Sandbox</h1>
-      <button @click=${() => this.upadateUser()}>Update</button>
-      <button @click=${() => this.getUserData()}>Get</button>
+      <div class="profile-pic" style="background-image: url('${this.user.additionalData?.profilePic || ''}')"></div>
     `
   }
 }

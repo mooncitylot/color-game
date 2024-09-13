@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { LitElement, css, html } from 'lit'
 import BackArrowElement from './back-arrow.js'
 import { go } from '../router/router-base.js'
@@ -5,30 +6,36 @@ import routes from '../router/routes.js'
 import getRoutes from '../router/routes.js'
 import AppEvents from '../shared/app-events.js'
 import { logoutIcon, homeIcon } from '../assets/icons.js'
+import { getCurrentUser } from '../utility/auth-service.js'
 
 class AppHeaderElement extends LitElement {
+  static properties = {
+    user: { type: Object },
+    profilePic: { type: String },
+  }
+
   constructor() {
     super()
+    this.user = null
+    this.profilePic = ''
     this.currentLocation = window.location.pathname
-    console.log(this.currentLocation)
-    if (this.currentLocation === '/dashboard') {
-      this.hideButton = true
-    } else {
-      this.hideButton = false
-    }
+    this.hideButton = this.currentLocation === '/dashboard'
+  }
+
+  async connectedCallback() {
+    super.connectedCallback()
+    this.user = await getCurrentUser()
+    this.profilePic = this.user?.additionalData?.profilePic || ''
+    this.requestUpdate()
   }
 
   render() {
     return html`
       <div class="header">
-        <div class="rainbow-container">
-          <div class="rainbow-child" style="background-color: #9E4597;"></div>
-          <div class="rainbow-child" style="background-color: #5574B8;"></div>
-          <div class="rainbow-child" style="background-color: #429754;"></div>
-          <div class="rainbow-child" style="background-color: #E19E2B;"></div>
-          <div class="rainbow-child" style="background-color: #BD3339;"></div>
-        </div>
         <span @click=${() => go(routes.DASHBOARD.path)}><h2>Color Game</h2></span>
+        ${this.profilePic
+          ? html` <div class="profile-pic" style="background-image: url('${this.profilePic}')"></div> `
+          : ''}
       </div>
     `
   }
@@ -51,7 +58,7 @@ class AppHeaderElement extends LitElement {
     }
     .rainbow-container {
       position: absolute;
-      right: 16px;
+      right: 64px; // Moved to the left to make room for the profile pic
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -77,6 +84,17 @@ class AppHeaderElement extends LitElement {
     }
     .hide {
       display: none;
+    }
+    .profile-pic {
+      position: absolute;
+      right: 32px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ccc;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
     }
   `
 }

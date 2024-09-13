@@ -44,10 +44,10 @@ class SignupContainerElement extends LitElement {
 
     const formData = new FormData(e.target)
     const username = formData.get('username')
-    // const profilePic = formData.get('profilePic')
+    const profilePicFile = formData.get('profilePic')
 
-    if (!username || !profilePic) {
-      console.error('Username or profile picture URL is missing')
+    if (!username || !profilePicFile) {
+      console.error('Username or profile picture file is missing')
       return
     }
 
@@ -58,25 +58,37 @@ class SignupContainerElement extends LitElement {
         return
       }
 
+      // Convert profile picture to base64
+      const profilePicBase64 = await this.fileToBase64(profilePicFile)
+
       const initialPoints = 0
       const friends = []
-      const initialProfilePic = ''
       console.log('Data to be set:', {
         uid: currentUser.user.uid,
         username,
         initialPoints,
-        profilePic: initialProfilePic,
+        profilePic: profilePicBase64,
         friends,
       })
 
-      await setUserData(currentUser.user.uid, username, initialPoints, profilePic, friends)
+      await setUserData(currentUser.user.uid, username, initialPoints, profilePicBase64, friends)
       updateCurrentUser()
       console.log(getCurrentUser())
-      go(routes.DASHBOARD.path) // Fixed typo: DASHBORRD -> DASHBOARD
+      go(routes.DASHBOARD.path)
     } catch (error) {
       console.error('Error setting additional user data:', error)
       alert('An error occurred while completing signup. Please try again.')
     }
+  }
+
+  // Add this new method to handle file to base64 conversion
+  fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(error)
+    })
   }
 
   render() {
@@ -102,8 +114,8 @@ class SignupContainerElement extends LitElement {
       <form @submit=${this.setAdditionalUserData}>
         <label for="username">Username</label>
         <input type="text" name="username" required />
-        <!-- <label for="profilePic">Profile Picture URL</label>
-        <input type="url" name="profilePic" required /> -->
+        <label for="profilePic">Profile Picture</label>
+        <input type="file" name="profilePic" accept="image/*" required />
         <button type="submit">Complete Signup</button>
       </form>
     `
