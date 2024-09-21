@@ -155,6 +155,7 @@ class DashboardContainerElement extends LitElement {
           ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button> `
           : 'Play Again Tomorrow'}
         <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
+        <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
         <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}>Log Out ${this.user}</a>
       </div>
     `
@@ -168,10 +169,10 @@ class DashboardContainerElement extends LitElement {
           <h2>Score: ${this.score}%</h2>
           <stars-element score=${this.score}></stars-element>
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
-
-          <div style="display: flex; gap: 16px;">
-            <a @click=${this.toggleResults}>Results</a>
-            <a @click=${this.toggleShare}>Share</a>
+          <div style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
+            <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard</button>
+            <button class="dashboard-option" @click=${this.toggleResults}>Results</button>
+            <button class="dashboard-option" @click=${this.toggleShare}>Share</button>
           </div>
           <a
             style="border: none; text-decoration: underline; color: #515151; background-color: transparent;"
@@ -332,6 +333,7 @@ class DashboardContainerElement extends LitElement {
       width: 80%;
     }
     .dashboard-option {
+      align-self: center;
       padding: 16px;
       width: 90%;
       color: #515151;

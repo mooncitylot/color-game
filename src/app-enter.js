@@ -1,11 +1,10 @@
 import { html, css } from 'lit'
 import AppHeaderElement from './shared/app-header.js'
 import RouterBase from './router/router-base.js'
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getDatabase, ref, set } from 'firebase/database'
-import { getAuth } from 'firebase/auth' // Add this import
+import { getAuth } from 'firebase/auth'
 import { reset, getDate, saveDate } from './utility/color-db.js'
 
 // @ts-ignore
@@ -31,6 +30,7 @@ const app = initializeApp(firebaseConfig)
 // @ts-ignore
 const analytics = getAnalytics(app)
 export const auth = getAuth(app) // Initialize and export Auth
+export const database = getDatabase(app) // Add this line
 
 class AppEnterElement extends RouterBase {
   connectedCallback() {

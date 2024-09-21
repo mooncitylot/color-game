@@ -113,6 +113,9 @@ export const routes = processRoutes({
     isPublic: true,
     permissions: [userIsLoggedIn],
   },
+  LEADERBOARD: {
+    permissions: [userIsLoggedIn],
+  },
 })
 
 export default routes
