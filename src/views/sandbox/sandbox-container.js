@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { html, css, LitElement } from 'lit'
 import { setUserData, getUserData } from '../../utility/firebase-utils.js'
-import { getCurrentUser } from '../../utility/auth-service.js'
+import { getCurrentUser, getAllUsers } from '../../utility/auth-service.js'
+import { saveToDailyLeaderboard, getDailyLeaderboard } from '../../utility/leaderboard-service.js'
 
 class SandboxContainer extends LitElement {
   static styles = css`
@@ -25,7 +26,7 @@ class SandboxContainer extends LitElement {
   async connectedCallback() {
     super.connectedCallback()
     this.user = await getCurrentUser()
-    console.log(this.user?.additionalData?.profilePic)
+    console.log('getting', await getAllUsers())
     this.requestUpdate()
   }
 
@@ -34,13 +35,23 @@ class SandboxContainer extends LitElement {
     console.log(response)
   }
 
+  async saveScore() {
+    await saveToDailyLeaderboard(10)
+  }
+
+  async getScore() {
+    const leaderboard = await getDailyLeaderboard()
+    console.log(leaderboard)
+  }
+
   render() {
     if (!this.user) {
       return html`<p>Loading...</p>`
     }
     return html`
       <h1>Sandbox</h1>
-      <div class="profile-pic" style="background-image: url('${this.user.additionalData?.profilePic || ''}')"></div>
+      <button @click=${this.saveScore}>Save Score</button>
+      <button @click=${this.getScore}>Get Leaderboard</button>
     `
   }
 }

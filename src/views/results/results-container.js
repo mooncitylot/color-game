@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { html, css, LitElement } from 'lit'
 import {
   getGoalColor,
@@ -14,7 +15,8 @@ import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { questionIcon, winIcon, loseIcon } from '../../assets/icons.js'
 import ProgressBar from '../../shared/progress-bar.js'
-
+import { saveToDailyLeaderboard } from '../../utility/leaderboard-service.js'
+import { getDailyHighScore } from '../../utility/color-db.js'
 class ResultsContainerElement extends LitElement {
   static properties = {
     input: { type: Object },
@@ -44,22 +46,15 @@ class ResultsContainerElement extends LitElement {
     this.opened = false
     this.score = getCurrentScore()
     this.message = getMessage(this.score)
-    setTimeout(() => {
-      this.calculateDifference()
-    }, 100)
-    if (this.score > 80) {
-      this.won = true
-    }
   }
 
   async connectedCallback() {
     super.connectedCallback()
     this.target = await getGoalColor()
-
     this.calculateDifference()
   }
 
-  calculateDifference() {
+  async calculateDifference() {
     const target = this.target
     const newLife = this.lives - 1
     const input = this.input
@@ -84,21 +79,21 @@ class ResultsContainerElement extends LitElement {
       return
     }
 
+    this.redOff = Math.abs(target.red - input.red)
+    this.greenOff = Math.abs(target.green - input.green)
+    this.blueOff = Math.abs(target.blue - input.blue)
+
     saveLastColor(input)
 
     saveLives(newLife)
     saveCurrentScore(this.roundedScore)
+    const dailyHigh = await getDailyHighScore()
+    if (newLife === 0) {
+      await saveToDailyLeaderboard(dailyHigh)
+    }
   }
 
   render() {
-    if (this.lives === 0) {
-      return this.renderYouWin()
-    }
-
-    return this.renderResults()
-  }
-
-  renderResults() {
     return html`
       <div id="content">
         <div class="wrapper">
@@ -110,48 +105,23 @@ class ResultsContainerElement extends LitElement {
             style="background-color: rgba(${this.input.red} ${this.input.green} ${this.input.blue})"
             class="result-preview"
           ></div>
+          <div class="hints">
+            <h3>Hints</h3>
+            <p><span style="color: red;">Red:</span> ${this.getHintText(this.redOff)}</p>
+            <p><span style="color: green;">Green:</span> ${this.getHintText(this.greenOff)}</p>
+            <p><span style="color: blue;">Blue:</span> ${this.getHintText(this.blueOff)}</p>
+          </div>
         </div>
         <div class="results-option" @click=${() => go(routes.DASHBOARD.path)}>Home</div>
       </div>
     `
   }
 
-  renderYouWin() {
-    return html`<div class="wrapper">
-      <h1>Congratulations, you won!</h1>
-      <script
-        src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
-        type="module"
-      ></script>
-      ${winIcon}
-      <p>See you tomorrow</p>
-      <!-- <div
-        style="background-color: rgba(${this.input.red} ${this.input.green} ${this.input.blue})"
-        class="result-preview"
-      ></div> -->
-      <div class="results-option" @click=${() => go(routes.LOGIN.path)}>Exit</div>
-    </div>`
-  }
-
-  renderYouLose() {
-    return html`<div class="wrapper">
-      <h1>Sorry, you lost!</h1>
-      ${loseIcon}
-      <div
-        class="small-result-preview"
-        style="background-color: rgba(${this.input.red} ${this.input.green} ${this.input.blue})"
-      >
-        <p>Your Color</p>
-      </div>
-      <div
-        class="small-result-preview"
-        style="background-color: rgba(${this.target.red} ${this.target.green} ${this.target.blue})"
-      >
-        <p>Goal Color</p>
-      </div>
-      <p>See you tomorrow</p>
-      <a @click=${() => go(routes.LOGIN.path)}>Exit</a>
-    </div>`
+  getHintText(difference) {
+    if (difference <= 10) return 'Very close!'
+    if (difference <= 30) return 'Close'
+    if (difference <= 50) return 'Getting there'
+    return 'Far off'
   }
 
   static styles = css`
@@ -217,6 +187,10 @@ class ResultsContainerElement extends LitElement {
     .hint svg {
       width: 16px;
       height: 16px;
+    }
+
+    h3 {
+      margin: 0;
     }
 
     .hint-wrapper {
@@ -304,6 +278,18 @@ class ResultsContainerElement extends LitElement {
       font-weight: bold;
       border: 4px solid;
       border-radius: 16px;
+    }
+    .hints {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .hints p {
+      margin: 0;
+      font-size: 16px;
     }
   `
 }
