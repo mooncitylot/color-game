@@ -16,6 +16,7 @@ import FireworksElement from '../../shared/fireworks.js'
 import StarsElement from '../../shared/stars.js'
 import shareElement from '../../shared/share.js'
 import { clearCurrentUser, getCurrentUser, updateCurrentUser } from '../../utility/auth-service.js'
+import { saveToDailyLeaderboard } from '../../utility/leaderboard-service.js'
 class DashboardContainerElement extends LitElement {
   static properties = {
     color: { type: String },
@@ -130,8 +131,9 @@ class DashboardContainerElement extends LitElement {
     return this.renderDashboard()
   }
 
-  endGame() {
+  async endGame() {
     saveLives(0)
+    await saveToDailyLeaderboard(this.score)
     go(routes.DASHBOARD.path)
     this.requestUpdate()
   }
@@ -139,21 +141,17 @@ class DashboardContainerElement extends LitElement {
   renderDashboard() {
     return html`
       <div id="content" class="wrapper">
-        ${this.disable
-          ? html`<div class="stats">
-              <div class="score-wrapper">
-                <h4>Mystery Color:</h4>
-                <h2 class="do-hyeon-h2">${this.color}</h2>
-                <h4>Daily High Score: ${this.score}%</h4>
-                <progress-bar .progress=${this.score}></progress-bar>
-                <a @click=${this.endGame}>Submit Score & End Game 😇</a>
-                <life-count></life-count>
-              </div>
-            </div> `
-          : ''}
-        ${this.disable
-          ? html` <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button> `
-          : 'Play Again Tomorrow'}
+        <div class="stats">
+          <div class="score-wrapper">
+            <h4>Mystery Color:</h4>
+            <h2 class="do-hyeon-h2">${this.color}</h2>
+            <h4>Daily High Score: ${this.score}%</h4>
+            <progress-bar .progress=${this.score}></progress-bar>
+            <a @click=${this.endGame}>Submit Score & End Game 😇</a>
+            <life-count></life-count>
+          </div>
+        </div>
+        <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button>
         <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
         <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
         <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}>Log Out ${this.user}</a>

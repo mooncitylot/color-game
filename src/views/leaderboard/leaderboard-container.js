@@ -32,7 +32,7 @@ class LeaderboardContainerElement extends LitElement {
             (entry) => html`
               <div>
                 <span>${entry.username}: </span>
-                <span>${entry.score}</span>
+                <span>${entry.score}%</span>
               </div>
             `
           )}
