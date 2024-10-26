@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LitElement, html, css } from 'lit'
 
 import { setCurrentUser, signIn } from '../../utility/auth-service.js'
@@ -44,6 +45,11 @@ class LoginFormElement extends LitElement {
         console.error('Login failed:', error)
         alert('Invalid email or password')
       })
+  }
+
+  handleForgotPassword(e) {
+    e.preventDefault()
+    go(routes.FORGOT_PASSWORD.path)
   }
 
   render() {
