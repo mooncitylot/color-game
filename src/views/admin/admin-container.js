@@ -4,6 +4,10 @@ import { LitElement, html, css } from 'lit'
 import { setColor } from '../../utility/firebase-utils.js'
 import { set } from 'firebase/database'
 import { reset, generateRandomColorScheme } from '../../utility/color-db.js'
+
+import { generateBotScores } from '../../utility/leaderboard-service.js'
+
+import LeaderboardContainer from '../leaderboard/leaderboard-container.js'
 export class AdminContainer extends LitElement {
   static properties = {
     unlocked: { type: Boolean },
@@ -82,6 +86,10 @@ export class AdminContainer extends LitElement {
     `
   }
 
+  generateBotScores() {
+    generateBotScores()
+  }
+
   renderContent() {
     return html` <div class="wrapper">
       <button @click=${() => this.createColor()}>Generate New Color</button>
@@ -95,6 +103,8 @@ export class AdminContainer extends LitElement {
         <button type="submit">Submit Color</button>
       </form>
       <button class="login-option-1" @click=${this.resetAndAlert}>Reset for testing purposes</button>
+      <button class="login-option-1" @click=${this.generateBotScores}>Generate Bot Scores</button>
+      <leaderboard-container></leaderboard-container>
     </div>`
   }
 
