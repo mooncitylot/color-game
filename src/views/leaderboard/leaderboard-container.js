@@ -24,18 +24,25 @@ class LeaderboardContainerElement extends LitElement {
   render() {
     return html`
       <div class="leaderboard-wrap">
-        <h1>Leaderboard</h1>
-
-        ${[...new Map(this.leaderboard.map((item) => [item.username, item])).values()]
-          .sort((a, b) => b.score - a.score)
-          .map(
-            (entry) => html`
-              <div>
-                <span>${entry.username}: </span>
-                <span>${entry.score}%</span>
-              </div>
-            `
-          )}
+        <h1>Top 10 Leaderboard</h1>
+        <div class="leaderboard-container">
+          ${[...new Map(this.leaderboard.map((item) => [item.username, item])).values()]
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 10)
+            .map(
+              (entry, index) => html`
+                <div
+                  class="leaderboard-entry ${index % 2 === 0 ? 'background-color-1' : 'background-color-2'} ${index ===
+                  0
+                    ? 'winner'
+                    : ''}"
+                >
+                  <h3>${index + 1}. ${entry.username}:</h3>
+                  <h3>${entry.score}%</h3>
+                </div>
+              `
+            )}
+        </div>
       </div>
     `
   }
@@ -50,6 +57,33 @@ class LeaderboardContainerElement extends LitElement {
       justify-content: center;
       align-items: center;
       gap: 8px;
+    }
+    .leaderboard-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 80%;
+      height: 80%;
+      overflow-y: auto;
+      border: 8px solid grey;
+      border-radius: 8px;
+    }
+    .leaderboard-entry {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+    }
+    .background-color-1 {
+      background-color: lightgray;
+    }
+    .background-color-2 {
+      background-color: #fff;
+    }
+    .winner {
+      background-color: lightgreen;
+      color: black;
     }
   `
 }
