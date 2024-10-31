@@ -108,7 +108,7 @@ class DashboardContainerElement extends LitElement {
     this.requestUpdate()
   }
   createShareMessage() {
-    return 'I scored ' + this.score + '% on the Color Game. Can you beat me? ' + 'https://bit.ly/48YKlHN'
+    return 'I scored ' + this.score + '% on the Color Game. Can you beat me? ' + 'https://the-color-game.com/login'
   }
   copyText() {
     const copyText = this.shadowRoot.getElementById('copyMe')

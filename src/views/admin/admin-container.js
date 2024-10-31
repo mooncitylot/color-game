@@ -103,7 +103,7 @@ export class AdminContainer extends LitElement {
         <button type="submit">Submit Color</button>
       </form>
       <button class="login-option-1" @click=${this.resetAndAlert}>Reset for testing purposes</button>
-      <button class="login-option-1" @click=${this.generateBotScores}>Generate Bot Scores</button>
+      <button class="login-option-1" @click=${this.generateBotScores}>Generate 10 Bot Scores</button>
       <leaderboard-container></leaderboard-container>
     </div>`
   }
