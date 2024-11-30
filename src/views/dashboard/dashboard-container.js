@@ -4,11 +4,10 @@ import { LitElement, html, css } from 'lit'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
-import { getGoalColorName, getGoalColor, getInput } from '../../utility/color-db.js'
+import { getGoalColorName, getGoalColor, getInput, getGameObject } from '../../utility/color-db.js'
 // @ts-ignore
 import ProgressBar from '../../shared/progress-bar.js'
 import { getDailyHighScore, getMessage, GetLastColor } from '../../utility/color-db.js'
-import {} from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
 import { getLives, saveLives } from '../../utility/color-db.js'
@@ -31,6 +30,7 @@ class DashboardContainerElement extends LitElement {
     showShare: { type: Boolean },
     shareMessage: { type: String },
     user: { type: Object },
+    gameObject: { type: Object },
   }
   constructor() {
     super()
@@ -43,7 +43,8 @@ class DashboardContainerElement extends LitElement {
     this.showResults = false
     this.showShare = false
     this.shareMessage = this.createShareMessage()
-
+    this.gameObject = getGameObject()
+    console.log('gameObject', this.gameObject)
     if (this.score < 90) {
       this.disable = true
     }
@@ -58,7 +59,6 @@ class DashboardContainerElement extends LitElement {
     this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player'
     this.requestUpdate()
     setTimeout(() => {
-      console.log('updating')
       this.requestUpdate()
       this.dispatchEvent(new CustomEvent('update-header', { bubbles: true, composed: true }))
     }, 1000)
@@ -141,6 +141,7 @@ class DashboardContainerElement extends LitElement {
   renderDashboard() {
     return html`
       <div id="content" class="wrapper">
+        <div class="${this.showResults ? 'dimmer' : ''}"></div>
         <div class="stats">
           <div class="score-wrapper">
             <h4>Mystery Color:</h4>
@@ -152,9 +153,37 @@ class DashboardContainerElement extends LitElement {
           </div>
         </div>
         <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button>
+        <button class="dashboard-option" @click=${this.toggleResults}>Progress 📈</button>
         <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
         <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
         <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}>Log Out ${this.user}</a>
+
+        <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <progress-bar .progress=${this.score}></progress-bar>
+            <div>
+              <div style="display: flex; flex-direction: column; border: 4px solid #515151; border-radius: 8px;">
+                ${this.gameObject
+                  ? html`${Object.keys(this.gameObject).map((date) => {
+                      return html`
+                        ${Object.keys(this.gameObject[date]).map((lives) => {
+                          return html`<div
+                            class="past-result-preview"
+                            style="background-color: rgba(${this.gameObject[date][lives].color.red},${this.gameObject[
+                              date
+                            ][lives].color.green},${this.gameObject[date][lives].color.blue})"
+                          >
+                            <p>Guess ${6 - (parseInt(lives) + 1)}: ${this.gameObject[date][lives].score}%</p>
+                          </div>`
+                        })}
+                      `
+                    })}`
+                  : ''}
+              </div>
+            </div>
+          </div>
+          <a @click=${this.toggleResults}>Close</a>
+        </dialog-box>
       </div>
     `
   }
@@ -194,13 +223,32 @@ class DashboardContainerElement extends LitElement {
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
           <div></div>
           <div style="display: flex; flex-direction: column; gap: 16px;">
-            <h2>Score: ${this.score}%</h2>
             <progress-bar .progress=${this.score}></progress-bar>
-            <div
-              class="small-result-preview"
-              style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
-            >
-              <p>Goal Color</p>
+            <div>
+              <div style="display: flex; flex-direction: column; border: 4px solid #515151; border-radius: 8px;">
+                <div
+                  class="small-result-preview"
+                  style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
+                >
+                  <p>${this.color}</p>
+                </div>
+                ${this.gameObject
+                  ? html`${Object.keys(this.gameObject).map((date) => {
+                      return html`
+                        ${Object.keys(this.gameObject[date]).map((lives) => {
+                          return html`<div
+                            class="past-result-preview"
+                            style="background-color: rgba(${this.gameObject[date][lives].color.red},${this.gameObject[
+                              date
+                            ][lives].color.green},${this.gameObject[date][lives].color.blue})"
+                          >
+                            <p>Guess ${6 - (parseInt(lives) + 1)}: ${this.gameObject[date][lives].score}%</p>
+                          </div>`
+                        })}
+                      `
+                    })}`
+                  : ''}
+              </div>
             </div>
           </div>
 
@@ -345,21 +393,46 @@ class DashboardContainerElement extends LitElement {
     }
     .small-result-preview {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 16px;
-      width: 125px;
-      height: 125px;
-      margin: auto;
-      border-radius: 50%;
-      border: 4px solid #515151;
+      width: 100%;
+      height: 48px;
+      margin: 0;
     }
     .small-result-preview p {
+      width: 50%;
+      background-color: white;
       font-size: 20px;
       box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);
       color: #515151;
+      background-color: white;
+      border-radius: 8px;
+      padding: 4px;
+      border: 2px solid #515151;
+      margin: 0;
+      font-family: 'Do Hyeon', sans-serif;
     }
+    .past-result-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 48px;
+      margin: 0;
+    }
+    .past-result-preview p {
+      width: 50%;
+      font-size: 20px;
+      box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);
+      color: #515151;
+      background-color: white;
+      border-radius: 8px;
+      padding: 4px;
+      border: 2px solid #515151;
+      margin: 0;
+      font-family: 'Do Hyeon', sans-serif;
+    }
+
     .hidden {
       display: none;
     }

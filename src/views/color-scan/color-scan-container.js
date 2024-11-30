@@ -137,7 +137,7 @@ class ColorScanContainerElement extends LitElement {
         <div class="buttons">
           <rainbow-button @click="${this.captureImage}" text="Scan Color"></rainbow-button>
           <p>Having Trouble?</p>
-          <a @click="${this.retryConnection}">Relaunch Camera</a>
+          <a @click="${this.retryConnection}">Relaunch Camera!</a>
         </div>
       </div>
     `

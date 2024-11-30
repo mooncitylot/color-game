@@ -7,6 +7,38 @@ const DAILY_HIGH_SCORE = 'daily-high-score'
 const LIVES = 'lives'
 const DATE = 'date'
 const LAST_COLOR = 'last-color'
+const GAME_OBJECT = 'game-object'
+
+/**
+ * @param {number} percentage
+ * @param {number} score
+ * @param {number} lives
+ * @param {string} date
+ * @param {Object} color
+ */
+export function updateGameObject(date, percentage, score, lives, color) {
+  const existingGameObject = getGameObject()
+
+  const updatedGameObject = {
+    ...existingGameObject,
+    [date]: {
+      ...(existingGameObject[date] || {}),
+      [lives]: { percentage, score, color },
+    },
+  }
+
+  console.log('gameObject', updatedGameObject)
+  localStorage.setItem(GAME_OBJECT, JSON.stringify(updatedGameObject))
+}
+
+export function getGameObject() {
+  const gameObject = localStorage.getItem(GAME_OBJECT)
+  if (!gameObject) {
+    return {}
+  }
+  console.log('gameObject', gameObject)
+  return JSON.parse(gameObject)
+}
 
 /**
  * @param {{ getMonth: () => number; getDate: () => any; getFullYear: () => any; }} date
@@ -172,6 +204,7 @@ export function reset() {
   localStorage.setItem(CURRENT_SCORE, JSON.stringify(0))
   localStorage.setItem(DAILY_HIGH_SCORE, JSON.stringify(0))
   localStorage.setItem(LIVES, JSON.stringify(5))
+  localStorage.setItem(GAME_OBJECT, JSON.stringify({}))
 }
 
 /**

@@ -9,6 +9,7 @@ import {
   getLives,
   saveLives,
   saveLastColor,
+  updateGameObject,
 } from '../../utility/color-db.js'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
@@ -16,7 +17,7 @@ import routes from '../../router/routes.js'
 import { questionIcon, winIcon, loseIcon } from '../../assets/icons.js'
 import ProgressBar from '../../shared/progress-bar.js'
 import { saveToDailyLeaderboard } from '../../utility/leaderboard-service.js'
-import { getDailyHighScore } from '../../utility/color-db.js'
+import { getDailyHighScore, formatDate } from '../../utility/color-db.js'
 class ResultsContainerElement extends LitElement {
   static properties = {
     input: { type: Object },
@@ -59,7 +60,6 @@ class ResultsContainerElement extends LitElement {
     const newLife = this.lives - 1
     const input = this.input
 
-    // early return and dont store if color is black
     if (input.red === 0 && input.green === 0 && input.blue === 0) {
       alert('That aint no color, son!')
       go(routes.DASHBOARD.path)
@@ -84,6 +84,8 @@ class ResultsContainerElement extends LitElement {
     this.blueOff = Math.abs(target.blue - input.blue)
 
     saveLastColor(input)
+
+    updateGameObject(formatDate(new Date()), this.roundedScore, this.score, newLife, input)
 
     saveLives(newLife)
     saveCurrentScore(this.roundedScore)
