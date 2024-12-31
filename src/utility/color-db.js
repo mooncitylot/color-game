@@ -92,7 +92,7 @@ export async function getDemoGoalColor() {
         reference,
         (snapshot) => {
           const data = snapshot.val()
-          const red = 228  
+          const red = 228
           const blue = 182 // Parse blue as an integer
           const green = 85 // Parse green as an integer
           goalColor = {
