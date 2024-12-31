@@ -4,10 +4,10 @@ import { LitElement, html, css } from 'lit'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
-import { getGoalColorName, getGoalColor, getInput, getGameObject } from '../../utility/color-db.js'
+import { getGoalColorName, getDemoGoalColor, getGoalColor, getInput, getGameObject } from '../../utility/color-db.js'
 // @ts-ignore
 import ProgressBar from '../../shared/progress-bar.js'
-import { getDailyHighScore, getMessage, GetLastColor } from '../../utility/color-db.js'
+import { getDailyHighScore, getMessage, getLastColor } from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
 import { getLives, saveLives } from '../../utility/color-db.js'
@@ -50,17 +50,21 @@ class DashboardContainerElement extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    this.color = await getGoalColorName()
-    this.colorRGB = await getGoalColor()
-    this.inputRGB = await GetLastColor()
+    this.inputRGB = await getLastColor()
     const currentUser = getCurrentUser()
 
     if (!currentUser) {
       this.user = 'Player'
       this.demoMode = true
+      this.color = 'Mystical Mango'
+      this.colorRGB = await getDemoGoalColor()
+      console.log('Demo Mode:', this.color)
+      console.log('Demo Mode RGB:', this.colorRGB)
     }
     if (currentUser) {
       this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player' || null
+      this.color = await getGoalColorName()
+      this.colorRGB = await getGoalColor()
     }
     console.log('Current User:', this.user)
     this.requestUpdate()

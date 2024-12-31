@@ -60,9 +60,41 @@ export async function getGoalColor() {
         reference,
         (snapshot) => {
           const data = snapshot.val()
-          const red = parseInt(data.red, 10) // Parse red as an integer
-          const blue = parseInt(data.blue, 10) // Parse blue as an integer
-          const green = parseInt(data.green, 10) // Parse green as an integer
+          const red = parseInt(data.red, 10)
+          const blue = parseInt(data.blue, 10)
+          const green = parseInt(data.green, 10)
+          goalColor = {
+            red,
+            blue,
+            green,
+          }
+          resolve(goalColor)
+        },
+        (error) => {
+          reject(error)
+        }
+      )
+    })
+  } catch (error) {
+    console.error('Error getting goal color', error)
+  }
+}
+
+export async function getDemoGoalColor() {
+  const database = getDatabase()
+  const date = formatDate(new Date())
+  const reference = ref(database, `/daily_color/${date}`)
+  let goalColor = {}
+
+  try {
+    return new Promise((resolve, reject) => {
+      onValue(
+        reference,
+        (snapshot) => {
+          const data = snapshot.val()
+          const red = 228  
+          const blue = 182 // Parse blue as an integer
+          const green = 85 // Parse green as an integer
           goalColor = {
             red,
             blue,
@@ -145,7 +177,7 @@ export function saveLastColor(color) {
   localStorage.setItem(LAST_COLOR, JSON.stringify(color))
 }
 
-export function GetLastColor() {
+export function getLastColor() {
   const color = localStorage.getItem(LAST_COLOR)
   return JSON.parse(color)
 }
