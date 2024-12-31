@@ -91,7 +91,6 @@ export const routes = processRoutes({
   },
   DASHBOARD: {
     isPublic: true,
-    permissions: [userIsLoggedIn],
   },
   COLOR_SCAN: {
     isPublic: false,
@@ -115,6 +114,9 @@ export const routes = processRoutes({
   },
   LEADERBOARD: {
     permissions: [userIsLoggedIn],
+  },
+  DEMO_MODE: {
+    isPublic: true,
   },
 })
 

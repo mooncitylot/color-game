@@ -31,6 +31,7 @@ class DashboardContainerElement extends LitElement {
     shareMessage: { type: String },
     user: { type: Object },
     gameObject: { type: Object },
+    demoMode: { type: Boolean },
   }
   constructor() {
     super()
@@ -44,10 +45,7 @@ class DashboardContainerElement extends LitElement {
     this.showShare = false
     this.shareMessage = this.createShareMessage()
     this.gameObject = getGameObject()
-    console.log('gameObject', this.gameObject)
-    if (this.score < 90) {
-      this.disable = true
-    }
+    this.demoMode = false
   }
 
   async connectedCallback() {
@@ -56,12 +54,22 @@ class DashboardContainerElement extends LitElement {
     this.colorRGB = await getGoalColor()
     this.inputRGB = await GetLastColor()
     const currentUser = getCurrentUser()
-    this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player'
+
+    if (!currentUser) {
+      this.user = 'Player'
+      this.demoMode = true
+    }
+    if (currentUser) {
+      this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player' || null
+    }
+    console.log('Current User:', this.user)
     this.requestUpdate()
     setTimeout(() => {
       this.requestUpdate()
       this.dispatchEvent(new CustomEvent('update-header', { bubbles: true, composed: true }))
     }, 1000)
+
+    console.log('Demo Mode?', this.demoMode)
   }
 
   calculateTimeRemaining() {

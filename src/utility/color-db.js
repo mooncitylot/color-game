@@ -27,7 +27,6 @@ export function updateGameObject(date, percentage, score, lives, color) {
     },
   }
 
-  console.log('gameObject', updatedGameObject)
   localStorage.setItem(GAME_OBJECT, JSON.stringify(updatedGameObject))
 }
 
@@ -36,7 +35,6 @@ export function getGameObject() {
   if (!gameObject) {
     return {}
   }
-  console.log('gameObject', gameObject)
   return JSON.parse(gameObject)
 }
 
