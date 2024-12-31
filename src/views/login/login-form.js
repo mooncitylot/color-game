@@ -100,6 +100,12 @@ class LoginFormElement extends LitElement {
             />
             <div class="button-wrap">
               <button class="login-option-1" type="submit" id="submit-button">Log In</button>
+             <div class="separator-bar">
+                <span class="separator-text">OR</span>
+              </div> 
+          <button class="login-option-1" type="button" @click=${() => go(routes.DASHBOARD.path)}>
+                Play a Demo
+              </button>
               <div class="separator-bar">
                 <span class="separator-text">OR</span>
               </div>
