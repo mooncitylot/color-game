@@ -228,7 +228,7 @@ class ColorScanContainerElement extends LitElement {
       z-index: -1;
       display: block;
       position: absolute;
-      top: 41%;
+      top: 38%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -249,13 +249,13 @@ class ColorScanContainerElement extends LitElement {
     .crosshairs {
       z-index: 100;
       position: absolute;
-      top: 41%;
+      top: 38%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;
       height: 20px;
       border: 4px solid #f2efe5;
-      border-radius: 50%;
+      border-radius: 16px;
       box-sizing: border-box;
       box-shadow: 0 0 0 10 rgba(0, 0, 0, 0.5);
     }
@@ -281,9 +281,9 @@ class ColorScanContainerElement extends LitElement {
     .video-mask {
       position: relative;
       overflow: hidden;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
+      width: 250px;
+      height: 250px;
+      border-radius: 24px;
       scale: 0.75;
       border: 8px solid grey;
     }
@@ -301,7 +301,7 @@ class ColorScanContainerElement extends LitElement {
       width: 200px;
       margin-bottom: 24px;
       border: 8px solid #515151;
-      border-radius: 50%;
+      border-radius: 16px;
     }
     .hide {
       display: none;

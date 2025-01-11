@@ -107,12 +107,6 @@ class ResultsContainerElement extends LitElement {
             style="background-color: rgba(${this.input.red} ${this.input.green} ${this.input.blue})"
             class="result-preview"
           ></div>
-          <div class="hints">
-            <h3>Hints</h3>
-            <p><span style="color: red;">Red:</span> ${this.getHintText(this.redOff)}</p>
-            <p><span style="color: green;">Green:</span> ${this.getHintText(this.greenOff)}</p>
-            <p><span style="color: blue;">Blue:</span> ${this.getHintText(this.blueOff)}</p>
-          </div>
         </div>
         <div class="results-option" @click=${() => go(routes.DASHBOARD.path)}>Home</div>
       </div>
@@ -158,7 +152,7 @@ class ResultsContainerElement extends LitElement {
       gap: 16px;
       width: 300px;
       height: 300px;
-      border-radius: 50%;
+      border-radius: 16px;
       border: 8px solid #515151;
     }
     .small-result-preview {

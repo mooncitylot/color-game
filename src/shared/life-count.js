@@ -10,7 +10,6 @@ class lifeCount extends LitElement {
   constructor() {
     super()
     this.life = getLives()
-    console.log('Life', this.life)
   }
 
   render() {
@@ -86,6 +85,9 @@ class lifeCount extends LitElement {
   }
 
   static styles = css`
+    h4 {
+      margin: 0;
+    }
     .life-count {
       display: flex;
       justify-content: left;

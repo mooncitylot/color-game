@@ -4,10 +4,10 @@ import { LitElement, html, css } from 'lit'
 import BackArrowElement from '../../shared/back-arrow.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
-import { getGoalColorName, getGoalColor, getInput, getGameObject } from '../../utility/color-db.js'
+import { getGoalColorName, getDemoGoalColor, getGoalColor, getInput, getGameObject } from '../../utility/color-db.js'
 // @ts-ignore
 import ProgressBar from '../../shared/progress-bar.js'
-import { getDailyHighScore, getMessage, GetLastColor } from '../../utility/color-db.js'
+import { getDailyHighScore, getMessage, getLastColor } from '../../utility/color-db.js'
 import { setValue, getColor } from '../../utility/firebase-utils.js'
 import lifeCount from '../../shared/life-count.js'
 import { getLives, saveLives } from '../../utility/color-db.js'
@@ -31,6 +31,7 @@ class DashboardContainerElement extends LitElement {
     shareMessage: { type: String },
     user: { type: Object },
     gameObject: { type: Object },
+    demoMode: { type: Boolean },
   }
   constructor() {
     super()
@@ -44,19 +45,33 @@ class DashboardContainerElement extends LitElement {
     this.showShare = false
     this.shareMessage = this.createShareMessage()
     this.gameObject = getGameObject()
-    console.log('gameObject', this.gameObject)
-    if (this.score < 90) {
-      this.disable = true
-    }
+    this.demoMode = false
   }
 
   async connectedCallback() {
     super.connectedCallback()
-    this.color = await getGoalColorName()
-    this.colorRGB = await getGoalColor()
-    this.inputRGB = await GetLastColor()
+    this.inputRGB = await getLastColor()
     const currentUser = getCurrentUser()
-    this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player'
+
+    if (this.demoMode) {
+      setTimeout(() => {
+        alert(
+          'You are currently in Demo Mode! To view the leaderboard and get a new mystery color every day, please create an account.'
+        )
+      }, 1000)
+    }
+
+    if (!currentUser) {
+      this.user = 'Player'
+      this.demoMode = true
+      this.color = 'Mystical Mango'
+      this.colorRGB = await getDemoGoalColor()
+    }
+    if (currentUser) {
+      this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player' || null
+      this.color = await getGoalColorName()
+      this.colorRGB = await getGoalColor()
+    }
     this.requestUpdate()
     setTimeout(() => {
       this.requestUpdate()
@@ -147,16 +162,32 @@ class DashboardContainerElement extends LitElement {
             <h4>Mystery Color:</h4>
             <h2 class="do-hyeon-h2">${this.color}</h2>
             <h4>Daily High Score: ${this.score}%</h4>
-            <progress-bar .progress=${this.score}></progress-bar>
-            <a @click=${this.endGame}>Submit Score & End Game 😇</a>
             <life-count></life-count>
           </div>
         </div>
         <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button>
         <button class="dashboard-option" @click=${this.toggleResults}>Progress 📈</button>
         <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
-        <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
-        <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}>Log Out ${this.user}</a>
+        ${this.demoMode
+          ? html`
+              <button class="dashboard-option" @click=${() => alert('Log in or sign up to view the leaderboard!')}>
+                Leaderboard 🏆
+              </button>
+            `
+          : html`
+              <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
+            `}
+        <a @click=${this.endGame}>End Game Early? 😇</a>
+
+        ${this.demoMode
+          ? html`<a style="border: none; text-decoration: underline;" @click=${() => go(routes.LOGIN.path)}
+              >Log In or Sign Up</a
+            >`
+          : html`
+              <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}
+                >Log Out ${this.user}</a
+              >
+            `}
 
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
           <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -221,9 +252,8 @@ class DashboardContainerElement extends LitElement {
         </div>
 
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
-          <div></div>
           <div style="display: flex; flex-direction: column; gap: 16px;">
-            <progress-bar .progress=${this.score}></progress-bar>
+            d
             <div>
               <div style="display: flex; flex-direction: column; border: 4px solid #515151; border-radius: 8px;">
                 <div
@@ -232,6 +262,7 @@ class DashboardContainerElement extends LitElement {
                 >
                   <p>${this.color}</p>
                 </div>
+
                 ${this.gameObject
                   ? html`${Object.keys(this.gameObject).map((date) => {
                       return html`
@@ -267,6 +298,7 @@ class DashboardContainerElement extends LitElement {
       border: none;
       cursor: pointer;
     }
+
     :host {
       display: flex;
       flex-direction: column;
@@ -318,7 +350,7 @@ class DashboardContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 8px;
       width: 100%;
       padding: 16px;
       background-color: #f0f0f0;
