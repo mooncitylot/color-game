@@ -10,6 +10,8 @@ import globalStyles from '../../styles/global-styles.js'
 
 import { auth } from '../../app-enter.js'
 
+import { reset } from '../../utility/color-db.js'
+
 import { getUserData } from '../../utility/firebase-utils.js'
 
 import { updateCurrentUser } from '../../utility/auth-service.js'
@@ -42,6 +44,7 @@ class LoginFormElement extends LitElement {
             detail: { user },
           })
         )
+        reset()
         setTimeout(() => {
           go(routes.DASHBOARD.path)
         }, 250)
@@ -100,10 +103,17 @@ class LoginFormElement extends LitElement {
             />
             <div class="button-wrap">
               <button class="login-option-1" type="submit" id="submit-button">Log In</button>
-             <div class="separator-bar">
+              <div class="separator-bar">
                 <span class="separator-text">OR</span>
-              </div> 
-          <button class="login-option-1" type="button" @click=${() => go(routes.DASHBOARD.path)}>
+              </div>
+              <button
+                class="login-option-1"
+                type="button"
+                @click=${() => {
+                  reset()
+                  go(routes.DASHBOARD.path)
+                }}
+              >
                 Play a Demo
               </button>
               <div class="separator-bar">
