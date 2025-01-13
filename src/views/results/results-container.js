@@ -18,6 +18,8 @@ import { questionIcon, winIcon, loseIcon } from '../../assets/icons.js'
 import ProgressBar from '../../shared/progress-bar.js'
 import { saveToDailyLeaderboard } from '../../utility/leaderboard-service.js'
 import { getDailyHighScore, formatDate } from '../../utility/color-db.js'
+import { getCurrentUser } from '../../utility/auth-service.js'
+import { getDemoGoalColor } from '../../utility/color-db.js'
 class ResultsContainerElement extends LitElement {
   static properties = {
     input: { type: Object },
@@ -33,12 +35,13 @@ class ResultsContainerElement extends LitElement {
     greenOff: { type: Number },
     blueOff: { type: Number },
     lives: { type: Number },
+    demoMode: { type: Boolean },
   }
-
   constructor() {
     super()
     this.lives = getLives()
     this.input = getInput()
+    this.demoMode = getCurrentUser() ? false : true
     this.target = {
       red: 0,
       green: 0,
@@ -51,7 +54,11 @@ class ResultsContainerElement extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    this.target = await getGoalColor()
+    if (this.demoMode) {
+      this.target = await getDemoGoalColor()
+    } else {
+      this.target = await getGoalColor()
+    }
     this.calculateDifference()
   }
 

@@ -5,9 +5,11 @@ import ColorScannerElement from '../../shared/color-scanner.js'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
 import { loading } from '../../assets/animations.js'
-import { getGoalColor, getGoalColorName, saveInput } from '../../utility/color-db.js'
+import { getGoalColor, getGoalColorName, saveInput, getDemoGoalColor } from '../../utility/color-db.js'
 import { getDailyHighScore } from '../../utility/color-db.js'
 import RainbowButtonElement from '../../shared/rainbow-button.js'
+import { getCurrentUser } from '../../utility/auth-service.js'
+
 class ColorScanContainerElement extends LitElement {
   static properties = {
     capture: { type: Object },
@@ -18,6 +20,7 @@ class ColorScanContainerElement extends LitElement {
     goalColorName: { type: String },
     input: { type: Object },
     score: { type: Number },
+    demoMode: { type: Boolean },
   }
 
   constructor() {
@@ -37,10 +40,21 @@ class ColorScanContainerElement extends LitElement {
   }
 
   async connectedCallback() {
+    this.demoMode = getCurrentUser() ? false : true
     super.connectedCallback()
-    this.target = await getGoalColor()
-    console.log('Target', this.target)
-    this.goalColorName = await getGoalColorName()
+    if (this.demoMode) {
+      this.demoMode = true
+      this.goalColorName = 'Mystic Mango'
+      this.target = await getDemoGoalColor()
+      console.log('Demo Mode')
+      console.log('Target', this.target)
+      console.log('Goal Color Name', this.goalColorName)
+    } else {
+      this.target = await getGoalColor()
+      console.log('Target', this.target)
+      this.goalColorName = await getGoalColorName()
+    }
+
     if (this.score > 90) {
       go(routes.DASHBOARD.path)
     }

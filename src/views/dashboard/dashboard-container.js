@@ -163,6 +163,9 @@ class DashboardContainerElement extends LitElement {
             <h2 class="do-hyeon-h2">${this.color}</h2>
             <h4>Daily High Score: ${this.score}%</h4>
             <life-count></life-count>
+            ${this.demoMode
+              ? html`<p style="color: red; font-weight: bold; font-size: 12px">You are in demo mode!</p>`
+              : ''}
           </div>
         </div>
         <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button>
@@ -199,12 +202,12 @@ class DashboardContainerElement extends LitElement {
                       return html`
                         ${Object.keys(this.gameObject[date]).map((lives) => {
                           return html`<div
-                            class="past-result-preview"
-                            style="background-color: rgba(${this.gameObject[date][lives].color.red},${this.gameObject[
-                              date
-                            ][lives].color.green},${this.gameObject[date][lives].color.blue})"
+                            style=" width: 75vw; background-color: rgba(${this.gameObject[date][lives].color.red},${this
+                              .gameObject[date][lives].color.green},${this.gameObject[date][lives].color.blue})"
                           >
-                            <p>Guess ${6 - (parseInt(lives) + 1)}: ${this.gameObject[date][lives].score}%</p>
+                            <h1 style="color: white; -webkit-text-stroke: 2px black;">
+                              GUESS ${6 - (parseInt(lives) + 1)}: ${this.gameObject[date][lives].score}%
+                            </h1>
                           </div>`
                         })}
                       `
@@ -226,9 +229,20 @@ class DashboardContainerElement extends LitElement {
           <h1>Game Over!</h1>
           <h2>Score: ${this.score}%</h2>
           <stars-element score=${this.score}></stars-element>
+          ${this.demoMode
+            ? html`<p style=" margin: 0;color: red; font-weight: bold; font-size: 12px">You are in demo mode!</p>`
+            : ''}
           <h4 style="color: grey">Play again in ${this.formatTime(this.timeRemaining)}</h4>
           <div style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
-            <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard</button>
+            ${this.demoMode
+              ? html`
+                  <button class="dashboard-option" @click=${() => alert('Log in or sign up to view the leaderboard!')}>
+                    Leaderboard 🏆
+                  </button>
+                `
+              : html`
+                  <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
+                `}
             <button class="dashboard-option" @click=${this.toggleResults}>Results</button>
             <button class="dashboard-option" @click=${this.toggleShare}>Share</button>
           </div>
@@ -253,12 +267,13 @@ class DashboardContainerElement extends LitElement {
 
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
           <div style="display: flex; flex-direction: column; gap: 16px;">
-            d
             <div>
               <div style="display: flex; flex-direction: column; border: 4px solid #515151; border-radius: 8px;">
                 <div
-                  class="small-result-preview"
-                  style="background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue}) "
+                  style="
+                    width: 75vw;
+                    background-color: rgba(${this.colorRGB.red},${this.colorRGB.green},${this.colorRGB.blue})
+                  "
                 >
                   <p>${this.color}</p>
                 </div>
@@ -268,12 +283,11 @@ class DashboardContainerElement extends LitElement {
                       return html`
                         ${Object.keys(this.gameObject[date]).map((lives) => {
                           return html`<div
-                            class="past-result-preview"
                             style="background-color: rgba(${this.gameObject[date][lives].color.red},${this.gameObject[
                               date
                             ][lives].color.green},${this.gameObject[date][lives].color.blue})"
                           >
-                            <p>Guess ${6 - (parseInt(lives) + 1)}: ${this.gameObject[date][lives].score}%</p>
+                            <h3>GUESS ${6 - (parseInt(lives) + 1)}: ${this.gameObject[date][lives].score}%</h3>
                           </div>`
                         })}
                       `
@@ -309,6 +323,7 @@ class DashboardContainerElement extends LitElement {
       font-family: 'Arial';
     }
     dialog-box {
+      width: 80%;
       position: fixed;
       display: flex;
       flex-direction: column;
@@ -319,7 +334,6 @@ class DashboardContainerElement extends LitElement {
       margin: auto;
       z-index: 100;
       padding: 16px;
-      max-width: 500px;
       background-color: #e3e1d9;
       border: 2px solid #515151;
       border-radius: 16px;
