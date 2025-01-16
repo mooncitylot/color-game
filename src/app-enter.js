@@ -49,6 +49,12 @@ class AppEnterElement extends RouterBase {
   connectedCallback() {
     super.connectedCallback()
     this.resetAtNewDay()
+
+    if (this.isInAppBrowser()) {
+      alert(
+        'Hey you silly goose, please open the-color-game.com in your default browser instead of whatever you are using now. I mean, you can use it now but its going to suck and not work good. Ya feel?'
+      )
+    }
   }
 
   resetAtNewDay() {
@@ -58,6 +64,26 @@ class AppEnterElement extends RouterBase {
       reset()
       saveDate(today)
     }
+  }
+
+  isInAppBrowser() {
+    // @ts-ignore
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera
+
+    // Common in-app browser identifiers
+    const inAppBrowsers = [
+      'Instagram',
+      'FBAN', // Facebook Android
+      'FBAV', // Facebook App
+      'Twitter', // Twitter App
+      'Line', // Line App
+      'WeiXin', // WeChat
+      'LinkedIn', // LinkedIn App
+      'WhatsApp', // WhatsApp Browser
+      'FB_IAB', // Facebook In-App Browser
+    ]
+
+    return inAppBrowsers.some((browser) => userAgent.includes(browser))
   }
 
   render() {
