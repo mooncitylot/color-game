@@ -98,8 +98,8 @@ class ColorScanContainerElement extends LitElement {
 
     context.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-    const centerX = Math.floor(200)
-    const centerY = Math.floor(200)
+    const centerX = Math.floor(canvas.width / 2)
+    const centerY = Math.floor(canvas.height / 2)
     const pixel = context.getImageData(centerX, centerY, 1, 1).data
 
     this.capture = {
@@ -197,6 +197,9 @@ class ColorScanContainerElement extends LitElement {
     rainbow-button {
       margin-bottom: 24px;
     }
+    video {
+      transform: translate(-175px, -150px);
+    }
     div {
       position: relative;
       display: inline-block;
@@ -258,7 +261,7 @@ class ColorScanContainerElement extends LitElement {
     .crosshairs {
       z-index: 100;
       position: absolute;
-      top: 38%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;
