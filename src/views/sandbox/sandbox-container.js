@@ -3,7 +3,7 @@ import { html, css, LitElement } from 'lit'
 import { setUserData, getUserData } from '../../utility/firebase-utils.js'
 import { getCurrentUser, getAllUsers } from '../../utility/auth-service.js'
 import { saveToDailyLeaderboard, getDailyLeaderboard } from '../../utility/leaderboard-service.js'
-
+import { autoSetColor } from '../../utility/firebase-utils.js'
 class SandboxContainer extends LitElement {
   static styles = css`
     :host {
@@ -28,6 +28,7 @@ class SandboxContainer extends LitElement {
     this.user = await getCurrentUser()
     console.log('getting', await getAllUsers())
     this.requestUpdate()
+    this.autoSetColor()
   }
 
   async getUserData() {
@@ -42,6 +43,10 @@ class SandboxContainer extends LitElement {
   async getScore() {
     const leaderboard = await getDailyLeaderboard()
     console.log(leaderboard)
+  }
+
+  async autoSetColor() {
+    await autoSetColor()
   }
 
   render() {

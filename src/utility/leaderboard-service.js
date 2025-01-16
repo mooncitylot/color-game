@@ -82,7 +82,6 @@ export async function generateBotScores(count = 10) {
       username: randomUsername,
       score: score(),
     }
-    console.log(scoreObject)
 
     const newScoreRef = push(leaderboardRef)
     await set(newScoreRef, scoreObject)

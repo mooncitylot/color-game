@@ -60,9 +60,9 @@ export async function getGoalColor() {
         reference,
         (snapshot) => {
           const data = snapshot.val()
-          const red = parseInt(data.red, 10)
-          const blue = parseInt(data.blue, 10)
-          const green = parseInt(data.green, 10)
+          const red = parseInt(data?.red, 10)
+          const blue = parseInt(data?.blue, 10)
+          const green = parseInt(data?.green, 10)
           goalColor = {
             red,
             blue,

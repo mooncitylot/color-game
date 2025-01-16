@@ -46,12 +46,8 @@ class ColorScanContainerElement extends LitElement {
       this.demoMode = true
       this.goalColorName = 'Mystic Mango'
       this.target = await getDemoGoalColor()
-      console.log('Demo Mode')
-      console.log('Target', this.target)
-      console.log('Goal Color Name', this.goalColorName)
     } else {
       this.target = await getGoalColor()
-      console.log('Target', this.target)
       this.goalColorName = await getGoalColorName()
     }
 
@@ -86,7 +82,6 @@ class ColorScanContainerElement extends LitElement {
       .getUserMedia(constraints)
       .then((stream) => {
         this.video.srcObject = stream
-        console.log('Camera access granted:', stream)
       })
       .catch((error) => {
         console.error('Error accessing camera:', error)

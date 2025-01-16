@@ -17,8 +17,6 @@ class LeaderboardContainerElement extends LitElement {
     super.connectedCallback()
     const users = await getAllUsers()
     this.leaderboard = await getDailyLeaderboard()
-    console.log(this.leaderboard)
-    console.log(users)
   }
 
   render() {
