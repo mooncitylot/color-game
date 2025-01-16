@@ -70,7 +70,9 @@ class DashboardContainerElement extends LitElement {
       this.colorRGB = await getDemoGoalColor()
     }
     if (currentUser) {
-      this.user = currentUser.additionalData ? currentUser.additionalData.username : 'Player' || null
+      await updateCurrentUser()
+      const updatedUser = getCurrentUser()
+      this.user = updatedUser.additionalData ? updatedUser.additionalData.username : 'Player' || null
       this.color = await getGoalColorName()
       this.colorRGB = await getGoalColor()
     }

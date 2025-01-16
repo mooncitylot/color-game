@@ -4,6 +4,7 @@ import { setUserData, getUserData } from '../../utility/firebase-utils.js'
 import { getCurrentUser, getAllUsers } from '../../utility/auth-service.js'
 import { saveToDailyLeaderboard, getDailyLeaderboard } from '../../utility/leaderboard-service.js'
 import { autoSetColor } from '../../utility/firebase-utils.js'
+import { incrementUserLevel } from '../../utility/firebase-utils.js'
 class SandboxContainer extends LitElement {
   static styles = css`
     :host {
@@ -45,6 +46,11 @@ class SandboxContainer extends LitElement {
     console.log(leaderboard)
   }
 
+  async incrementLevel() {
+    console.log(this.user)
+    await incrementUserLevel(this.user.user.uid, 1)
+  }
+
   async autoSetColor() {
     await autoSetColor()
   }
@@ -57,6 +63,7 @@ class SandboxContainer extends LitElement {
       <h1>Sandbox</h1>
       <button @click=${this.saveScore}>Save Score</button>
       <button @click=${this.getScore}>Get Leaderboard</button>
+      <button @click=${this.incrementLevel}>Increment Level</button>
     `
   }
 }

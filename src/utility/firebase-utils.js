@@ -81,8 +81,9 @@ export async function autoSetColor() {
  * @param {number} points
  * @param {string} profilePic
  * @param {string} friends
+ * @param {number} level
  */
-export function setUserData(userId, username, points, profilePic, friends) {
+export function setUserData(userId, username, points, profilePic, friends, level = 1) {
   const database = getDatabase()
   const reference = ref(database, `/user_data/${userId}`)
   set(reference, {
@@ -90,6 +91,7 @@ export function setUserData(userId, username, points, profilePic, friends) {
     points,
     profilePic,
     friends,
+    level,
   })
 }
 
@@ -132,4 +134,33 @@ export function checkUsernameExists(username) {
       console.error('Error checking username:', error)
       throw error
     })
+}
+
+/**
+ * Increments a user's level by a specified amount
+ * @param {string} userId - The user's ID
+ * @param {number} increment - Amount to increase the level by (default: 1)
+ * @returns {Promise<void>}
+ */
+export async function incrementUserLevel(userId, increment = 1) {
+  const database = getDatabase()
+  const reference = ref(database, `/user_data/${userId}`)
+
+  try {
+    const snapshot = await get(reference)
+    if (snapshot.exists()) {
+      const userData = snapshot.val()
+      const newLevel = (userData.level || 1) + increment
+
+      // Update only the level field
+      await set(reference, {
+        ...userData,
+        level: newLevel,
+      })
+    }
+  } catch (error) {
+    console.error('Error updating user level:', error)
+    throw error
+  }
+  setCurrentUser(await getCurrentUser())
 }
