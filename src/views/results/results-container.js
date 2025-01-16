@@ -101,6 +101,8 @@ class ResultsContainerElement extends LitElement {
     if (newLife === 0) {
       await saveToDailyLeaderboard(dailyHigh)
       await incrementUserLevel(await getCurrentUser().user.uid, dailyHigh)
+      const updatedUser = await getCurrentUser()
+      sessionStorage.setItem('user', JSON.stringify(updatedUser))
     }
   }
 

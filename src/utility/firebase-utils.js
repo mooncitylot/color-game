@@ -162,4 +162,5 @@ export async function incrementUserLevel(userId, increment = 1) {
     console.error('Error updating user level:', error)
     throw error
   }
+  setCurrentUser(await getCurrentUser())
 }
