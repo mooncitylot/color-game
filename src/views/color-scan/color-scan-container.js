@@ -234,7 +234,9 @@ class ColorScanContainerElement extends LitElement {
       width: 100%;
       padding: 16px;
       background-color: #e3e1d9;
-      font-family: 'Do Hyeon', sans-serif;
+      font-family: sans-serif;
+      font-size: 24px;
+      font-weight: bold;
       border: 2px solid #b4b4b8;
       text-align: center;
       color: #515151;
