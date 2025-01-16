@@ -15,7 +15,7 @@ class SignupContainerElement extends LitElement {
   handleStepOne(e) {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.target).entries())
-    console.log(data)
+
     if (data.password !== data['confirm-password']) {
       alert('Passwords do not match')
       return
@@ -36,7 +36,6 @@ class SignupContainerElement extends LitElement {
 
     const currentUser = await getCurrentUser()
 
-    console.log('Current user:', currentUser)
     if (!currentUser) {
       console.error('No current user found')
       return
@@ -63,17 +62,9 @@ class SignupContainerElement extends LitElement {
 
       const initialPoints = 0
       const friends = []
-      console.log('Data to be set:', {
-        uid: currentUser.user.uid,
-        username,
-        initialPoints,
-        profilePic: profilePicBase64,
-        friends,
-      })
 
       await setUserData(currentUser.user.uid, username, initialPoints, profilePicBase64, friends)
       updateCurrentUser()
-      console.log(getCurrentUser())
       go(routes.DASHBOARD.path)
     } catch (error) {
       console.error('Error setting additional user data:', error)

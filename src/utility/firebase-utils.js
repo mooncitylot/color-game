@@ -4,7 +4,8 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { ref, set, onValue } from 'firebase/database'
 import { html, css } from 'lit'
-
+import { generateRandomColorScheme, getGoalColor } from './color-db.js'
+import { generateBotScores } from './leaderboard-service.js'
 /**
  * @param {Number} value
  */
@@ -30,16 +31,13 @@ export function formatDate(date) {
 export function getColor() {
   const database = getDatabase()
   const date = formatDate(new Date())
-  console.log(date)
   const reference = ref(database, `/daily_color/${date}`)
-
   onValue(reference, (snapshot) => {
     const data = snapshot.val()
-    const blue = data.blue
-    const green = data.green
-    const red = data.red
-    const name = data.name
-    console.log(red, blue, green, name)
+    const blue = data?.blue
+    const green = data?.green
+    const red = data?.red
+    const name = data?.name
   })
 }
 
@@ -59,6 +57,22 @@ export function setColor(red, green, blue, name, date) {
     blue,
     name,
   })
+}
+
+export async function autoSetColor() {
+  getColor()
+  const todaysColor = await getGoalColor()
+  if (isNaN(todaysColor.red)) {
+    const today = formatDate(new Date())
+    const database = getDatabase()
+    const colorRef = ref(database, `/daily_color/${today}`)
+    const colorData = await generateRandomColorScheme()
+    const newColor = await generateRandomColorScheme()
+    setColor(newColor.red, newColor.green, newColor.blue, newColor.name, today)
+    generateBotScores()
+  } else {
+    return
+  }
 }
 
 /**
@@ -88,7 +102,6 @@ export function getUserData(userId) {
       if (snapshot.exists()) {
         return snapshot.val()
       } else {
-        console.log('No data available for this user')
         return null
       }
     })

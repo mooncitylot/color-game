@@ -32,6 +32,19 @@ const analytics = getAnalytics(app)
 export const auth = getAuth(app) // Initialize and export Auth
 export const database = getDatabase(app) // Add this line
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then((registration) => {
+        console.log('ServiceWorker registration successful')
+      })
+      .catch((err) => {
+        console.log('ServiceWorker registration failed: ', err)
+      })
+  })
+}
+
 class AppEnterElement extends RouterBase {
   connectedCallback() {
     super.connectedCallback()

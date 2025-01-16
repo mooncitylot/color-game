@@ -49,7 +49,6 @@ class ColorScannerElement extends LitElement {
       .getUserMedia(constraints)
       .then((stream) => {
         this.video.srcObject = stream
-        console.log('Camera access granted:', stream)
       })
       .catch((error) => {
         console.error('Error accessing camera:', error)
@@ -93,7 +92,6 @@ class ColorScannerElement extends LitElement {
     this.blue = pixel[2]
     this.alpha = pixel[3] / 255
 
-    console.log('RGB Values:', this.red, this.green, this.blue, this.alpha)
     this.captureTaken = true
     this.requestUpdate()
   }

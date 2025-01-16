@@ -16,6 +16,7 @@ import StarsElement from '../../shared/stars.js'
 import shareElement from '../../shared/share.js'
 import { clearCurrentUser, getCurrentUser, updateCurrentUser } from '../../utility/auth-service.js'
 import { saveToDailyLeaderboard } from '../../utility/leaderboard-service.js'
+import { autoSetColor } from '../../utility/firebase-utils.js'
 class DashboardContainerElement extends LitElement {
   static properties = {
     color: { type: String },
@@ -50,6 +51,7 @@ class DashboardContainerElement extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
+    await autoSetColor()
     this.inputRGB = await getLastColor()
     const currentUser = getCurrentUser()
 

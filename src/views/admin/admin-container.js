@@ -28,7 +28,6 @@ export class AdminContainer extends LitElement {
 
   async createColor() {
     this.newColor = await generateRandomColorScheme()
-    console.log('New Color', this.newColor)
     this.requestUpdate()
   }
 
@@ -51,9 +50,6 @@ export class AdminContainer extends LitElement {
     const form = event.target
     const date = new Date(form.date.value) // Convert string to Date object
     const formattedDate = this.dateFormat(date)
-    console.log('Date', date)
-    console.log('Formatted Date', formattedDate)
-
     setColor(this.newColor.red, this.newColor.green, this.newColor.blue, this.newColor.name, formattedDate)
 
     alert('Color added')
