@@ -20,6 +20,7 @@ import { saveToDailyLeaderboard } from '../../utility/leaderboard-service.js'
 import { getDailyHighScore, formatDate } from '../../utility/color-db.js'
 import { getCurrentUser } from '../../utility/auth-service.js'
 import { getDemoGoalColor } from '../../utility/color-db.js'
+import { incrementUserLevel } from '../../utility/firebase-utils.js'
 class ResultsContainerElement extends LitElement {
   static properties = {
     input: { type: Object },
@@ -99,6 +100,7 @@ class ResultsContainerElement extends LitElement {
     const dailyHigh = await getDailyHighScore()
     if (newLife === 0) {
       await saveToDailyLeaderboard(dailyHigh)
+      await incrementUserLevel(await getCurrentUser().user.uid, dailyHigh)
     }
   }
 
