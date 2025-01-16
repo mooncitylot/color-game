@@ -21,6 +21,7 @@ class ColorScanContainerElement extends LitElement {
     input: { type: Object },
     score: { type: Number },
     demoMode: { type: Boolean },
+    currentColor: { type: Object },
   }
 
   constructor() {
@@ -37,6 +38,12 @@ class ColorScanContainerElement extends LitElement {
     this.video = null
     this.target = ''
     this.animateContentFadeIn()
+    this.currentColor = {
+      red: 0,
+      green: 0,
+      blue: 0,
+      alpha: 1,
+    }
   }
 
   async connectedCallback() {
@@ -75,17 +82,46 @@ class ColorScanContainerElement extends LitElement {
       width: { ideal: 180 },
       height: { ideal: 180 },
       displayMode: { exact: 'inline' },
-      frameRate: { ideal: 10 },
+      frameRate: { ideal: 30 },
     }
 
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((stream) => {
         this.video.srcObject = stream
+        this.startColorSampling()
       })
       .catch((error) => {
         console.error('Error accessing camera:', error)
       })
+  }
+
+  startColorSampling() {
+    const video = this.shadowRoot.getElementById('cameraFeed')
+    const canvas = this.shadowRoot.getElementById('canvasOverlay')
+    const context = canvas.getContext('2d')
+
+    const sampleColor = () => {
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+
+      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+      const centerX = Math.floor(canvas.width / 2)
+      const centerY = Math.floor(canvas.height / 2)
+      const pixel = context.getImageData(centerX, centerY, 1, 1).data
+
+      this.currentColor = {
+        red: pixel[0],
+        green: pixel[1],
+        blue: pixel[2],
+        alpha: 1,
+      }
+      this.requestUpdate()
+      requestAnimationFrame(sampleColor)
+    }
+
+    requestAnimationFrame(sampleColor)
   }
 
   captureImage() {
@@ -125,28 +161,31 @@ class ColorScanContainerElement extends LitElement {
   }
 
   render() {
-    return html`
-      <div class="wrapper-card">
+    return html` <div
+        style="background-color: rgba(${this.currentColor.red}, ${this.currentColor.green}, ${this.currentColor
+          .blue}, ${this.currentColor.alpha})"
+        class="wrapper-card"
+      >
         <div id="content">${this.captureTaken ? this.renderResult() : this.renderScanner()}</div>
       </div>
-    `
+      <p>Having Trouble?</p>
+      <a @click="${this.retryConnection}">Relaunch Scanner!</a>`
   }
 
   renderScanner() {
+    const isColorReady = this.currentColor.red > 0 || this.currentColor.green > 0 || this.currentColor.blue > 0
     return html`
       <div class="${this.captureTaken ? 'hide' : ''} wrapper">
-        <h1>"${this.goalColorName}"</h1>
-        <span class="video-mask"><video id="cameraFeed" autoplay webkit-playsinline playsinline></video></span>
-
-        <canvas id="canvasOverlay" width="400" height="400"> </canvas>
-
-        <div class="crosshairs"></div>
+        <div
+          class="current-color"
+          style="background-color: rgba(${this.currentColor.red}, ${this.currentColor.green}, ${this.currentColor
+            .blue}, ${this.currentColor.alpha})"
+        ></div>
+        <video id="cameraFeed" autoplay webkit-playsinline playsinline style="display: none;"></video>
+        <canvas id="canvasOverlay" width="400" height="400" style="display: none;"></canvas>
         <div class="loading-spinner">${loading}</div>
-
         <div class="buttons">
-          <rainbow-button @click="${this.captureImage}" text="Scan Color"></rainbow-button>
-          <p>Having Trouble?</p>
-          <a @click="${this.retryConnection}">Relaunch Camera!</a>
+          <button ?disabled="${!isColorReady}" @click="${this.captureImage}">${this.goalColorName}?</button>
         </div>
       </div>
     `
@@ -162,8 +201,8 @@ class ColorScanContainerElement extends LitElement {
         ></div>
       </div>
       <div class="buttons">
-        <rainbow-button @click="${this.handleSubmit}" text="Submit"></rainbow-button>
-        <a @click=${() => go(routes.COLOR_SCAN.path)}>Re-Scan Color</a>
+        <button style="width: 100%;" @click=${() => go(routes.COLOR_SCAN.path)}>Redo</button>
+        <button style="width: 100%;" @click="${this.handleSubmit}">Submit</button>
       </div>
     `
   }
@@ -190,6 +229,19 @@ class ColorScanContainerElement extends LitElement {
       overflow-x: hidden;
       font-family: 'Arial';
     }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background-color: #e3e1d9;
+      font-family: 'Do Hyeon', sans-serif;
+      border: 2px solid #b4b4b8;
+      text-align: center;
+      color: #515151;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
     back-arrow {
       position: fixed;
       bottom: 24px;
@@ -226,11 +278,11 @@ class ColorScanContainerElement extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 80%;
+      width: 90%;
+      height: 60vh;
       gap: 16px;
       overflow-x: hidden;
       font-family: 'Arial';
-      background-color: #f2efe5;
       padding: 16px;
       border-radius: 16px;
       border: 2px solid #b4b4b8;
@@ -259,9 +311,11 @@ class ColorScanContainerElement extends LitElement {
     }
 
     .crosshairs {
+      // TODO: Not Needed but not sure if I might need it later
+      display: none;
       z-index: 100;
       position: absolute;
-      top: 50%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 20px;
@@ -291,13 +345,13 @@ class ColorScanContainerElement extends LitElement {
     }
 
     .video-mask {
+      // TODO: Not Needed but not sure if I might need it later
+      display: none;
       position: relative;
       overflow: hidden;
       width: 250px;
       height: 250px;
       border-radius: 24px;
-      scale: 0.75;
-      border: 8px solid grey;
     }
 
     canvas {
@@ -312,8 +366,6 @@ class ColorScanContainerElement extends LitElement {
       height: 200px;
       width: 200px;
       margin-bottom: 24px;
-      border: 8px solid #515151;
-      border-radius: 16px;
     }
     .hide {
       display: none;
@@ -350,11 +402,25 @@ class ColorScanContainerElement extends LitElement {
     }
 
     .buttons {
+      width: 100%;
       position: relative;
       display: flex;
-      flex-direction: column;
+      gap: 8px;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
+    }
+
+    .current-color {
+      width: 250px;
+      height: 250px;
+      border-radius: 24px;
+      margin: 40px;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   `
 }
