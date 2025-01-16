@@ -35,7 +35,7 @@ class lifeCount extends LitElement {
 
   renderFiveLives() {
     return html`<div class="life-count">
-      <h4>Tries Left: 5</h4>
+      <h4>Five Tries Remaining</h4>
     </div>`
   }
 
@@ -44,7 +44,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      <h4>Tries Left: 4</h4>
+      <h4>Four Tries Remaining</h4>
     </div>`
   }
 
@@ -53,7 +53,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      <h4>Tries Left: 3</h4>
+      <h4>Three Tries Remaining</h4>
     </div>`
   }
 
@@ -62,7 +62,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      <h4>Tries Left: 2</h4>
+      <h4>Two Tries Remaining</h4>
     </div>`
   }
 
@@ -71,7 +71,7 @@ class lifeCount extends LitElement {
       class="life-count
       "
     >
-      <h4>Tries Left: 1</h4>
+      <h4>One Try Remaining</h4>
     </div>`
   }
 
@@ -87,6 +87,9 @@ class lifeCount extends LitElement {
   static styles = css`
     h4 {
       margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #515151;
     }
     .life-count {
       display: flex;

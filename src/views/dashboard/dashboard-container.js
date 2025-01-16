@@ -172,30 +172,30 @@ class DashboardContainerElement extends LitElement {
               : ''}
           </div>
         </div>
-        <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color 🌈</button>
-        <button class="dashboard-option" @click=${this.toggleResults}>Progress 📈</button>
-        <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play 🤓</button>
-        ${this.demoMode
-          ? html`
-              <button class="dashboard-option" @click=${() => alert('Log in or sign up to view the leaderboard!')}>
-                Leaderboard 🏆
-              </button>
-            `
-          : html`
-              <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
-            `}
-        <a @click=${this.endGame}>End Game Early? 😇</a>
+        <div class="dashboard-grid">
+          <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color</button>
+          <button class="dashboard-option" @click=${this.toggleResults}>Progress</button>
+          <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play</button>
+          ${this.demoMode
+            ? html`
+                <button class="dashboard-option" @click=${() => alert('Log in or sign up to view the leaderboard!')}>
+                  Leaderboard 🏆
+                </button>
+              `
+            : html` <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard</button> `}
+        </div>
+
+        <button class="dashboard-option-small" @click=${this.endGame}>End Game Early?</button>
+
+        <button class="dashboard-option-small" @click=${() => go(routes.UPDATES.path)}>Updates</button>
 
         ${this.demoMode
-          ? html`<a style="border: none; text-decoration: underline;" @click=${() => go(routes.LOGIN.path)}
-              >Log In or Sign Up</a
-            >`
+          ? html`<button class="dashboard-option-small" @click=${() => go(routes.LOGIN.path)}>
+              Log In or Sign Up
+            </button>`
           : html`
-              <a style="border: none; text-decoration: underline;" @click=${() => clearCurrentUser()}
-                >Log Out ${this.user}</a
-              >
+              <button class="dashboard-option-small" @click=${() => clearCurrentUser()}>Log Out ${this.user}</button>
             `}
-
         <dialog-box title="Color Comparison" class=${this.showResults ? '' : 'hidden'}>
           <div style="display: flex; flex-direction: column; gap: 16px;">
             <progress-bar .progress=${this.score}></progress-bar>
@@ -240,21 +240,33 @@ class DashboardContainerElement extends LitElement {
           <div style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
             ${this.demoMode
               ? html`
-                  <button class="dashboard-option" @click=${() => alert('Log in or sign up to view the leaderboard!')}>
-                    Leaderboard 🏆
+                  <button
+                    class="dashboard-option-game-over"
+                    @click=${() => alert('Log in or sign up to view the leaderboard!')}
+                  >
+                    Leaderboard
                   </button>
                 `
               : html`
-                  <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard 🏆</button>
+                  <button class="dashboard-option-game-over" @click=${() => go(routes.LEADERBOARD.path)}>
+                    Leaderboard
+                  </button>
                 `}
-            <button class="dashboard-option" @click=${this.toggleResults}>Results</button>
-            <button class="dashboard-option" @click=${this.toggleShare}>Share</button>
+            <button class="dashboard-option-game-over" @click=${this.toggleResults}>Results</button>
+            <button class="dashboard-option-game-over" @click=${this.toggleShare}>Share</button>
+            <button class="dashboard-option-game-over" @click=${() => go(routes.UPDATES.path)}>Updates</button>
           </div>
-          <a
-            style="border: none; text-decoration: underline; color: #515151; background-color: transparent;"
-            @click=${() => clearCurrentUser()}
-            >Log Out ${this.user}</a
-          >
+          ${this.demoMode
+            ? html`<a
+                style="border: none; text-decoration: underline; color: #515151; background-color: transparent;"
+                @click=${() => clearCurrentUser()}
+                >Sign Up</a
+              > `
+            : html`<a
+                style="border: none; text-decoration: underline; color: #515151; background-color: transparent; margin-top: 24px"
+                @click=${() => clearCurrentUser()}
+                >Log Out ${this.user}</a
+              >`}
           <div class="${this.showShare ? '' : 'hidden'}">
             <div class="popup">
               <div class="popup-content">
@@ -378,15 +390,13 @@ class DashboardContainerElement extends LitElement {
     .score-wrapper h2 {
       margin: 0;
       color: #515151;
-      font-family: 'Do Hyeon', sans-serif;
-      font-weight: 400;
+      font-weight: bold;
       font-style: normal;
       font-size: 40px;
     }
     .score-wrapper h1 {
       margin: 0;
       color: #515151;
-      font-family: 'Do Hyeon', sans-serif;
     }
     .score-wrapper progress-bar {
       scale: 0.75;
@@ -431,16 +441,44 @@ class DashboardContainerElement extends LitElement {
     .dashboard-option {
       align-self: center;
       padding: 16px;
-      width: 90%;
+      width: auto;
       color: #515151;
       background-color: #f0f0f0;
       cursor: pointer;
       transition: background-color 0.3s;
       font-size: 24px;
       font-weight: bold;
-      border: 4px solid;
       border-radius: 16px;
+      white-space: nowrap;
+      font-size: 5vw;
+      border: none;
+      font-weight: 400;
     }
+    .dashboard-option-game-over {
+      background-color: white;
+      color: #515151;
+      font-size: 24px;
+      font-weight: 400;
+      border: none;
+      border-radius: 16px;
+      padding: 8px;
+      width: 100%;
+    }
+    .dashboard-option-small {
+      padding: 8px;
+      width: 100%;
+      color: #515151;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 16px;
+      border: none;
+      font-weight: 400;
+      font-size: 16px;
+    }
+
     .small-result-preview {
       display: flex;
       align-items: center;
@@ -460,7 +498,6 @@ class DashboardContainerElement extends LitElement {
       padding: 4px;
       border: 2px solid #515151;
       margin: 0;
-      font-family: 'Do Hyeon', sans-serif;
     }
     .past-result-preview {
       display: flex;
@@ -480,7 +517,6 @@ class DashboardContainerElement extends LitElement {
       padding: 4px;
       border: 2px solid #515151;
       margin: 0;
-      font-family: 'Do Hyeon', sans-serif;
     }
 
     .hidden {
@@ -534,9 +570,13 @@ class DashboardContainerElement extends LitElement {
       cursor: pointer;
     }
     .do-hyeon-h2 {
-      font-family: 'Do Hyeon', sans-serif;
       font-weight: 400;
       font-style: normal;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
   `
 }

@@ -92,6 +92,9 @@ export const routes = processRoutes({
   DASHBOARD: {
     isPublic: true,
   },
+  UPDATES: {
+    isPublic: true,
+  },
   COLOR_SCAN: {},
   RESULTS: {},
   ADMIN: {

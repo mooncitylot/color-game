@@ -22,21 +22,21 @@ class LeaderboardContainerElement extends LitElement {
   render() {
     return html`
       <div class="leaderboard-wrap">
-        <h1>Top 10 Leaderboard</h1>
         <div class="leaderboard-container">
+          <h1>Daily <br />Leaderboard</h1>
+
           ${[...new Map(this.leaderboard.map((item) => [item.username, item])).values()]
             .sort((a, b) => b.score - a.score)
             .slice(0, 10)
             .map(
               (entry, index) => html`
                 <div
-                  class="leaderboard-entry ${index % 2 === 0 ? 'background-color-1' : 'background-color-2'} ${index ===
-                  0
-                    ? 'winner'
-                    : ''}"
+                  class="leaderboard-entry ${index % 2 === 0 ? 'background-color-1' : 'background-color-2'} "
                 >
-                  <h3>${index + 1}. ${entry.username}:</h3>
-                  <h3>${entry.score}%</h3>
+                  <h3><span class="rank"></span>${index + 1}</span>${
+                index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index === 9 ? '🤡' : ''
+              } <span class="username"> ${entry.username}</span> </h3>
+                  <h3>${entry.score}</h3>
                 </div>
               `
             )}
@@ -49,6 +49,13 @@ class LeaderboardContainerElement extends LitElement {
     * {
       font-family: sans-serif;
     }
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #515151;
+      margin: 0;
+      margin-bottom: 16px;
+    }
     .leaderboard-wrap {
       display: flex;
       flex-direction: column;
@@ -59,29 +66,32 @@ class LeaderboardContainerElement extends LitElement {
     .leaderboard-container {
       display: flex;
       flex-direction: column;
-      gap: 8px;
       width: 80%;
       height: 80%;
       overflow-y: auto;
-      border: 8px solid grey;
-      border-radius: 8px;
     }
     .leaderboard-entry {
       display: flex;
       justify-content: space-between;
       width: 100%;
       box-sizing: border-box;
-      padding: 8px;
+      padding: 8px 16px;
     }
     .background-color-1 {
-      background-color: lightgray;
+      background-color: #f2efe5;
     }
     .background-color-2 {
-      background-color: #fff;
+      background-color: #f2f2f2;
     }
     .winner {
       background-color: lightgreen;
       color: black;
+    }
+    .rank {
+      font-weight: bold;
+    }
+    .username {
+      font-weight: 400;
     }
   `
 }
