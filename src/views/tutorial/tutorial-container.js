@@ -1,7 +1,7 @@
 import { html, css, LitElement } from 'lit'
 import { go } from '../../router/router-base.js'
 import routes from '../../router/routes.js'
-import RainbowButtonElement from '../../shared/rainbow-button.js'
+import { dashboardHelpIcon, dashboardScanIcon } from '../../assets/icons.js'
 
 class TutorialContainerElement extends LitElement {
   static properties = {
@@ -15,6 +15,7 @@ class TutorialContainerElement extends LitElement {
 
   render() {
     return html`<div class="wrapper">
+      <span class="icon">${dashboardHelpIcon}</span>
       <h1>How to Play</h1>
       <p>
         Welcome to the Color Game you silly goose! Here's the deal... the game will give you the name of a color and
@@ -22,8 +23,8 @@ class TutorialContainerElement extends LitElement {
         smart app will tell you how close you are! Here's the deal... you only get 5 tries. In the end, you'll get your
         score for how well you did! Try to beat your friends! Also, tell your friends to play this game!
       </p>
-      <p>-Tyler</p>
-      <rainbow-button .text=${'Lets Go!'} @click=${() => go(routes.DASHBOARD.path)}></rainbow-button>
+
+      <button class="tutorial-option" @click=${() => go(routes.DASHBOARD.path)}>${dashboardScanIcon} Lets Go!</button>
     </div> `
   }
 
@@ -34,6 +35,10 @@ class TutorialContainerElement extends LitElement {
       align-items: center;
       justify-content: center;
       font-family: Arial, Helvetica, sans-serif;
+    }
+    .icon > svg {
+      width: 15vw;
+      height: 15vw;
     }
     .tutorial-steps {
       display: flex;
@@ -57,13 +62,15 @@ class TutorialContainerElement extends LitElement {
     }
     .wrapper h1 {
       margin: 0;
-      font-family: 'Do Hyeon', sans-serif;
+      color: #515151;
+      font-family: sans-serif;
     }
     .tutorial-option {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       padding: 16px;
       width: 90%;
       color: #515151;

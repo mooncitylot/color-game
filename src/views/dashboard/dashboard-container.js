@@ -17,6 +17,15 @@ import shareElement from '../../shared/share.js'
 import { clearCurrentUser, getCurrentUser, updateCurrentUser } from '../../utility/auth-service.js'
 import { saveToDailyLeaderboard } from '../../utility/leaderboard-service.js'
 import { autoSetColor } from '../../utility/firebase-utils.js'
+import {
+  dashboardLeaderboardIcon,
+  dashboardHelpIcon,
+  dashboardProgressIcon,
+  dashboardScanIcon,
+  dashboardShareIcon,
+  dashboardUpdateIcon,
+} from '../../assets/icons.js'
+
 class DashboardContainerElement extends LitElement {
   static properties = {
     color: { type: String },
@@ -41,7 +50,8 @@ class DashboardContainerElement extends LitElement {
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
-    this.lifeCount = getLives()
+    // this.lifeCount = getLives()
+    this.lifeCount = 5
     this.showResults = false
     this.showShare = false
     this.shareMessage = this.createShareMessage()
@@ -173,16 +183,24 @@ class DashboardContainerElement extends LitElement {
           </div>
         </div>
         <div class="dashboard-grid">
-          <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>Scan Color</button>
-          <button class="dashboard-option" @click=${this.toggleResults}>Progress</button>
-          <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>How To Play</button>
+          <button class="dashboard-option" @click=${() => go(routes.COLOR_SCAN.path)}>
+            ${dashboardScanIcon} Scan Color
+          </button>
+          <button class="dashboard-option" @click=${this.toggleResults}>${dashboardProgressIcon} Progress</button>
+          <button class="dashboard-option" @click=${() => go(routes.TUTORIAL.path)}>
+            ${dashboardHelpIcon} How To Play
+          </button>
           ${this.demoMode
             ? html`
                 <button class="dashboard-option" @click=${() => alert('Log in or sign up to view the leaderboard!')}>
-                  Leaderboard 🏆
+                  ${dashboardLeaderboardIcon} Leaderboard
                 </button>
               `
-            : html` <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>Leaderboard</button> `}
+            : html`
+                <button class="dashboard-option" @click=${() => go(routes.LEADERBOARD.path)}>
+                  ${dashboardLeaderboardIcon} Leaderboard
+                </button>
+              `}
         </div>
 
         <button class="dashboard-option-small" @click=${this.endGame}>End Game Early?</button>
@@ -209,7 +227,7 @@ class DashboardContainerElement extends LitElement {
                             style=" width: 75vw; background-color: rgba(${this.gameObject[date][lives].color.red},${this
                               .gameObject[date][lives].color.green},${this.gameObject[date][lives].color.blue})"
                           >
-                            <h1 style="color: white; -webkit-text-stroke: 2px black;">
+                            <h1 style="font-weight: 600">
                               GUESS ${6 - (parseInt(lives) + 1)}: ${this.gameObject[date][lives].score}%
                             </h1>
                           </div>`
@@ -249,12 +267,16 @@ class DashboardContainerElement extends LitElement {
                 `
               : html`
                   <button class="dashboard-option-game-over" @click=${() => go(routes.LEADERBOARD.path)}>
-                    Leaderboard
+                    ${dashboardLeaderboardIcon} Leaderboard
                   </button>
                 `}
-            <button class="dashboard-option-game-over" @click=${this.toggleResults}>Results</button>
-            <button class="dashboard-option-game-over" @click=${this.toggleShare}>Share</button>
-            <button class="dashboard-option-game-over" @click=${() => go(routes.UPDATES.path)}>Updates</button>
+            <button class="dashboard-option-game-over" @click=${this.toggleResults}>
+              ${dashboardProgressIcon} Results
+            </button>
+            <button class="dashboard-option-game-over" @click=${this.toggleShare}>${dashboardShareIcon} Share</button>
+            <button class="dashboard-option-game-over" @click=${() => go(routes.UPDATES.path)}>
+              ${dashboardUpdateIcon} Updates
+            </button>
           </div>
           ${this.demoMode
             ? html`<a
@@ -329,6 +351,18 @@ class DashboardContainerElement extends LitElement {
       cursor: pointer;
     }
 
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button svg {
+      width: 5vw;
+      height: 5vw;
+    }
+
     :host {
       display: flex;
       flex-direction: column;
@@ -354,21 +388,6 @@ class DashboardContainerElement extends LitElement {
       border: 2px solid #515151;
       border-radius: 16px;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
-    }
-
-    .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 24px;
-    }
-    .dimmer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.8);
     }
 
     #content {
@@ -455,6 +474,10 @@ class DashboardContainerElement extends LitElement {
       font-weight: 400;
     }
     .dashboard-option-game-over {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       background-color: white;
       color: #515151;
       font-size: 24px;
@@ -463,6 +486,10 @@ class DashboardContainerElement extends LitElement {
       border-radius: 16px;
       padding: 8px;
       width: 100%;
+    }
+    .dashboard-option-game-over > svg {
+      width: 5vw;
+      height: 5vw;
     }
     .dashboard-option-small {
       padding: 8px;
