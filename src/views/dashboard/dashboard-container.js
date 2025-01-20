@@ -50,8 +50,7 @@ class DashboardContainerElement extends LitElement {
     this.startCountdown()
     this.score = getDailyHighScore()
     this.message = getMessage(this.score)
-    // this.lifeCount = getLives()
-    this.lifeCount = 5
+    this.lifeCount = getLives()
     this.showResults = false
     this.showShare = false
     this.shareMessage = this.createShareMessage()
